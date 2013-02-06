@@ -12,6 +12,9 @@ import cz.cvut.fit.pivo.entities.TempTime;
  */
 public interface IController {
     void startCooking();
+    void stopCooking();
+    void resetCooking();
+    void tick();
     TempTime readTempTime();
     
 }

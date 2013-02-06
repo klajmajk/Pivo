@@ -6,11 +6,12 @@ package cz.cvut.fit.pivo.arduino;
 
 import cz.cvut.fit.pivo.entities.Pin;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.TempTime;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -25,16 +26,15 @@ import org.apache.commons.io.IOUtils;
  */
 public class Arduino {
 
-    private static final String ADDRESS = "192.168.2.22";
-    private static final int TEMP_PIN_POS = 1;
 
     public Arduino() {
     }
 
-    public TempTime getTemp() {
-        String json = getHttpResponseBody(ADDRESS);
+    public TempTime getTemp() throws IOException {
+        
+        String json = getHttpResponseBody(Constants.ADDRESS);
         List<Pin> pinList = getPinList(json);
-        TempTime tempTime = new TempTime(pinList.get(TEMP_PIN_POS).getValue());
+        TempTime tempTime = new TempTime(pinList.get(Constants.TEMP_PIN_POS).getValue());
         System.out.println("Teplota: " + tempTime.getTemp() + " °C");
 
 
@@ -62,19 +62,20 @@ public class Arduino {
         return pinList;
     }
 
-    private String getHttpResponseBody(String address) {
+    private String getHttpResponseBody(String address) throws IOException {
         String body = "err";
-        try {
-            URL url = new URL("http://" + address);
-            URLConnection con = url.openConnection();
-            InputStream in = con.getInputStream();
-            String encoding = con.getContentEncoding();
-            encoding = encoding == null ? "UTF-8" : encoding;
-            body = IOUtils.toString(in, encoding);
-            //System.out.println(body);
-        } catch (IOException ex) {
-            Logger.getLogger(Arduino.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        URL url = new URL("http://" + address);
+        //URLConnection con = url.openConnection();
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        HttpURLConnection.setFollowRedirects(false);
+        con.setConnectTimeout(Constants.TIMEOUT);
+        con.setReadTimeout(Constants.TIMEOUT);
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)");
+        con.connect();
+        InputStream input = con.getInputStream();
+        body = IOUtils.toString(input, "UTF-8");
+        //System.out.println(body);
         return body;
     }
 }

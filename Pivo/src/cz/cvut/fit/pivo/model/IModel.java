@@ -4,6 +4,8 @@
  */
 package cz.cvut.fit.pivo.model;
 import cz.cvut.fit.pivo.entities.TempTime;
+import cz.cvut.fit.pivo.exceptions.ConnectionError;
+import java.sql.Time;
 
 /**
  *
@@ -14,4 +16,7 @@ public interface IModel {
     public void setCurrent(TempTime current);
     void addTempTimeReading();
     void loadProcedure();
+    void refresh() throws ConnectionError;
+    void start(); 
+    public Time getStartTime() ;
 }

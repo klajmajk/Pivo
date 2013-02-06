@@ -7,6 +7,7 @@ package cz.cvut.fit.pivo.swing;
 import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.AbstractView;
+import java.sql.Time;
 
 /**
  *
@@ -129,15 +130,15 @@ public class CurrentView extends AbstractView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
-        // TODO add your handling code here:
+        controller.startCooking();
     }//GEN-LAST:event_startBtnActionPerformed
 
     private void stopBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBtnActionPerformed
-        // TODO add your handling code here:
+        controller.stopCooking();
     }//GEN-LAST:event_stopBtnActionPerformed
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-        // TODO add your handling code here:
+        controller.resetCooking();
     }//GEN-LAST:event_resetBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -154,6 +155,10 @@ public class CurrentView extends AbstractView {
     @Override
     public void notifyView() {
         tempLabel.setText(model.getCurrent().getTemp() + "°C");
-        timeLabel.setText(model.getCurrent().getTime().toString());
+        Time time = new Time(model.getCurrent().getTime().getTime() - model.getStartTime().getTime()- (60 * 60 * 1000));
+        /*System.out.println(model.getCurrent().getTime().toString());
+        System.out.println(model.getStartTime().toString());
+        System.out.println(time.toString());*/
+        timeLabel.setText(time.toString());
     }
 }
