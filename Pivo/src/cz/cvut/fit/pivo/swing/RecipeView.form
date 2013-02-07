@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="347" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="odrmutovaciCombo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="peptonizacniCombo" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="peptonizacniMinLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="peptonizacniSlider" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="vystiraciCombo" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="vystrirkaMinLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="vystirkaSlider" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="nizsiCukrCombo" min="-2" max="-2" attributes="0"/>
+                                          <Component id="vyssiCukrCombo" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="vyssiCukrotvornaMinLabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="vyssiCukrotvornaSlider" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="odrmutovaciMinLabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="odrmutovaciSlider" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="nizsiCukrotvornaMinLabel" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="nizsiCukrotvornaSlider" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="vystrirkaEnable" min="-2" max="-2" attributes="0"/>
+                                  <Component id="peptonizacniEnable" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="nizsiCukrotvornaEnable" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="vyssiCukrotvornaEnable" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="odrmutovaciEnable" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace pref="12" max="32767" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="vystiraciCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="vystrirkaMinLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="vystirkaSlider" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="vystrirkaEnable" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="peptonizacniCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="peptonizacniMinLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="peptonizacniEnable" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="peptonizacniSlider" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="nizsiCukrotvornaMinLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="nizsiCukrotvornaSlider" min="-2" max="-2" attributes="0"/>
+                          <Component id="nizsiCukrotvornaEnable" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="nizsiCukrCombo" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="vyssiCukrCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="vyssiCukrotvornaMinLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="vyssiCukrotvornaSlider" min="-2" max="-2" attributes="0"/>
+                  <Component id="vyssiCukrotvornaEnable" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="odrmutovaciCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="odrmutovaciMinLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="odrmutovaciSlider" min="-2" max="-2" attributes="0"/>
+                  <Component id="odrmutovaciEnable" min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Vyst&#xed;rka"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSlider" name="vystirkaSlider">
+      <Properties>
+        <Property name="maximum" type="int" value="120"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&#xd;&#xa;                Integer.toString(vystirkaSlider.getValue())" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="vystirkaSliderStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="vystiraciCombo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="5">
+            <StringItem index="0" value="37"/>
+            <StringItem index="1" value="38"/>
+            <StringItem index="2" value="39"/>
+            <StringItem index="3" value="40"/>
+            <StringItem index="4" value="41"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Peptoniza&#x10d;n&#xed; teplota"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="peptonizacniCombo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="51"/>
+            <StringItem index="1" value="52"/>
+            <StringItem index="2" value="53"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ni&#x17e;&#x161;&#xed; cukrotvorn&#xe1; teplota"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="nizsiCukrCombo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="62"/>
+            <StringItem index="1" value="63"/>
+            <StringItem index="2" value="64"/>
+            <StringItem index="3" value="65"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Vy&#x161;&#x161;&#xed; cukrotvorn&#xe1; teplota"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="vyssiCukrCombo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="72"/>
+            <StringItem index="1" value="73"/>
+            <StringItem index="2" value="74"/>
+            <StringItem index="3" value="75"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Odrmutovac&#xed; teplota"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="odrmutovaciCombo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="75"/>
+            <StringItem index="1" value="76"/>
+            <StringItem index="2" value="77"/>
+            <StringItem index="3" value="78"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="vystrirkaEnable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pou&#x17e;&#xed;t"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="nizsiCukrotvornaEnable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pou&#x17e;&#xed;t"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="peptonizacniEnable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pou&#x17e;&#xed;t"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="odrmutovaciEnable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pou&#x17e;&#xed;t"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="vyssiCukrotvornaEnable">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pou&#x17e;&#xed;t"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSlider" name="peptonizacniSlider">
+      <Properties>
+        <Property name="maximum" type="int" value="120"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&#xd;&#xa;                Integer.toString(vystirkaSlider.getValue())" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="peptonizacniSliderStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="vyssiCukrotvornaSlider">
+      <Properties>
+        <Property name="maximum" type="int" value="120"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&#xd;&#xa;                Integer.toString(vystirkaSlider.getValue())" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="vyssiCukrotvornaSliderStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="odrmutovaciSlider">
+      <Properties>
+        <Property name="maximum" type="int" value="120"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&#xd;&#xa;                Integer.toString(vystirkaSlider.getValue())" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="odrmutovaciSliderStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSlider" name="nizsiCukrotvornaSlider">
+      <Properties>
+        <Property name="maximum" type="int" value="120"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
+        <Property name="paintTicks" type="boolean" value="true"/>
+        <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&#xd;&#xa;                Integer.toString(vystirkaSlider.getValue())" type="code"/>
+        </Property>
+        <Property name="value" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="nizsiCukrotvornaSliderStateChanged"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="vystrirkaMinLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0 min"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="peptonizacniMinLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0 min"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="nizsiCukrotvornaMinLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0 min"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="vyssiCukrotvornaMinLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0 min"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="odrmutovaciMinLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="0 min"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Potvrdit"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>

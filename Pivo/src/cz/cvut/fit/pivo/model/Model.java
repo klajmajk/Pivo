@@ -6,6 +6,7 @@ package cz.cvut.fit.pivo.model;
 
 import cz.cvut.fit.pivo.arduino.Arduino;
 import cz.cvut.fit.pivo.entities.Constants;
+import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.io.IOException;
@@ -20,15 +21,31 @@ public class Model implements IModel{
     Arduino arduino;
     Time startTime;
     int badRequests;
+    Recipe currentRecipe;
 
     public Model() {
         arduino = new Arduino();
         badRequests = 0;
+        this.current = new TempTime(0);
+        this.startTime = new Time(0);
+        currentRecipe = new Recipe();
         //this.current = arduino.getTemp();
     }
 
+    @Override
     public Time getStartTime() {
         return startTime;
+    }
+
+    @Override
+    public Recipe getCurrentRecipe() {
+        return currentRecipe;
+    }
+
+    @Override
+    public void setCurrentRecipe(Recipe currentRecipe) {
+        this.currentRecipe = currentRecipe;
+        System.out.println(currentRecipe);
     }
     
     

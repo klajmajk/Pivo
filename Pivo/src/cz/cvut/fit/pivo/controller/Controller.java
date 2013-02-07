@@ -15,7 +15,8 @@ import java.util.logging.Logger;
  *
  * @author Adam
  */
-public class Controller implements IController{
+public class Controller implements IController {
+
     IModel model;
     IView view;
     MyTimer timer;
@@ -23,8 +24,8 @@ public class Controller implements IController{
     public Controller(IModel model) {
         this.model = model;
     }
-     
-    public void setView(IView view){
+
+    public void setView(IView view) {
         this.view = view;
     }
 
@@ -58,5 +59,10 @@ public class Controller implements IController{
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    @Override
+    public void notifyView() {
+        view.notifyView();
+
+    }
 }

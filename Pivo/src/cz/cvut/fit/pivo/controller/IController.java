@@ -15,6 +15,7 @@ public interface IController {
     void stopCooking();
     void resetCooking();
     void tick();
+    void notifyView();
     TempTime readTempTime();
     
 }

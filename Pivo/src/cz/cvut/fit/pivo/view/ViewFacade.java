@@ -7,9 +7,14 @@ import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.swing.CurrentView;
 import cz.cvut.fit.pivo.swing.GraphView;
+import cz.cvut.fit.pivo.swing.RecipeView;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.TableView;
 
 /**
@@ -20,16 +25,20 @@ public class ViewFacade implements IView{
     private JFrame frame;
     private CurrentView currentView;
     private GraphView graphView;
+    private RecipeView recipeView;
 
     public ViewFacade(Controller controller, IModel model) {
         this.currentView=new CurrentView(controller,model); 
         this.graphView = new GraphView(controller, model);
+        this.recipeView = new RecipeView(controller, model);
+        
         
         frame = new JFrame();
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        LayoutManager layout = new FlowLayout(FlowLayout.CENTER);
+        LayoutManager layout = new FlowLayout(FlowLayout.LEFT);
         frame.getContentPane().setLayout(layout);
         frame.add(currentView);
+        frame.add(recipeView);
         frame.add(graphView);
     }
     
