@@ -12,4 +12,5 @@ package cz.cvut.fit.pivo.view;
 public interface IView {
 	public void show();
         public void notifyView();
+        public void reset();
 }

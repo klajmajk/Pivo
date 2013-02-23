@@ -70,5 +70,10 @@ public class ViewFacade implements IView{
         currentView.notifyView();
         graphView.notifyView();
     }
+
+    @Override
+    public void reset() {
+        graphView.reset();
+    }
     
 }

@@ -161,4 +161,9 @@ public class CurrentView extends AbstractView {
         System.out.println(time.toString());*/
         timeLabel.setText(time.toString());
     }
+
+    @Override
+    public void reset() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

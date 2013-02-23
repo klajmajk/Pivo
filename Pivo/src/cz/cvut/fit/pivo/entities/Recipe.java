@@ -4,13 +4,17 @@
  */
 package cz.cvut.fit.pivo.entities;
 
+import cz.cvut.fit.pivo.state.RecipeState;
+import cz.cvut.fit.pivo.state.RecipeStateHoldTemp;
+import cz.cvut.fit.pivo.state.RecipeStateVystrika;
+
 /**
  *
  * @author Adam
  */
 public class Recipe {
     //rychlost kterou se teploty zvyšují
-    public float speed;
+    public float tolerance;
     public int vystiraciTemp;
     public int vystiraciTime;
     public int peptonizacniTemp;
@@ -21,6 +25,7 @@ public class Recipe {
     public int vyssiCukrTime;    
     public int odrmutovaciTemp;
     public int odrmutovaciTime;
+    private RecipeState recipeState;
 
     public Recipe() {
     }
@@ -28,7 +33,7 @@ public class Recipe {
     
     
     public Recipe(float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime) {
-        this.speed = speed;
+        this.tolerance = speed;
         this.vystiraciTemp = vystiraciTemp;
         this.vystiraciTime = vystiraciTime;
         this.peptonizacniTemp = peptonizacniTemp;
@@ -39,17 +44,27 @@ public class Recipe {
         this.vyssiCukrTime = vyssiCukrTime;
         this.odrmutovaciTemp = odrmutovaciTemp;
         this.odrmutovaciTime = odrmutovaciTime;
+        this.recipeState = new RecipeStateVystrika();
     }
 
+    public RecipeState getRecipeState() {
+        return recipeState;
+    }
+
+    public void setRecipeState(RecipeState recipeState) {
+        this.recipeState = recipeState;
+    }
+
+    
     @Override
     public String toString() {
-        return "Recipe{" + "speed=" + speed + ", vystiraciTemp=" + vystiraciTemp + ", vystiraciTime=" + vystiraciTime + ", peptonizacniTemp=" + peptonizacniTemp + ", peptonizacniTime=" + peptonizacniTime + ", nizsiCukrTemp=" + nizsiCukrTemp + ", nizsiCukrTime=" + nizsiCukrTime + ", vyssiCukrTemp=" + vyssiCukrTemp + ", vyssiCukrTime=" + vyssiCukrTime + ", odrmutovaciTemp=" + odrmutovaciTemp + ", odrmutovaciTime=" + odrmutovaciTime + '}';
+        return "Recipe{" + "speed=" + tolerance + ", vystiraciTemp=" + vystiraciTemp + ", vystiraciTime=" + vystiraciTime + ", peptonizacniTemp=" + peptonizacniTemp + ", peptonizacniTime=" + peptonizacniTime + ", nizsiCukrTemp=" + nizsiCukrTemp + ", nizsiCukrTime=" + nizsiCukrTime + ", vyssiCukrTemp=" + vyssiCukrTemp + ", vyssiCukrTime=" + vyssiCukrTime + ", odrmutovaciTemp=" + odrmutovaciTemp + ", odrmutovaciTime=" + odrmutovaciTime + '}';
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 13 * hash + Float.floatToIntBits(this.speed);
+        hash = 13 * hash + Float.floatToIntBits(this.tolerance);
         hash = 13 * hash + this.vystiraciTemp;
         hash = 13 * hash + this.vystiraciTime;
         hash = 13 * hash + this.peptonizacniTemp;
@@ -72,7 +87,7 @@ public class Recipe {
             return false;
         }
         final Recipe other = (Recipe) obj;
-        if (Float.floatToIntBits(this.speed) != Float.floatToIntBits(other.speed)) {
+        if (Float.floatToIntBits(this.tolerance) != Float.floatToIntBits(other.tolerance)) {
             return false;
         }
         if (this.vystiraciTemp != other.vystiraciTemp) {
@@ -107,6 +122,8 @@ public class Recipe {
         }
         return true;
     }
+
+    
     
     
     

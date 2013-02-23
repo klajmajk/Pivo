@@ -4,6 +4,7 @@
  */
 package cz.cvut.fit.pivo.controller;
 
+import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import cz.cvut.fit.pivo.model.IModel;
@@ -48,13 +49,17 @@ public class Controller implements IController {
     @Override
     public void resetCooking() {
         model.start();
+        model.setCurrentRecipe(new Recipe());
+        view.reset();
     }
 
     @Override
     public void tick() {
         try {
             model.refresh();
+            checkRecipe();
             view.notifyView();
+            
         } catch (ConnectionError ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,5 +69,13 @@ public class Controller implements IController {
     public void notifyView() {
         view.notifyView();
 
+    }
+    
+    void checkRecipe(){
+        Recipe recipe = model.getCurrentRecipe();
+        float temp = model.getCurrent().getTemp();
+        if (!recipe.equals(new Recipe())) {
+            recipe.getRecipeState().handle(recipe, temp);
+        }
     }
 }

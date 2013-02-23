@@ -50,29 +50,34 @@ public class GraphView extends AbstractView {
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vystiraciTemp);
         millis += recipe.vystiraciTime * 60 * 1000;        
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vystiraciTemp);
-        millis += ((long) ((recipe.peptonizacniTemp - recipe.vystiraciTemp)/recipe.speed)) * 60000;  
+        millis += ((long) ((recipe.peptonizacniTemp - recipe.vystiraciTemp)/recipe.tolerance)) * 60000;  
         
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.peptonizacniTemp);        
         millis += recipe.peptonizacniTime * 60 * 1000;        
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.peptonizacniTemp);
-        millis += ((long) ((recipe.nizsiCukrTemp - recipe.peptonizacniTemp)/recipe.speed)) * 60 * 1000;  
+        millis += ((long) ((recipe.nizsiCukrTemp - recipe.peptonizacniTemp)/recipe.tolerance)) * 60 * 1000;  
         
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.nizsiCukrTemp);        
         millis += recipe.nizsiCukrTime * 60 * 1000;        
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.nizsiCukrTemp);
-        millis += ((long) ((recipe.vyssiCukrTemp - recipe.nizsiCukrTemp)/recipe.speed)) * 60 * 1000; 
+        millis += ((long) ((recipe.vyssiCukrTemp - recipe.nizsiCukrTemp)/recipe.tolerance)) * 60 * 1000; 
         
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vyssiCukrTemp);        
         millis += recipe.vyssiCukrTime * 60 * 1000;        
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vyssiCukrTemp);
-        millis += ((long) ((recipe.odrmutovaciTemp - recipe.vyssiCukrTemp)/recipe.speed)) * 60 * 1000; 
+        millis += ((long) ((recipe.odrmutovaciTemp - recipe.vyssiCukrTemp)/recipe.tolerance)) * 60 * 1000; 
         
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.odrmutovaciTemp);        
         millis += recipe.odrmutovaciTime * 60 * 1000;        
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.odrmutovaciTemp);
         
         
-        dataset.removeSeries(1);
+        try{
+            dataset.removeSeries(1);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            
+        }
         dataset.addSeries(recSeries);
         this.recipe = recipe;
         
@@ -85,5 +90,10 @@ public class GraphView extends AbstractView {
         if(!recipe.equals(model.getCurrentRecipe())){
             addRecipe();
         }
+    }
+    
+    public void reset(){
+        dataset.removeSeries(1);
+        dataset.getSeries(0).clear();
     }
 }
