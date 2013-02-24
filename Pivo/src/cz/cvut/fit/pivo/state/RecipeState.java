@@ -5,12 +5,19 @@
 package cz.cvut.fit.pivo.state;
 
 import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.view.IView;
 
 /**
  *
  * @author Adam
  */
 public abstract class RecipeState {
+    IView view;
+
+    public RecipeState(IView view) {
+        this.view = view;
+    }
+    
     /**
      *
      * @param recipe

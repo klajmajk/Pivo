@@ -8,14 +8,17 @@ import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.swing.CurrentView;
 import cz.cvut.fit.pivo.swing.GraphView;
 import cz.cvut.fit.pivo.swing.RecipeView;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.TableView;
+import org.jfree.data.time.Second;
 
 /**
  *
@@ -35,11 +38,11 @@ public class ViewFacade implements IView{
         
         frame = new JFrame();
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        LayoutManager layout = new FlowLayout(FlowLayout.LEFT);
+        LayoutManager layout = new BorderLayout();
         frame.getContentPane().setLayout(layout);
-        frame.add(currentView);
-        frame.add(recipeView);
-        frame.add(graphView);
+        frame.add(currentView,BorderLayout.PAGE_END);
+        frame.add(recipeView,BorderLayout.LINE_START);
+        frame.add(graphView,BorderLayout.LINE_END);
     }
     
     public void show() {                 
@@ -74,6 +77,45 @@ public class ViewFacade implements IView{
     @Override
     public void reset() {
         graphView.reset();
+    }
+    
+    
+    public void textOutput(String output){
+        currentView.textOutput(output);
+    }
+    
+    public void increaseTemp(int tempTo){        
+        textOutput("Zvyšujte teplotu na  "+ tempTo+"°C");
+    }
+    
+    public void holdTemp(String toHold, int tempToHold){
+        
+        textOutput("Probíhá "+toHold+" prodleva při teplotě "+ tempToHold+"°C");
+    }
+    
+    public void addVystirka(){
+        graphView.addVystirka();        
+    }
+    
+    public void addPeptonizacni(){
+        graphView.addPeptonizacni();
+    }
+    public void addNizsiCukrotvorna(){
+        graphView.addNizsiCukrotvorna();
+    }
+    
+    public void addVyssiCukrotvorna(){
+        graphView.addVyssiCukrotvorna();
+    }
+    
+    public void addOdrmutovaci(){
+        graphView.addOdrmutovaci();
+                
+    }
+
+    @Override
+    public void start() {
+        graphView.start();
     }
     
 }

@@ -18,16 +18,19 @@ public class GraphView extends AbstractView {
     TimeSeries series ;
     Recipe recipe;
     TimeSeriesCollection dataset;
+    TimeSeries recSeries;
 
     public GraphView(Controller controller, IModel model) {
         super(controller, model);
         this.setLayout(new java.awt.BorderLayout());
         recipe = new Recipe();
 
-        series = new TimeSeries("Per Minute Data", Second.class);
-        dataset = new TimeSeriesCollection(series);
-
+        series = new TimeSeries("Naměřená teplota", Second.class);
+        recSeries = new TimeSeries("Ideální teplota", Second.class);
+        dataset = new TimeSeriesCollection();  
+        
         dataset.addSeries(series);
+        dataset.addSeries(recSeries);
         final JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "Graf teploty/času",
                 "Čas",
@@ -37,14 +40,55 @@ public class GraphView extends AbstractView {
                 true,
                 false);
         ChartPanel CP = new ChartPanel(chart);
-        this.add(CP, BorderLayout.CENTER);
+        this.add(CP);
         
         this.validate();
     }
+    public void addVystirka(){
+        this.recipe = model.getCurrentRecipe();
+        long millis =System.currentTimeMillis() ;
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vystiraciTemp);
+        millis += recipe.vystiraciTime * 60 * 1000;        
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vystiraciTemp);
+        /*try{
+            dataset.removeSeries(1);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            
+        }*/
+        
+    }
+    
+    public void addPeptonizacni(){
+        long millis =System.currentTimeMillis() ;
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.peptonizacniTemp);        
+        millis += recipe.peptonizacniTime * 60 * 1000;        
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.peptonizacniTemp);
+    }
+    public void addNizsiCukrotvorna(){
+        long millis =System.currentTimeMillis() ;
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.nizsiCukrTemp);        
+        millis += recipe.nizsiCukrTime * 60 * 1000;        
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.nizsiCukrTemp);
+    }
+    
+    public void addVyssiCukrotvorna(){
+        long millis =System.currentTimeMillis() ;
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vyssiCukrTemp);        
+        millis += recipe.vyssiCukrTime * 60 * 1000;        
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vyssiCukrTemp);
+    }
+    
+    public void addOdrmutovaci(){
+        long millis =System.currentTimeMillis() ;
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.odrmutovaciTemp);        
+        millis += recipe.odrmutovaciTime * 60 * 1000;        
+        recSeries.addOrUpdate(new Second(new Date(millis)), recipe.odrmutovaciTemp);
+    }
     
     private void addRecipe(){
-        Recipe recipe = model.getCurrentRecipe();
-        TimeSeries recSeries = new TimeSeries("", Second.class);
+        recipe = model.getCurrentRecipe();
+        
         long millis =System.currentTimeMillis() ;
         
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.vystiraciTemp);
@@ -72,14 +116,7 @@ public class GraphView extends AbstractView {
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.odrmutovaciTemp);
         
         
-        try{
-            dataset.removeSeries(1);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            
-        }
-        dataset.addSeries(recSeries);
-        this.recipe = recipe;
+        
         
     }
 
@@ -89,11 +126,19 @@ public class GraphView extends AbstractView {
         series.addOrUpdate(sec, model.getCurrent().getTemp());
         if(!recipe.equals(model.getCurrentRecipe())){
             addRecipe();
+            //addVystirka();
         }
     }
     
     public void reset(){
-        dataset.removeSeries(1);
+        dataset.getSeries(1).clear();
         dataset.getSeries(0).clear();
+    }
+
+    @Override
+    public void start() {
+        System.out.println("Start");
+        reset();
+        addVystirka();
     }
 }

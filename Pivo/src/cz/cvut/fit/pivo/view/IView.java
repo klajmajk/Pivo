@@ -13,4 +13,5 @@ public interface IView {
 	public void show();
         public void notifyView();
         public void reset();
+        public void start(); 
 }

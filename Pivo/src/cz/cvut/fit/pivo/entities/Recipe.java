@@ -5,8 +5,8 @@
 package cz.cvut.fit.pivo.entities;
 
 import cz.cvut.fit.pivo.state.RecipeState;
-import cz.cvut.fit.pivo.state.RecipeStateHoldTemp;
 import cz.cvut.fit.pivo.state.RecipeStateVystrika;
+import cz.cvut.fit.pivo.view.IView;
 
 /**
  *
@@ -32,7 +32,7 @@ public class Recipe {
 
     
     
-    public Recipe(float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime) {
+    public Recipe(float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime, IView view) {
         this.tolerance = speed;
         this.vystiraciTemp = vystiraciTemp;
         this.vystiraciTime = vystiraciTime;
@@ -44,7 +44,7 @@ public class Recipe {
         this.vyssiCukrTime = vyssiCukrTime;
         this.odrmutovaciTemp = odrmutovaciTemp;
         this.odrmutovaciTime = odrmutovaciTime;
-        this.recipeState = new RecipeStateVystrika();
+        this.recipeState = new RecipeStateVystrika(view);
     }
 
     public RecipeState getRecipeState() {

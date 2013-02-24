@@ -33,6 +33,7 @@ public class Controller implements IController {
     @Override
     public void startCooking() {
         model.start();
+        view.start();
         this.timer = new MyTimer(1, this);
     }
 
@@ -70,6 +71,13 @@ public class Controller implements IController {
         view.notifyView();
 
     }
+    
+    @Override
+    public IView getView(){
+        return view;
+    }
+    
+    
     
     void checkRecipe(){
         Recipe recipe = model.getCurrentRecipe();

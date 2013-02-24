@@ -40,6 +40,7 @@ public class CurrentView extends AbstractView {
         tempLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         timeLabel = new javax.swing.JLabel();
+        textOutputLabel = new javax.swing.JLabel();
 
         startBtn.setText("Start");
         startBtn.setActionCommand("startBtn");
@@ -81,6 +82,9 @@ public class CurrentView extends AbstractView {
         timeLabel.setForeground(new java.awt.Color(0, 204, 51));
         timeLabel.setText("00:00:00");
 
+        textOutputLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textOutputLabel.setText("Tady se zobrazují pokyny");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,13 +106,14 @@ public class CurrentView extends AbstractView {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(timeLabel)))
+                        .addComponent(timeLabel))
+                    .addComponent(textOutputLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -118,12 +123,13 @@ public class CurrentView extends AbstractView {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(timeLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startBtn)
                     .addComponent(stopBtn)
                     .addComponent(resetBtn))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(textOutputLabel))
         );
 
         tempLabel.getAccessibleContext().setAccessibleName("tempLabel");
@@ -149,6 +155,7 @@ public class CurrentView extends AbstractView {
     private javax.swing.JButton startBtn;
     private javax.swing.JButton stopBtn;
     private javax.swing.JLabel tempLabel;
+    private javax.swing.JLabel textOutputLabel;
     private javax.swing.JLabel timeLabel;
     // End of variables declaration//GEN-END:variables
 
@@ -166,4 +173,14 @@ public class CurrentView extends AbstractView {
     public void reset() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    public void textOutput(String output){
+        textOutputLabel.setText(output);
+    }
+
+    @Override
+    public void start() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }

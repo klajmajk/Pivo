@@ -310,7 +310,8 @@ public class RecipeView extends AbstractView {
                 Integer.parseInt(peptonizacniCombo.getModel().getSelectedItem().toString()), peptonizacniSlider.getValue(),
                 Integer.parseInt(nizsiCukrCombo.getModel().getSelectedItem().toString()), nizsiCukrotvornaSlider.getValue(),
                 Integer.parseInt(vyssiCukrCombo.getModel().getSelectedItem().toString()), vyssiCukrotvornaSlider.getValue(),
-                Integer.parseInt(odrmutovaciCombo.getModel().getSelectedItem().toString()), odrmutovaciSlider.getValue()));
+                Integer.parseInt(odrmutovaciCombo.getModel().getSelectedItem().toString()), odrmutovaciSlider.getValue(), 
+                controller.getView()));
         controller.notifyView();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -349,6 +350,11 @@ public class RecipeView extends AbstractView {
 
     @Override
     public void reset() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void start() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

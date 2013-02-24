@@ -5,12 +5,14 @@
 package cz.cvut.fit.pivo.state;
 
 import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.view.IView;
 
 public abstract class RecipeStateHoldTemp extends RecipeState {
 
     long start;
 
-    public RecipeStateHoldTemp() {
+    public RecipeStateHoldTemp(IView view) {
+        super(view);
         start = System.currentTimeMillis();
     }
 
@@ -22,4 +24,8 @@ public abstract class RecipeStateHoldTemp extends RecipeState {
             return false;
         }
     }
+   
+   abstract String getName();
+   
+   abstract void setNewState(Recipe recipe);
 }
