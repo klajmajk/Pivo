@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import javax.swing.text.TableView;
 import org.jfree.data.time.Second;
 
@@ -31,18 +32,35 @@ public class ViewFacade implements IView{
     private RecipeView recipeView;
 
     public ViewFacade(Controller controller, IModel model) {
+        
+        setLookandFeel();
         this.currentView=new CurrentView(controller,model); 
         this.graphView = new GraphView(controller, model);
         this.recipeView = new RecipeView(controller, model);
         
-        
         frame = new JFrame();
+        frame.setDefaultLookAndFeelDecorated ( true );
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         LayoutManager layout = new BorderLayout();
         frame.getContentPane().setLayout(layout);
         frame.add(currentView,BorderLayout.PAGE_END);
         frame.add(recipeView,BorderLayout.LINE_START);
         frame.add(graphView,BorderLayout.LINE_END);
+    }
+    
+    private void setLookandFeel(){
+        try {
+            UIManager.setLookAndFeel(
+                UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void show() {                 
