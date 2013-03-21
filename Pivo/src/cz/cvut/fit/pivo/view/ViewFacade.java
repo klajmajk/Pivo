@@ -112,6 +112,7 @@ public class ViewFacade implements IView{
 
     @Override
     public void reset() {
+        recipeSelectView.reset();
         graphView.reset();
     }
     
@@ -152,6 +153,7 @@ public class ViewFacade implements IView{
     @Override
     public void start() {
         graphView.start();
+        recipeSelectView.start();
     }
     
 }

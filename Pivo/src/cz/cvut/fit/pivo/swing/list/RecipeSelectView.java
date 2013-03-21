@@ -102,11 +102,14 @@ public class RecipeSelectView extends AbstractView {
 
     @Override
     public void reset() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+        jList1.setEnabled(true);
     }
 
     @Override
     public void start() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+        jList1.setEnabled(false);
     }
+    
 }
