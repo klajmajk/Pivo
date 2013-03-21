@@ -2,29 +2,29 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.cvut.fit.pivo.swing;
+package cz.cvut.fit.pivo.swing.list;
 
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 /**
  *
  * @author Adam
  */
-class DeletePopUp extends JPopupMenu {
-    JMenuItem delete;
+public class DeleteMouseAdapter extends MouseAdapter {
+
     IController controller;
     Recipe recipe;
-    public DeletePopUp(IController controller, Recipe recipe){
-        delete = new JMenuItem("Smazat");
+
+    public DeleteMouseAdapter(IController controller, Recipe recipe) {
         this.controller = controller;
         this.recipe = recipe;
-        add(delete);
-        delete.addMouseListener(new DeleteMouseAdapter(controller, recipe));
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+        controller.deleteRecipe(recipe);
     }
 }

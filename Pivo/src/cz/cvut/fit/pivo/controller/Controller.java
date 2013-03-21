@@ -31,12 +31,12 @@ public class Controller implements IController {
     public Controller(IModel model) {
         this.model = model;
         this.persistence = new Persistence();
-        this.recipeState = new RecipeStateVystrika(this, view);
         model.setRecipes(persistence.readRecipes());
     }
 
     public void setView(IView view) {
-        this.view = view;
+        this.view = view;        
+        this.recipeState = new RecipeStateVystrika(this, view);
     }
     
     

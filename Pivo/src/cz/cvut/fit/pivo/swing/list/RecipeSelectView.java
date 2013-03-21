@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.cvut.fit.pivo.swing;
+package cz.cvut.fit.pivo.swing.list;
 
+import cz.cvut.fit.pivo.swing.list.RecipeListModel;
+import cz.cvut.fit.pivo.swing.list.DeletePopUp;
+import cz.cvut.fit.pivo.swing.list.JListComponentPanel;
 import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.model.IModel;

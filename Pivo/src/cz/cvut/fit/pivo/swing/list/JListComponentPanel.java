@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.cvut.fit.pivo.swing;
+package cz.cvut.fit.pivo.swing.list;
 
 import cz.cvut.fit.pivo.entities.Recipe;
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -22,7 +23,14 @@ public class JListComponentPanel extends javax.swing.JPanel implements ListCellR
         //fillIn(recipe);
     }
     
-    void fillIn(Recipe recipe){
+    void fillIn(Recipe recipe, boolean isSelected){
+        if (isSelected){
+            nameLabel.setForeground(Color.GREEN);
+        }
+        else{
+            
+            nameLabel.setForeground(Color.BLACK);
+        }
         nameLabel.setText(recipe.name);
         vystiraciLabel.setText(recipe.vystiraciTemp+"°C / "+recipe.vystiraciTime+" min");
         peptonizacniLabel.setText(recipe.peptonizacniTemp+"°C / "+recipe.peptonizacniTime+" min");
@@ -142,7 +150,7 @@ public class JListComponentPanel extends javax.swing.JPanel implements ListCellR
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        fillIn((Recipe)value);
+        fillIn((Recipe)value, isSelected);
         return this;
     }
 }

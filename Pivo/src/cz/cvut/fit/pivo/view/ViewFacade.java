@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import cz.cvut.fit.pivo.swing.MyJFrame;
-import cz.cvut.fit.pivo.swing.RecipeSelectView;
+import cz.cvut.fit.pivo.swing.list.RecipeSelectView;
 
 /**
  *
@@ -33,16 +33,49 @@ public class ViewFacade implements IView{
         setLookandFeel();
         this.currentView=new CurrentView(controller,model); 
         this.graphView = new GraphView(controller, model);
-        this.recipeSelectView = new RecipeSelectView(controller, model);        
-        frame = new MyJFrame(controller,model);
-        frame.setDefaultLookAndFeelDecorated ( true );
-        frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        LayoutManager layout = new BorderLayout();
-        frame.getContentPane().setLayout(layout);
-        frame.add(currentView,BorderLayout.PAGE_END);
-        frame.add(recipeSelectView,BorderLayout.LINE_START);
-        frame.add(graphView,BorderLayout.LINE_END);
+        this.recipeSelectView = new RecipeSelectView(controller, model);   
+        
+        frame = new MyJFrame(controller,model, currentView, graphView, recipeSelectView);
+        
+        
+        //setMyLayout();
+        
         singleton = this;
+    }
+    
+    private void setMyLayout(){
+        javax.swing.GroupLayout currentViewLayout = new javax.swing.GroupLayout(currentView);
+        currentView.setLayout(currentViewLayout);
+        currentViewLayout.setHorizontalGroup(
+            currentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        currentViewLayout.setVerticalGroup(
+            currentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout recipeSelectViewLayout = new javax.swing.GroupLayout(recipeSelectView);
+        recipeSelectView.setLayout(recipeSelectViewLayout);
+        recipeSelectViewLayout.setHorizontalGroup(
+            recipeSelectViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 164, Short.MAX_VALUE)
+        );
+        recipeSelectViewLayout.setVerticalGroup(
+            recipeSelectViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout graphViewLayout = new javax.swing.GroupLayout(graphView);
+        graphView.setLayout(graphViewLayout);
+        graphViewLayout.setHorizontalGroup(
+            graphViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 755, Short.MAX_VALUE)
+        );
+        graphViewLayout.setVerticalGroup(
+            graphViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 406, Short.MAX_VALUE)
+        );
     }
     
     public static ViewFacade getInstanceOf(){
@@ -69,23 +102,6 @@ public class ViewFacade implements IView{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
-
-//    @Override
-//    public void elementsCollectionUpdated(List<Element> elements) {        
-//        panel.setMessage("Elements count:"+elements.size(), false);
-//        
-//        this.window.revalidate();
-//        this.window.repaint();
-//    }
-//
-//    @Override
-//    public void notifyError(Exception exception) {
-//        panel.setMessage("Error: "+ exception.getMessage(), false);
-//        
-//        this.window.revalidate();
-//        this.window.repaint();
-//    }
 
     @Override
     public void notifyView() {

@@ -19,6 +19,8 @@ public class RecipeStateVystrika extends RecipeStateHoldTemp {
 
     @Override
     public void handle(Recipe recipe, float currentTemp) {        
+        System.out.println("REcipe cooking: " + recipe);
+        System.out.println(view);
         if (isTimeToChange(recipe.vystiraciTime)) {            
             ((ViewFacade) view).increaseTemp(recipe.peptonizacniTemp);
             setNewState(recipe);
