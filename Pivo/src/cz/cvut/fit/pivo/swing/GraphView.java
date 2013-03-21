@@ -88,6 +88,7 @@ public class GraphView extends AbstractView {
     
     private void addRecipe(){
         recipe = model.getCurrentRecipe();
+        //System.out.println(recipe);
         
         long millis =System.currentTimeMillis() ;
         
@@ -115,6 +116,7 @@ public class GraphView extends AbstractView {
         millis += recipe.odrmutovaciTime * 60 * 1000;        
         recSeries.addOrUpdate(new Second(new Date(millis)), recipe.odrmutovaciTemp);
         
+        notifyView();
         
         
         
@@ -125,6 +127,7 @@ public class GraphView extends AbstractView {
         Second sec = new Second(model.getCurrent().getTime());        
         series.addOrUpdate(sec, model.getCurrent().getTemp());
         if(!recipe.equals(model.getCurrentRecipe())){
+            reset();
             addRecipe();
             //addVystirka();
         }

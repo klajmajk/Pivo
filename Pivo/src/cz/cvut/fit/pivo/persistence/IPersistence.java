@@ -13,7 +13,8 @@ import java.util.List;
  * @author Adam
  */
 public interface IPersistence {
-    void saveRecipe(Recipe recipe);
+    void saveRecipes(List<Recipe> recipes);
+    List<Recipe> readRecipes();
     void saveGraph(BufferedImage image);
     List<Recipe> getRecipes();
 }

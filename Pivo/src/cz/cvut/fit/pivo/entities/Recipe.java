@@ -7,13 +7,15 @@ package cz.cvut.fit.pivo.entities;
 import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
+import java.io.Serializable;
 
 /**
  *
  * @author Adam
  */
-public class Recipe {
+public class Recipe implements Serializable{
     //rychlost kterou se teploty zvyšují
+    public String name;
     public float tolerance;
     public int vystiraciTemp;
     public int vystiraciTime;
@@ -25,14 +27,15 @@ public class Recipe {
     public int vyssiCukrTime;    
     public int odrmutovaciTemp;
     public int odrmutovaciTime;
-    private RecipeState recipeState;
 
+    private static final long serialVersionUID = 7526471155622776147L;
     public Recipe() {
     }
 
     
     
-    public Recipe(float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime, IView view) {
+    public Recipe(String name, float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime, IView view) {
+        this.name = name;
         this.tolerance = speed;
         this.vystiraciTemp = vystiraciTemp;
         this.vystiraciTime = vystiraciTime;
@@ -44,22 +47,14 @@ public class Recipe {
         this.vyssiCukrTime = vyssiCukrTime;
         this.odrmutovaciTemp = odrmutovaciTemp;
         this.odrmutovaciTime = odrmutovaciTime;
-        this.recipeState = new RecipeStateVystrika(view);
     }
 
-    public RecipeState getRecipeState() {
-        return recipeState;
-    }
-
-    public void setRecipeState(RecipeState recipeState) {
-        this.recipeState = recipeState;
-    }
-
-    
     @Override
     public String toString() {
-        return "Recipe{" + "speed=" + tolerance + ", vystiraciTemp=" + vystiraciTemp + ", vystiraciTime=" + vystiraciTime + ", peptonizacniTemp=" + peptonizacniTemp + ", peptonizacniTime=" + peptonizacniTime + ", nizsiCukrTemp=" + nizsiCukrTemp + ", nizsiCukrTime=" + nizsiCukrTime + ", vyssiCukrTemp=" + vyssiCukrTemp + ", vyssiCukrTime=" + vyssiCukrTime + ", odrmutovaciTemp=" + odrmutovaciTemp + ", odrmutovaciTime=" + odrmutovaciTime + '}';
+        return "Recipe{" + "name=" + name + ", tolerance=" + tolerance + ", vystiraciTemp=" + vystiraciTemp + ", vystiraciTime=" + vystiraciTime + ", peptonizacniTemp=" + peptonizacniTemp + ", peptonizacniTime=" + peptonizacniTime + ", nizsiCukrTemp=" + nizsiCukrTemp + ", nizsiCukrTime=" + nizsiCukrTime + ", vyssiCukrTemp=" + vyssiCukrTemp + ", vyssiCukrTime=" + vyssiCukrTime + ", odrmutovaciTemp=" + odrmutovaciTemp + ", odrmutovaciTime=" + odrmutovaciTime + '}';
     }
+    
+    
 
     @Override
     public int hashCode() {

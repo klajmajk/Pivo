@@ -11,6 +11,7 @@ import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.io.IOException;
 import java.sql.Time;
+import java.util.List;
 
 /**
  *
@@ -22,6 +23,7 @@ public class Model implements IModel{
     Time startTime;
     int badRequests;
     Recipe currentRecipe;
+    List<Recipe> recipes;
 
     public Model() {
         arduino = new Arduino();
@@ -31,6 +33,16 @@ public class Model implements IModel{
         currentRecipe = new Recipe();
         //this.current = arduino.getTemp();
     }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+    
+    
 
     @Override
     public Time getStartTime() {

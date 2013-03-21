@@ -4,6 +4,7 @@
  */
 package cz.cvut.fit.pivo.state;
 
+import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.swing.CurrentView;
 import cz.cvut.fit.pivo.view.AbstractView;
@@ -12,10 +13,11 @@ import cz.cvut.fit.pivo.view.ViewFacade;
 
 public class RecipeStateOdrmutovaci extends RecipeStateHoldTemp {
 
+    public RecipeStateOdrmutovaci(IController controller, IView view) {
+        super(controller, view);
+    }
 
-    public RecipeStateOdrmutovaci(IView view) {
-        super(view);
-    }    
+
     
    
 

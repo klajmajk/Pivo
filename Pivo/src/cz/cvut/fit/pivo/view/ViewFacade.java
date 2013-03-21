@@ -9,17 +9,14 @@ import cz.cvut.fit.pivo.swing.CurrentView;
 import cz.cvut.fit.pivo.swing.GraphView;
 import cz.cvut.fit.pivo.swing.RecipeView;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.LayoutManager;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import javax.swing.text.TableView;
-import org.jfree.data.time.Second;
+import cz.cvut.fit.pivo.swing.MyJFrame;
+import cz.cvut.fit.pivo.swing.RecipeSelectView;
 
 /**
  *
@@ -29,23 +26,27 @@ public class ViewFacade implements IView{
     private JFrame frame;
     private CurrentView currentView;
     private GraphView graphView;
-    private RecipeView recipeView;
+    private RecipeSelectView recipeSelectView;
+    private static ViewFacade singleton;
 
-    public ViewFacade(Controller controller, IModel model) {
-        
+    public ViewFacade(Controller controller, IModel model) {        
         setLookandFeel();
         this.currentView=new CurrentView(controller,model); 
         this.graphView = new GraphView(controller, model);
-        this.recipeView = new RecipeView(controller, model);
-        
-        frame = new JFrame();
+        this.recipeSelectView = new RecipeSelectView(controller, model);        
+        frame = new MyJFrame(controller,model);
         frame.setDefaultLookAndFeelDecorated ( true );
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         LayoutManager layout = new BorderLayout();
         frame.getContentPane().setLayout(layout);
         frame.add(currentView,BorderLayout.PAGE_END);
-        frame.add(recipeView,BorderLayout.LINE_START);
+        frame.add(recipeSelectView,BorderLayout.LINE_START);
         frame.add(graphView,BorderLayout.LINE_END);
+        singleton = this;
+    }
+    
+    public static ViewFacade getInstanceOf(){
+        return singleton;
     }
     
     private void setLookandFeel(){

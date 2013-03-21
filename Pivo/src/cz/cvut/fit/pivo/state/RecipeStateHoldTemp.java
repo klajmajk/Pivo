@@ -4,6 +4,7 @@
  */
 package cz.cvut.fit.pivo.state;
 
+import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
 
@@ -11,8 +12,8 @@ public abstract class RecipeStateHoldTemp extends RecipeState {
 
     long start;
 
-    public RecipeStateHoldTemp(IView view) {
-        super(view);
+    public RecipeStateHoldTemp(IController controller, IView view) {
+        super(controller, view);
         start = System.currentTimeMillis();
     }
 

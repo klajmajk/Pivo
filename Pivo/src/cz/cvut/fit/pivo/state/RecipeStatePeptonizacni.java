@@ -4,17 +4,16 @@
  */
 package cz.cvut.fit.pivo.state;
 
+import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
 import cz.cvut.fit.pivo.view.ViewFacade;
 
 public class RecipeStatePeptonizacni extends RecipeStateHoldTemp {
 
-
-    public RecipeStatePeptonizacni(IView view) {
-        super(view);
-    }    
-    
+    public RecipeStatePeptonizacni(IController controller, IView view) {
+        super(controller, view);
+    } 
    
 
     @Override
@@ -35,7 +34,7 @@ public class RecipeStatePeptonizacni extends RecipeStateHoldTemp {
 
     @Override
     void setNewState(Recipe recipe) {
-            recipe.setRecipeState((RecipeState)new RecipeStateMove(recipe.nizsiCukrTemp, view));
+            controller.setRecipeState((RecipeState)new RecipeStateMove(recipe.nizsiCukrTemp,controller,  view));
     }
     
 }

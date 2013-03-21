@@ -7,6 +7,7 @@ import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.sql.Time;
+import java.util.List;
 
 /**
  *
@@ -21,5 +22,7 @@ public interface IModel {
     void loadProcedure();
     void refresh() throws ConnectionError;
     void start(); 
+    public List<Recipe> getRecipes();
+    public void setRecipes(List<Recipe> recipes);
     public Time getStartTime() ;
 }

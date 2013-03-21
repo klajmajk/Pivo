@@ -4,18 +4,22 @@
  */
 package cz.cvut.fit.pivo.state;
 
+import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
+import java.io.Serializable;
 
 /**
  *
  * @author Adam
  */
-public abstract class RecipeState {
+public abstract class RecipeState{
     IView view;
+    IController controller;
 
-    public RecipeState(IView view) {
+    public RecipeState(IController controller, IView view) {
         this.view = view;
+        this.controller = controller;
     }
     
     /**
