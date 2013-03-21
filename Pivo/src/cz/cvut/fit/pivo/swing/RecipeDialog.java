@@ -52,6 +52,8 @@ class RecipeDialog extends JDialog {
             public void actionPerformed(ActionEvent event) {
                 
                 recipeView.callSaveRecipe();
+                dispose();
+                
             }
         });
 

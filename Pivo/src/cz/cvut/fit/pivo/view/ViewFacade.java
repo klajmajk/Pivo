@@ -91,6 +91,7 @@ public class ViewFacade implements IView{
     public void notifyView() {
         currentView.notifyView();
         graphView.notifyView();
+        recipeSelectView.notifyView();
     }
 
     @Override

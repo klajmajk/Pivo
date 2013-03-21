@@ -348,5 +348,6 @@ public class RecipeView extends AbstractView {
                 Integer.parseInt(vyssiCukrCombo.getModel().getSelectedItem().toString()), vyssiCukrotvornaSlider.getValue(),
                 Integer.parseInt(odrmutovaciCombo.getModel().getSelectedItem().toString()), odrmutovaciSlider.getValue(), 
                 controller.getView()));
+        controller.notifyView();
     }
 }

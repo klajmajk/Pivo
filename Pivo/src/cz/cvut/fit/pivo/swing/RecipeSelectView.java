@@ -11,6 +11,7 @@ import cz.cvut.fit.pivo.view.AbstractView;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 /**
@@ -26,6 +27,7 @@ public class RecipeSelectView extends AbstractView {
         super(controller, model);
         initComponents();
         addMyMouseEventListener();
+        jList1.setCellRenderer(new JListComponentPanel());
 
     }
 
@@ -43,10 +45,10 @@ public class RecipeSelectView extends AbstractView {
         JList theList = (JList) mouseEvent.getSource();
         int index = theList.locationToIndex(mouseEvent.getPoint());
         if (mouseEvent.isPopupTrigger()) {
-            PopUpDemo menu = new PopUpDemo();
+            DeletePopUp menu = new DeletePopUp(controller, (Recipe)jList1.getModel().getElementAt(index));
             menu.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
         }
-        model.setCurrentRecipe((Recipe)jList1.getModel().getElementAt(index));
+        model.setCurrentRecipe((Recipe)jList1.getSelectedValue());
         controller.notifyView();
         
     }
@@ -90,7 +92,9 @@ public class RecipeSelectView extends AbstractView {
 
     @Override
     public void notifyView() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println("Notyfi selectview");
+        RecipeListModel model = (RecipeListModel)jList1.getModel();
+        model.fireContentsChanged(model, 0, model.getSize());
     }
 
     @Override

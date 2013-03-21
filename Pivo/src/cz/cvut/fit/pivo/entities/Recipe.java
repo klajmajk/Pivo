@@ -8,6 +8,7 @@ import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -53,23 +54,22 @@ public class Recipe implements Serializable{
     public String toString() {
         return "Recipe{" + "name=" + name + ", tolerance=" + tolerance + ", vystiraciTemp=" + vystiraciTemp + ", vystiraciTime=" + vystiraciTime + ", peptonizacniTemp=" + peptonizacniTemp + ", peptonizacniTime=" + peptonizacniTime + ", nizsiCukrTemp=" + nizsiCukrTemp + ", nizsiCukrTime=" + nizsiCukrTime + ", vyssiCukrTemp=" + vyssiCukrTemp + ", vyssiCukrTime=" + vyssiCukrTime + ", odrmutovaciTemp=" + odrmutovaciTemp + ", odrmutovaciTime=" + odrmutovaciTime + '}';
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 13 * hash + Float.floatToIntBits(this.tolerance);
-        hash = 13 * hash + this.vystiraciTemp;
-        hash = 13 * hash + this.vystiraciTime;
-        hash = 13 * hash + this.peptonizacniTemp;
-        hash = 13 * hash + this.peptonizacniTime;
-        hash = 13 * hash + this.nizsiCukrTemp;
-        hash = 13 * hash + this.nizsiCukrTime;
-        hash = 13 * hash + this.vyssiCukrTemp;
-        hash = 13 * hash + this.vyssiCukrTime;
-        hash = 13 * hash + this.odrmutovaciTemp;
-        hash = 13 * hash + this.odrmutovaciTime;
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Float.floatToIntBits(this.tolerance);
+        hash = 89 * hash + this.vystiraciTemp;
+        hash = 89 * hash + this.vystiraciTime;
+        hash = 89 * hash + this.peptonizacniTemp;
+        hash = 89 * hash + this.peptonizacniTime;
+        hash = 89 * hash + this.nizsiCukrTemp;
+        hash = 89 * hash + this.nizsiCukrTime;
+        hash = 89 * hash + this.vyssiCukrTemp;
+        hash = 89 * hash + this.vyssiCukrTime;
+        hash = 89 * hash + this.odrmutovaciTemp;
+        hash = 89 * hash + this.odrmutovaciTime;
         return hash;
     }
 
@@ -82,6 +82,9 @@ public class Recipe implements Serializable{
             return false;
         }
         final Recipe other = (Recipe) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
         if (Float.floatToIntBits(this.tolerance) != Float.floatToIntBits(other.tolerance)) {
             return false;
         }
@@ -117,6 +120,10 @@ public class Recipe implements Serializable{
         }
         return true;
     }
+    
+    
+
+    
 
     
     

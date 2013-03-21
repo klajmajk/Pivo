@@ -28,12 +28,18 @@ public class RecipeListModel extends DefaultListModel {
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
+
+    @Override
+    public void fireContentsChanged(Object source, int index0, int index1) {
+        super.fireContentsChanged(source, index0, index1);
+    }
     
     
 
     @Override
     public int getSize() {
         return recipes.size();
+        
     }
 
     @Override

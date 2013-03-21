@@ -20,6 +20,7 @@ public interface IController {
     void tick();
     void notifyView();
     void saveRecipe(Recipe recipe);
+    void deleteRecipe(Recipe recipe);
     public RecipeState getRecipeState();
     public void setRecipeState(RecipeState recipeState);
     IView getView();

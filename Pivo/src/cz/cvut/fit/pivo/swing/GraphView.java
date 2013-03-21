@@ -128,7 +128,9 @@ public class GraphView extends AbstractView {
         series.addOrUpdate(sec, model.getCurrent().getTemp());
         if(!recipe.equals(model.getCurrentRecipe())){
             reset();
-            addRecipe();
+            if(model.getCurrentRecipe()!= null){
+                addRecipe();
+            }
             //addVystirka();
         }
     }

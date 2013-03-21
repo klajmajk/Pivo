@@ -38,6 +38,8 @@ public class Controller implements IController {
     public void setView(IView view) {
         this.view = view;
     }
+    
+    
 
     @Override
     public void startCooking() {
@@ -109,6 +111,16 @@ public class Controller implements IController {
 
     public void setRecipeState(RecipeState recipeState) {
         this.recipeState = recipeState;
+    }
+
+    @Override
+    public void deleteRecipe(Recipe recipe) {
+        System.out.println("Mazu:"+ recipe);
+        model.getRecipes().remove(recipe);
+        model.setCurrentRecipe(null);
+        persistence.saveRecipes(model.getRecipes());
+        System.out.println("Recipe deleted");
+        notifyView();
     }
     
     
