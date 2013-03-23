@@ -13,6 +13,7 @@ import cz.cvut.fit.pivo.persistence.Persistence;
 import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,6 +104,10 @@ public class Controller implements IController {
         List<Recipe> recipes = model.getRecipes();
         recipes.add(recipe);
         persistence.saveRecipes(recipes);
+    }
+    
+    public void saveGraph(BufferedImage image, String path) {
+        persistence.saveGraph(image, path);
     }
 
     public RecipeState getRecipeState() {

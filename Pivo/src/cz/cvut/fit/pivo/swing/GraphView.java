@@ -5,6 +5,7 @@ import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.AbstractView;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Date;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -43,9 +44,6 @@ public class GraphView extends AbstractView {
                 false);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseWheelEnabled(true);
-        chartPanel.setHorizontalAxisTrace(true);
-        chartPanel.setVerticalAxisTrace(true);
-        
         setLayout(new BorderLayout(0, 5));
         add(chartPanel, BorderLayout.CENTER);
         this.add(chartPanel);
@@ -56,9 +54,16 @@ public class GraphView extends AbstractView {
     
      @Override
     public Dimension getPreferredSize() {
-        return new Dimension(640, 480);
+        return new Dimension(480, 640);
     }
     
+     private JFreeChart getJFreeChart(){
+         return ((ChartPanel)this.getComponent(0)).getChart();
+     }
+     public BufferedImage getChartBufferedImage(){
+         return getJFreeChart().createBufferedImage(600,800);
+     }
+
 
     public void addVystirka() {
         this.recipe = model.getCurrentRecipe();

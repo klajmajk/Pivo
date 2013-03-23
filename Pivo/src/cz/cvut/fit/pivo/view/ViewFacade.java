@@ -7,16 +7,13 @@ import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.swing.CurrentView;
 import cz.cvut.fit.pivo.swing.GraphView;
-import cz.cvut.fit.pivo.swing.RecipeView;
-import java.awt.BorderLayout;
-import java.awt.LayoutManager;
+import cz.cvut.fit.pivo.swing.MyJFrame;
+import cz.cvut.fit.pivo.swing.list.RecipeSelectView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import cz.cvut.fit.pivo.swing.MyJFrame;
-import cz.cvut.fit.pivo.swing.list.RecipeSelectView;
 
 /**
  *
@@ -43,40 +40,6 @@ public class ViewFacade implements IView{
         singleton = this;
     }
     
-    private void setMyLayout(){
-        javax.swing.GroupLayout currentViewLayout = new javax.swing.GroupLayout(currentView);
-        currentView.setLayout(currentViewLayout);
-        currentViewLayout.setHorizontalGroup(
-            currentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        currentViewLayout.setVerticalGroup(
-            currentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout recipeSelectViewLayout = new javax.swing.GroupLayout(recipeSelectView);
-        recipeSelectView.setLayout(recipeSelectViewLayout);
-        recipeSelectViewLayout.setHorizontalGroup(
-            recipeSelectViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 164, Short.MAX_VALUE)
-        );
-        recipeSelectViewLayout.setVerticalGroup(
-            recipeSelectViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout graphViewLayout = new javax.swing.GroupLayout(graphView);
-        graphView.setLayout(graphViewLayout);
-        graphViewLayout.setHorizontalGroup(
-            graphViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 755, Short.MAX_VALUE)
-        );
-        graphViewLayout.setVerticalGroup(
-            graphViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 406, Short.MAX_VALUE)
-        );
-    }
     
     public static ViewFacade getInstanceOf(){
         return singleton;
@@ -86,17 +49,12 @@ public class ViewFacade implements IView{
         try {
             UIManager.setLookAndFeel(
                 UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(ViewFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    @Override
     public void show() {                 
         frame.pack();
         frame.setLocationRelativeTo(null);

@@ -15,6 +15,6 @@ import java.util.List;
 public interface IPersistence {
     void saveRecipes(List<Recipe> recipes);
     List<Recipe> readRecipes();
-    void saveGraph(BufferedImage image);
+    void saveGraph(BufferedImage image, String path);
     List<Recipe> getRecipes();
 }

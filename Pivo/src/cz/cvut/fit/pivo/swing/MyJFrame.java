@@ -8,9 +8,17 @@ import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.swing.list.RecipeSelectView;
 import java.awt.BorderLayout;
-import java.awt.LayoutManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -24,35 +32,74 @@ public class MyJFrame extends javax.swing.JFrame {
     UIDefaults defaults;
     Controller controller;
     IModel model;
-    
-   
 
     public MyJFrame(Controller controller, IModel model, CurrentView currentView, GraphView graphView, RecipeSelectView recipeSelectView) {
         super();
         this.model = model;
         this.controller = controller;
-        defaults = UIManager.getDefaults( );
-        
-        setDefaultLookAndFeelDecorated ( true );
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-                
+        defaults = UIManager.getDefaults();
+
+        setDefaultLookAndFeelDecorated(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                askOnSaving();
+            }
+        });
+
         initComponents();
-        
+
         jPanel1.setLayout(new BorderLayout());
         jPanel1.add(currentView, BorderLayout.CENTER);
         jPanel2.setLayout(new BorderLayout());
         jPanel2.add(recipeSelectView, BorderLayout.CENTER);
-        
+
         jPanel3.setLayout(new BorderLayout());
         jPanel3.add(graphView, BorderLayout.CENTER);
         jPanel3.validate();
-        //LayoutManager layout = new BorderLayout();
-        //getContentPane().setLayout(layout);
-        //add(currentView,BorderLayout.NORTH);
-        //add(recipeSelectView,BorderLayout.EAST);
-        //add(graphView,BorderLayout.WEST);
-        //getContentPane().setLayout(layout);
-        
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+    }
+
+    private void askOnSaving() {
+        //Display confirm dialog 
+        System.out.println("Test");
+        int confirmed = JOptionPane.showConfirmDialog(this,
+                "Chcete uložit obrázek grafu?", "Yes",
+                JOptionPane.YES_NO_OPTION);
+
+        //Close if user confirmed 
+        if (confirmed == JOptionPane.YES_OPTION) {
+            saveGraph();
+        }
+        //Close frame 
+        this.dispose();
+    }
+
+    private void saveGraph() {
+        JFileChooser fSave = new JFileChooser();
+        fSave.setAcceptAllFileFilterUsed(false);
+
+        //fSave.setFileFilter(txt);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG soubory", "png");
+        fSave.addChoosableFileFilter(filter);
+        fSave.setFileFilter(filter);
+
+        int result = fSave.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File sFile = fSave.getSelectedFile();
+            FileFilter selectedFilter = fSave.getFileFilter();
+            System.out.println(selectedFilter);
+
+            String fileName = sFile.getName();
+            String filePath = sFile.getParent();
+            System.out.println("Saving: " + fileName + ", " + filePath);
+
+            BufferedImage image = ((GraphView) jPanel3.getComponent(0)).getChartBufferedImage();
+
+            controller.saveGraph(image, filePath + "\\" + fileName);
+        }
     }
 
     /**
@@ -69,6 +116,7 @@ public class MyJFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        saveGraphButton = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -107,6 +155,15 @@ public class MyJFrame extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Soubor");
+
+        saveGraphButton.setText("Uložit graf (obrázek)");
+        saveGraphButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveGraphButtonActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveGraphButton);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Přidat recept");
@@ -161,7 +218,11 @@ public class MyJFrame extends javax.swing.JFrame {
         rd.setVisible(true);
     }//GEN-LAST:event_jMenu2MouseClicked
 
-  
+    private void saveGraphButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveGraphButtonActionPerformed
+        saveGraph();
+
+
+    }//GEN-LAST:event_saveGraphButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -169,5 +230,8 @@ public class MyJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JMenuItem saveGraphButton;
     // End of variables declaration//GEN-END:variables
+
+    
 }

@@ -7,9 +7,11 @@ package cz.cvut.fit.pivo.persistence;
 import cz.cvut.fit.pivo.entities.Recipe;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,14 +47,34 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public void saveGraph(BufferedImage image) {
+    public void saveGraph(BufferedImage image, String path) {
+            File outputfile;
+            if(path.endsWith(".png")){
+                outputfile = new File(path);
+            }else{                
+                outputfile = new File(path+".png");
+            }
+            try {
+                if (!outputfile.exists()) {
+                    
+                    ImageIO.write(image, "png", outputfile);
+                    JOptionPane.showMessageDialog(null, "Warning file created succesfully in \n" + path);
+                } else {
+                    String message = "File already exist in \n" + path + ":\n" + "Do you want to overwrite?";
+                    String title = "Warning";
+                    int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION) {
+                        outputfile.delete();
+                        outputfile.createNewFile();                        
+                        ImageIO.write(image, "png", outputfile);
+                        JOptionPane.showMessageDialog(null, "File overwritten succesfully in \n" + path);
 
-        File outputfile = new File(getDateString() + ".png");
-        try {
-            ImageIO.write(image, "png", outputfile);
-        } catch (IOException e) {
-            System.err.println("Exception writing file " + outputfile + ": " + e);
-        }
+                    }
+                }
+                ImageIO.write(image, "png", outputfile);
+            } catch (IOException e) {
+                System.err.println("Exception writing file " + outputfile + ": " + e);
+            }
     }
 
     @Override
@@ -79,14 +102,13 @@ public class Persistence implements IPersistence {
             } finally {
                 input.close();
             }
-        }
-         catch (ClassNotFoundException ex) {
-             //System.out.println("Cannot perform input. Class not found.");
-                Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            //System.out.println("Cannot perform input. Class not found.");
+            Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            
-                Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
-        
+
+            Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return new ArrayList<Recipe>();
     }
