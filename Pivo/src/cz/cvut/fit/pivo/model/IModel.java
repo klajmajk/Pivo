@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface IModel {
     public TempTime getCurrent();
+    public TempTime getCurrent1();
+    public boolean hasTwoSensors();
     public void setCurrent(TempTime current);
     public Recipe getCurrentRecipe();
     public void setCurrentRecipe(Recipe currentRecipe);

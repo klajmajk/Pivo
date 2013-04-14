@@ -34,6 +34,12 @@ public class TempTime {
     public void setTemp(float temp) {
         this.temp = temp;
     }
+
+    @Override
+    public String toString() {
+        return "TempTime{" + "time=" + time + ", temp=" + temp + '}';
+    }
+    
     
     
 }

@@ -4,7 +4,7 @@
  */
 package cz.cvut.fit.pivo.arduino;
 
-import cz.cvut.fit.pivo.entities.Pin;
+import cz.cvut.fit.pivo.entities.PinOneWire;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.TempTime;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
@@ -30,21 +31,27 @@ public class Arduino {
     public Arduino() {
     }
 
-    public TempTime getTemp() throws IOException {
+    public List<TempTime> getTemp() throws IOException {
         
         String json = getHttpResponseBody(Constants.ADDRESS);
-        List<Pin> pinList = getPinList(json);
-        TempTime tempTime = new TempTime(pinList.get(Constants.TEMP_PIN_POS).getValue());
+        List<PinOneWire> pinList = getPinList(json);
+        TempTime tempTime = new TempTime(pinList.get(0).getValue());
+        TempTime tempTime1 = new TempTime(pinList.get(0).getValue1());
+        List<TempTime> list = new ArrayList<TempTime>();
+        list.add(tempTime);
+        list.add(tempTime1);
         System.out.println("Teplota: " + tempTime.getTemp() + " °C");
+        
+        System.out.println("Teplota1: " + tempTime1.getTemp() + " °C");
 
 
-        return tempTime;
+        return list;
     }
 
-    private List<Pin> getPinList(String JSON) {
+    private List<PinOneWire> getPinList(String JSON) {
         ObjectMapper mapper = new ObjectMapper();
 
-        List<Pin> pinList = new ArrayList<Pin>();
+        List<PinOneWire> pinList = new ArrayList<PinOneWire>();
         String temp = new String(JSON);
         temp = temp.replaceAll("\r\n", "");
         temp = temp.replaceAll("\n", "");
@@ -53,9 +60,8 @@ public class Arduino {
         List<String> PinJSONList = new LinkedList<String>(Arrays.asList(temp.split("\"\\d\\\":")));
         PinJSONList.remove(0);
         try {
-            for (String string : PinJSONList) {
-                pinList.add(mapper.readValue(string, Pin.class));
-            }
+                pinList.add(mapper.readValue(PinJSONList.get(1), PinOneWire.class));
+            
         } catch (IOException ex) {
             Logger.getLogger(Arduino.class.getName()).log(Level.SEVERE, null, ex);
         }

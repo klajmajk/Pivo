@@ -18,6 +18,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 public class GraphView extends AbstractView {
 
     TimeSeries series;
+    TimeSeries series1;
     Recipe recipe;
     TimeSeriesCollection dataset;
     TimeSeries recSeries;
@@ -29,10 +30,12 @@ public class GraphView extends AbstractView {
         recipe = new Recipe();
 
         series = new TimeSeries("Naměřená teplota", Second.class);
+        series1 = new TimeSeries("Naměřená teplota", Second.class);
         recSeries = new TimeSeries("Ideální teplota", Second.class);
         dataset = new TimeSeriesCollection();
 
         dataset.addSeries(series);
+        dataset.addSeries(series1);
         dataset.addSeries(recSeries);
         final JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "Graf teploty/času",
@@ -148,6 +151,12 @@ public class GraphView extends AbstractView {
     public void notifyView() {
         Second sec = new Second(model.getCurrent().getTime());
         series.addOrUpdate(sec, model.getCurrent().getTemp());
+        
+        
+        if(model.hasTwoSensors()){
+            sec = new Second(model.getCurrent1().getTime());
+            series1.addOrUpdate(sec, model.getCurrent1().getTemp());
+        }
         if (!recipe.equals(model.getCurrentRecipe())) {
             reset();
             if (model.getCurrentRecipe() != null) {

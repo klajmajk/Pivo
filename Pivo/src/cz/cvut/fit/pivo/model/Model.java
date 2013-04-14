@@ -19,11 +19,13 @@ import java.util.List;
  */
 public class Model implements IModel{
     TempTime current;
+    TempTime current1;
     Arduino arduino;
     Time startTime;
     int badRequests;
     Recipe currentRecipe;
     List<Recipe> recipes;
+    boolean hasTwoSensors;
 
     public Model() {
         arduino = new Arduino();
@@ -31,6 +33,7 @@ public class Model implements IModel{
         this.current = new TempTime(0);
         this.startTime = new Time(0);
         currentRecipe = new Recipe();
+        hasTwoSensors = false;
         //this.current = arduino.getTemp();
     }
 
@@ -85,7 +88,14 @@ public class Model implements IModel{
     @Override
     public void refresh() throws ConnectionError{
         try {
-            this.current = arduino.getTemp();
+            this.current = arduino.getTemp().get(0);
+            this.current1 = arduino.getTemp().get(1);
+            if(current1.getTemp()!=-1){
+                hasTwoSensors = true;
+                System.out.println("has two sensors");
+            }else{
+                hasTwoSensors = false;
+            }
             badRequests = 0;
         } catch (IOException ex) {
             badRequests++;
@@ -96,6 +106,16 @@ public class Model implements IModel{
     @Override
     public void start() {
         startTime = new Time(System.currentTimeMillis());
+    }
+
+    @Override
+    public TempTime getCurrent1() {
+        return current1;
+    }
+
+    @Override
+    public boolean hasTwoSensors() {
+        return hasTwoSensors;
     }
     
     
