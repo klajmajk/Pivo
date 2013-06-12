@@ -4,9 +4,9 @@
  */
 package cz.cvut.fit.pivo.arduino;
 
-import cz.cvut.fit.pivo.entities.PinOneWire;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fit.pivo.entities.Constants;
+import cz.cvut.fit.pivo.entities.PinOneWire;
 import cz.cvut.fit.pivo.entities.TempTime;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;

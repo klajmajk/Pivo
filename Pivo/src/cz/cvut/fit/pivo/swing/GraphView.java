@@ -156,6 +156,9 @@ public class GraphView extends AbstractView {
         if(model.hasTwoSensors()){
             sec = new Second(model.getCurrent1().getTime());
             series1.addOrUpdate(sec, model.getCurrent1().getTemp());
+        }else{
+            //musi tu neco byt
+            series1.addOrUpdate(sec, model.getCurrent().getTemp());
         }
         if (!recipe.equals(model.getCurrentRecipe())) {
             reset();
@@ -169,6 +172,7 @@ public class GraphView extends AbstractView {
     public void reset() {
         dataset.getSeries(1).clear();
         dataset.getSeries(0).clear();
+        dataset.getSeries(2).clear();
     }
 
     @Override
