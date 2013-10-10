@@ -20,5 +20,8 @@ public class Constants {
     public static final String ODRMUTOVACI = "Právě běží vystírací prodleva";
     public static final int TEMP_PIN_POS = 1;
     public static final int TIMEOUT = 5000;    
-    public static final int MAX_BAD_REQUESTS = 20;
+    public static final int MAX_BAD_REQUESTS = 20;    
+    public static final int SAVED_GRAPH_WIDTH = 800;    
+    public static final int SAVED_GRAPH_HEIGHT = 600;
+    
 }

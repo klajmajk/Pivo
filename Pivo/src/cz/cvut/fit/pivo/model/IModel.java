@@ -14,17 +14,22 @@ import java.util.List;
  * @author Adam
  */
 public interface IModel {
-    public TempTime getCurrent();
+    public TempTime getCurrent();    
     public TempTime getCurrent1();
-    public boolean hasTwoSensors();
-    public void setCurrent(TempTime current);
+    
+    public boolean hasTwoSensors();    
+    
     public Recipe getCurrentRecipe();
     public void setCurrentRecipe(Recipe currentRecipe);
+    
     void addTempTimeReading();
     void loadProcedure();
     void refresh() throws ConnectionError;
     void start(); 
+    void reset();
+    
     public List<Recipe> getRecipes();
     public void setRecipes(List<Recipe> recipes);
+    
     public Time getStartTime() ;
 }

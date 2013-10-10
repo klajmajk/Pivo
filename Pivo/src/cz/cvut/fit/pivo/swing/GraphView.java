@@ -1,6 +1,7 @@
 package cz.cvut.fit.pivo.swing;
 
 import cz.cvut.fit.pivo.controller.Controller;
+import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.AbstractView;
@@ -10,7 +11,6 @@ import java.util.Date;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.time.Minute;
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -64,7 +64,7 @@ public class GraphView extends AbstractView {
          return ((ChartPanel)this.getComponent(0)).getChart();
      }
      public BufferedImage getChartBufferedImage(){
-         return getJFreeChart().createBufferedImage(600,800);
+         return getJFreeChart().createBufferedImage(Constants.SAVED_GRAPH_WIDTH, Constants.SAVED_GRAPH_HEIGHT);
      }
 
 

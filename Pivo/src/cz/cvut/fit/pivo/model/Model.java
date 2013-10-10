@@ -5,6 +5,8 @@
 package cz.cvut.fit.pivo.model;
 
 import cz.cvut.fit.pivo.arduino.Arduino;
+import cz.cvut.fit.pivo.arduino.FakeArduino;
+import cz.cvut.fit.pivo.arduino.IArduino;
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.TempTime;
@@ -20,7 +22,7 @@ import java.util.List;
 public class Model implements IModel{
     TempTime current;
     TempTime current1;
-    Arduino arduino;
+    IArduino arduino;
     Time startTime;
     int badRequests;
     Recipe currentRecipe;
@@ -28,19 +30,24 @@ public class Model implements IModel{
     boolean hasTwoSensors;
 
     public Model() {
-        arduino = new Arduino();
-        badRequests = 0;
-        this.current = new TempTime(0);
-        this.startTime = new Time(0);
-        currentRecipe = new Recipe();
-        hasTwoSensors = false;
+        reset();
         //this.current = arduino.getTemp();
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public List<Recipe> getRecipes() {
         return recipes;
     }
 
+    /**
+     *
+     * @param recipes
+     */
+    @Override
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
@@ -70,10 +77,6 @@ public class Model implements IModel{
         return current;
     }
 
-    @Override
-    public void setCurrent(TempTime current) {
-        this.current = current;
-    }
     
     @Override
     public void addTempTimeReading() {
@@ -99,7 +102,9 @@ public class Model implements IModel{
             badRequests = 0;
         } catch (IOException ex) {
             badRequests++;
-            if(badRequests == Constants.MAX_BAD_REQUESTS) throw new ConnectionError("Posledních "+ Constants.MAX_BAD_REQUESTS+" skončilo timeoutem");
+            if(badRequests == Constants.MAX_BAD_REQUESTS) {
+                throw new ConnectionError("Posledních "+ Constants.MAX_BAD_REQUESTS+" skončilo timeoutem");
+            }
         }
     }
 
@@ -116,6 +121,17 @@ public class Model implements IModel{
     @Override
     public boolean hasTwoSensors() {
         return hasTwoSensors;
+    }
+
+    @Override
+    public final void reset() {
+        //TODO musi se zmenit zpet
+        arduino = new FakeArduino();
+        badRequests = 0;
+        this.current = new TempTime(0);
+        this.startTime = new Time(0);
+        currentRecipe = new Recipe();
+        hasTwoSensors = false;
     }
     
     

@@ -61,8 +61,9 @@ public class Controller implements IController {
 
     @Override
     public void resetCooking() {
+        stopCooking();
+        model.reset();
         model.start();
-        model.setCurrentRecipe(new Recipe());
         view.reset();
     }
 

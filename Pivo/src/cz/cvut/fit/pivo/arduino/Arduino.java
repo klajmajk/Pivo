@@ -24,12 +24,13 @@ import org.apache.commons.io.IOUtils;
  *
  * @author Adam
  */
-public class Arduino {
+public class Arduino implements IArduino {
 
 
     public Arduino() {
     }
 
+    @Override
     public List<TempTime> getTemp() throws IOException {
         
         String json = getHttpResponseBody(Constants.ADDRESS);
