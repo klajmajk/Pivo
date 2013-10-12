@@ -7,7 +7,7 @@ package cz.cvut.fit.pivo.state;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
-import cz.cvut.fit.pivo.view.ViewFacade;
+import cz.cvut.fit.pivo.view.ViewFacadeFX;
 
 public class RecipeStateVystrika extends RecipeStateHoldTemp {
 
@@ -20,12 +20,11 @@ public class RecipeStateVystrika extends RecipeStateHoldTemp {
     @Override
     public void handle(Recipe recipe, float currentTemp) {        
         System.out.println("REcipe cooking: " + recipe);
-        System.out.println(view);
         if (isTimeToChange(recipe.vystiraciTime)) {            
-            ((ViewFacade) view).increaseTemp(recipe.peptonizacniTemp);
+            ((ViewFacadeFX) view).increaseTemp(recipe.peptonizacniTemp);
             setNewState(recipe);
         }else{
-            ((ViewFacade) view).holdTemp(getName(),recipe.vystiraciTemp );        
+            ((ViewFacadeFX) view).holdTemp(getName(),recipe.vystiraciTemp );        
         }
 
     }

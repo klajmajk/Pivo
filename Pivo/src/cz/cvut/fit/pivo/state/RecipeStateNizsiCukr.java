@@ -7,7 +7,7 @@ package cz.cvut.fit.pivo.state;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
-import cz.cvut.fit.pivo.view.ViewFacade;
+import cz.cvut.fit.pivo.view.ViewFacadeFX;
 
 public class RecipeStateNizsiCukr extends RecipeStateHoldTemp {
 
@@ -20,10 +20,10 @@ public class RecipeStateNizsiCukr extends RecipeStateHoldTemp {
     @Override
     public void handle(Recipe recipe, float currentTemp) {
         if (isTimeToChange(recipe.nizsiCukrTime)){
-            ((ViewFacade) view).increaseTemp(recipe.vyssiCukrTemp);
+            ((ViewFacadeFX) view).increaseTemp(recipe.vyssiCukrTemp);
             setNewState(recipe);
         }else{
-            ((ViewFacade) view).holdTemp(getName(),recipe.nizsiCukrTemp );        
+            ((ViewFacadeFX) view).holdTemp(getName(),recipe.nizsiCukrTemp );        
         }
 
     }

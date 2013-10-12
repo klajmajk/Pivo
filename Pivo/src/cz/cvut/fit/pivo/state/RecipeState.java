@@ -7,7 +7,6 @@ package cz.cvut.fit.pivo.state;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
-import java.io.Serializable;
 
 /**
  *

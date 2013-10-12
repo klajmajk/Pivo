@@ -26,6 +26,8 @@ public interface IModel {
     void loadProcedure();
     void refresh() throws ConnectionError;
     void start(); 
+    void stop();     
+    boolean isRunning(); 
     void reset();
     
     public List<Recipe> getRecipes();

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="cz.cvut.fit.pivo.view.fxml.RecipeSelectViewController">
+  <children>
+    <ListView fx:id="recipeList" prefHeight="362.0" prefWidth="600.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <Button fx:id="closeButton" mnemonicParsing="false" onAction="#cancelClicked" text="Cancel" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="14.0" />
+    <Button mnemonicParsing="false" onAction="#useClicked" text="Použít" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="79.0" />
+  </children>
+</AnchorPane>

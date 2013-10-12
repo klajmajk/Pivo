@@ -7,7 +7,7 @@ package cz.cvut.fit.pivo.state;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IView;
-import cz.cvut.fit.pivo.view.ViewFacade;
+import cz.cvut.fit.pivo.view.ViewFacadeFX;
 
 public class RecipeStateOdrmutovaci extends RecipeStateHoldTemp {
 
@@ -22,9 +22,9 @@ public class RecipeStateOdrmutovaci extends RecipeStateHoldTemp {
     @Override
     public void handle(Recipe recipe, float currentTemp) {
         if (isTimeToChange(recipe.odrmutovaciTime)) {
-            ((ViewFacade) view).textOutput("Je hotovo");
+            ((ViewFacadeFX) view).textOutput("Je hotovo");
         }else{
-            ((ViewFacade) view).holdTemp(getName(), recipe.odrmutovaciTemp);
+            ((ViewFacadeFX) view).holdTemp(getName(), recipe.odrmutovaciTemp);
         }
 
     }

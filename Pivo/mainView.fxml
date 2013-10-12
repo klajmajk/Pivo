@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <SplitPane dividerPositions="0.3341708542713568" focusTraversable="true" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <AnchorPane maxHeight="130.0" minHeight="130.0" minWidth="0.0" prefHeight="171.0" prefWidth="598.0">
+          <children>
+            <MenuBar layoutY="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Soubor">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Save image" />
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Přidat recept" />
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <AnchorPane layoutX="-2.0" layoutY="24.0" prefHeight="106.0" prefWidth="600.0">
+              <children>
+                <Label layoutX="14.0" layoutY="14.0" text="Teplota:">
+                  <font>
+                    <Font size="16.0" fx:id="x1" />
+                  </font>
+                </Label>
+                <Label font="$x1" layoutX="14.0" layoutY="42.0" text="Čas:" />
+                <Button layoutX="15.0" layoutY="72.0" mnemonicParsing="false" text="Start" />
+                <Button layoutX="79.0" layoutY="72.0" mnemonicParsing="false" text="Stop" />
+                <Button layoutX="141.0" layoutY="72.0" mnemonicParsing="false" text="Reset" />
+                <Label font="$x1" layoutX="79.0" layoutY="14.0" text="0 C">
+                  <textFill>
+                    <Color blue="0.000" green="1.000" red="0.078" fx:id="x2" />
+                  </textFill>
+                </Label>
+                <Label font="$x1" layoutX="79.0" layoutY="42.0" text="00:00:00" textFill="$x2" />
+              </children>
+            </AnchorPane>
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="255.0" prefWidth="598.0">
+          <children>
+            <LineChart id="LineChart" prefHeight="302.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </children>
+</AnchorPane>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="132.0" prefWidth="382.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="cz.cvut.fit.pivo.view.fxml.recipeItem.RecipeItemController">
+  <children>
+    <GridPane prefHeight="132.0" prefWidth="382.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label fx:id="recipeNameLabel" text="Nazev" GridPane.columnIndex="0" GridPane.rowIndex="0">
+          <font>
+            <Font name="System Bold" size="18.0" />
+          </font>
+        </Label>
+        <Label text="Vystírací:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+          <GridPane.margin>
+            <Insets left="10.0" fx:id="x1" />
+          </GridPane.margin>
+        </Label>
+        <Label text="Peptonizační:" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="2" />
+        <Label text="Nižší cukrotvorná:" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="3" />
+        <Label text="Vyšší cukrotvorná:" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="4" />
+        <Label text="Odrmutovací:" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="5" />
+        <Label fx:id="vystiraciLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Label fx:id="peptonizacniLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Label fx:id="nizsiCukrLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <Label fx:id="vyssiCukrLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <Label fx:id="odrmutovaciLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+</AnchorPane>

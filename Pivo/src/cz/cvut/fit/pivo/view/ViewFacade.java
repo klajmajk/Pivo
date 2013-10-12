@@ -19,7 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author honza
  */
-public class ViewFacade implements IView{
+public class ViewFacade implements IViewFacade{
     private JFrame frame;
     private CurrentView currentView;
     private GraphView graphView;
@@ -75,34 +75,42 @@ public class ViewFacade implements IView{
     }
     
     
+    @Override
     public void textOutput(String output){
         currentView.textOutput(output);
     }
     
+    @Override
     public void increaseTemp(int tempTo){        
         textOutput("Zvyšujte teplotu na  "+ tempTo+"°C");
     }
     
+    @Override
     public void holdTemp(String toHold, int tempToHold){
         
         textOutput("Probíhá "+toHold+" prodleva při teplotě "+ tempToHold+"°C");
     }
     
+    @Override
     public void addVystirka(){
         graphView.addVystirka();        
     }
     
+    @Override
     public void addPeptonizacni(){
         graphView.addPeptonizacni();
     }
+    @Override
     public void addNizsiCukrotvorna(){
         graphView.addNizsiCukrotvorna();
     }
     
+    @Override
     public void addVyssiCukrotvorna(){
         graphView.addVyssiCukrotvorna();
     }
     
+    @Override
     public void addOdrmutovaci(){
         graphView.addOdrmutovaci();
                 

@@ -28,6 +28,7 @@ public class Model implements IModel{
     Recipe currentRecipe;
     List<Recipe> recipes;
     boolean hasTwoSensors;
+    boolean isRunning;
 
     public Model() {
         reset();
@@ -111,6 +112,7 @@ public class Model implements IModel{
     @Override
     public void start() {
         startTime = new Time(System.currentTimeMillis());
+        isRunning = true;
     }
 
     @Override
@@ -132,6 +134,17 @@ public class Model implements IModel{
         this.startTime = new Time(0);
         currentRecipe = new Recipe();
         hasTwoSensors = false;
+        isRunning = false;
+    }
+
+    @Override
+    public void stop() {
+        isRunning = false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        return isRunning;
     }
     
     

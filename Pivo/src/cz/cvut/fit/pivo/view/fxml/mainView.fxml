@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="cz.cvut.fit.pivo.view.fxml.MainViewController">
+  <children>
+    <SplitPane dividerPositions="0.3341708542713568" focusTraversable="true" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <AnchorPane maxHeight="130.0" minHeight="130.0" minWidth="0.0" prefHeight="171.0" prefWidth="598.0">
+          <children>
+            <MenuBar layoutY="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Soubor">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#newBrewing" text="Nový" />
+                    <MenuItem mnemonicParsing="false" onAction="#saveImageClicked" text="Uložit graf" />
+                    <MenuItem mnemonicParsing="false" onAction="#closeClicked" text="Zavřít" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" onAction="#addRecipeClicked" text="Přidat recept" />
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <AnchorPane layoutX="-2.0" layoutY="24.0" prefHeight="106.0" prefWidth="600.0">
+              <children>
+                <Label layoutX="410.0" layoutY="14.0" text="Teplota:">
+                  <font>
+                    <Font size="16.0" fx:id="x1" />
+                  </font>
+                </Label>
+                <Label font="$x1" layoutX="410.0" layoutY="42.0" text="Čas:" />
+                <Button layoutX="410.0" layoutY="72.0" mnemonicParsing="false" onAction="#startClicked" text="Start" />
+                <Button layoutX="475.0" layoutY="72.0" mnemonicParsing="false" onAction="#stopClicked" text="Stop" />
+                <Button layoutX="537.0" layoutY="72.0" mnemonicParsing="false" onAction="#resetClicked" text="Reset" />
+                <Label fx:id="temperatureLabel" font="$x1" layoutX="475.0" layoutY="14.0" text="0 C">
+                  <textFill>
+                    <Color blue="0.000" green="1.000" red="0.078" fx:id="x2" />
+                  </textFill>
+                </Label>
+                <Label fx:id="timeLabel" font="$x1" layoutX="475.0" layoutY="42.0" text="00:00:00" textFill="$x2" />
+                <Label fx:id="statusLabel" layoutX="14.0" layoutY="34.0" text="Label">
+                  <font>
+                    <Font size="20.0" />
+                  </font>
+                </Label>
+              </children>
+            </AnchorPane>
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="255.0" prefWidth="598.0">
+          <children>
+            <LineChart fx:id="lineChart" createSymbols="false" prefHeight="302.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <xAxis>
+                <NumberAxis fx:id="xAxis" label="Čas" upperBound="0.0" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis forceZeroInRange="false" label="Teplota" lowerBound="0.0" tickUnit="1.0" upperBound="3.0" />
+              </yAxis>
+            </LineChart>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </children>
+</AnchorPane>

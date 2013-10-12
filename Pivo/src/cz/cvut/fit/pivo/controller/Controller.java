@@ -36,14 +36,14 @@ public class Controller implements IController {
     }
 
     public void setView(IView view) {
-        this.view = view;        
-        this.recipeState = new RecipeStateVystrika(this, view);
+        this.view = view;       
     }
     
     
 
     @Override
     public void startCooking() {
+        this.recipeState = new RecipeStateVystrika(this, view); 
         model.start();
         view.start();
         this.timer = new MyTimer(1, this);
@@ -57,10 +57,12 @@ public class Controller implements IController {
     @Override
     public void stopCooking() {
         this.timer.cancel();
+        model.stop();
     }
 
     @Override
     public void resetCooking() {
+        this.recipeState = new RecipeStateVystrika(this, view);
         stopCooking();
         model.reset();
         model.start();

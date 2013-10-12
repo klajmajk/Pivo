@@ -8,6 +8,7 @@ import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.view.IView;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -21,6 +22,7 @@ public interface IController {
     void notifyView();
     void saveRecipe(Recipe recipe);
     void deleteRecipe(Recipe recipe);
+    public void saveGraph(BufferedImage image, String path);
     public RecipeState getRecipeState();
     public void setRecipeState(RecipeState recipeState);
     IView getView();
