@@ -4,8 +4,6 @@
  */
 package cz.cvut.fit.pivo.entities;
 
-import cz.cvut.fit.pivo.state.RecipeState;
-import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
 import java.io.Serializable;
 import java.util.Objects;
@@ -35,7 +33,7 @@ public class Recipe implements Serializable{
 
     
     
-    public Recipe(String name, float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime, IView view) {
+    public Recipe(String name, float speed, int vystiraciTemp, int vystiraciTime, int peptonizacniTemp, int peptonizacniTime, int nizsiCukrTemp, int nizsiCukrTime, int vyssiCukrTemp, int vyssiCukrTime, int odrmutovaciTemp, int odrmutovaciTime) {
         this.name = name;
         this.tolerance = speed;
         this.vystiraciTemp = vystiraciTemp;

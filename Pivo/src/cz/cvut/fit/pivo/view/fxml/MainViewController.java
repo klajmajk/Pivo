@@ -13,12 +13,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +35,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -66,13 +71,22 @@ public class MainViewController implements IInitializableView {
         // TODO
         model = ViewFacadeFX.getInstanceOf().getModel();
         controller = ViewFacadeFX.getInstanceOf().getController();
-        xAxis.setTickLabelFormatter(new NSC());
+        xAxis.setTickLabelFormatter(new NumberToStringConverter());
         xAxis.setForceZeroInRange(false);
         recipe = new Recipe();
 
         //Chart init
         resetChart();
         System.out.println("controller init");
+        
+        ViewFacadeFX.getInstanceOf().getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {                
+                ViewFacadeFX.getInstanceOf().controllerStop();   
+                //aby se to správně ukončovalo
+                Platform.exit();
+            }
+        });
 
 
     }
@@ -116,16 +130,20 @@ public class MainViewController implements IInitializableView {
     }
 
     @FXML
-    private void closeClicked(ActionEvent event) {
-        throw new NotImplementedException();
-    }
+    private void closeClicked(ActionEvent event) {        
+        Platform.exit();
+    }  
+   
 
     @FXML
-    private void newBrewing(ActionEvent event) {
+    private void selectRecipe(ActionEvent event) {
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("\\cz\\cvut\\fit\\pivo\\view\\fxml\\recipeSelectView.fxml"));
-            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("\\cz\\cvut\\fit\\pivo\\view\\fxml\\recipeSelectView.fxml"));
+            root = (Parent) loader.load();
+            RecipeSelectViewController controller = (RecipeSelectViewController) loader.getController();
+            Stage stage = new Stage();            
+            controller.setStage(stage);
             stage.setTitle("Vyberte recept");
             stage.setScene(new Scene(root));
             stage.show();
@@ -164,7 +182,7 @@ public class MainViewController implements IInitializableView {
             @Override
             public void run() {
                 //labels change
-                temperatureLabel.setText(model.getCurrent().getTemp() + "°C");
+                temperatureLabel.setText((new DecimalFormat("#.##").format((Float) model.getCurrent().getTemp())) + "°C");
                 Time time = new Time(model.getCurrent().getTime().getTime() - model.getStartTime().getTime() - (60 * 60 * 1000));
                 timeLabel.setText(time.toString());
 
@@ -172,15 +190,10 @@ public class MainViewController implements IInitializableView {
                 if (model.isRunning()) {
                     if (model.hasTwoSensors()) {
                         sensor2Series.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), model.getCurrent1().getTemp()));
-                    } else {
-                        //musi tu neco byt
-                        sensor1Series.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), model.getCurrent().getTemp()));
-                    }
-                    //sensor1Series.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), model.getCurrent().getTemp()));
+                    } 
+                    //musi tu neco byt
+                    sensor1Series.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), model.getCurrent().getTemp()));
                 }
-
-
-
                 if (!recipe.equals(model.getCurrentRecipe())) {
                     reset();
                     if (model.getCurrentRecipe() != null) {
@@ -195,15 +208,6 @@ public class MainViewController implements IInitializableView {
     @Override
     public void reset() {
         System.out.println(sensor1Series.getData().isEmpty());
-        /*if (!(sensor1Series.getData().isEmpty())) {
-            sensor1Series.getData().clear();
-        }
-        if (!sensor2Series.getData().isEmpty()) {
-            sensor2Series.getData().clear();
-        }
-        if (!recipeSeries.getData().isEmpty()) {
-            recipeSeries.getData().clear();
-        }*/
         resetChart();
     }
 

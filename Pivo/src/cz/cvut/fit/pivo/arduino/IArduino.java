@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface IArduino {
 
-    List<TempTime> getTemp() throws IOException;
+    List<TempTime> getTemp();
     
 }

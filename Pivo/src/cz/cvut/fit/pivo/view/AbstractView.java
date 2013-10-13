@@ -6,13 +6,14 @@ package cz.cvut.fit.pivo.view;
 
 import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.model.IModel;
+import javafx.application.Application;
 
 
 /**
  *
  * @author honza
  */
-public abstract class AbstractView extends javax.swing.JPanel implements IView {
+public abstract class AbstractView extends Application implements IView {
     protected Controller controller;
     protected IModel model;
 

@@ -14,6 +14,7 @@ import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.io.IOException;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -26,7 +27,7 @@ public class Model implements IModel{
     Time startTime;
     int badRequests;
     Recipe currentRecipe;
-    List<Recipe> recipes;
+    Set<Recipe> recipes;
     boolean hasTwoSensors;
     boolean isRunning;
 
@@ -40,7 +41,7 @@ public class Model implements IModel{
      * @return
      */
     @Override
-    public List<Recipe> getRecipes() {
+    public Set<Recipe> getRecipes() {
         return recipes;
     }
 
@@ -49,7 +50,7 @@ public class Model implements IModel{
      * @param recipes
      */
     @Override
-    public void setRecipes(List<Recipe> recipes) {
+    public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
     }
     
@@ -90,10 +91,11 @@ public class Model implements IModel{
     }
 
     @Override
-    public void refresh() throws ConnectionError{
-        try {
-            this.current = arduino.getTemp().get(0);
-            this.current1 = arduino.getTemp().get(1);
+    public void refresh(){
+        //try {
+            List<TempTime> tempTimeList = arduino.getTemp();
+            this.current = tempTimeList.get(0);
+            this.current1 = tempTimeList.get(1);
             if(current1.getTemp()!=-1){
                 hasTwoSensors = true;
                 System.out.println("has two sensors");
@@ -101,12 +103,12 @@ public class Model implements IModel{
                 hasTwoSensors = false;
             }
             badRequests = 0;
-        } catch (IOException ex) {
+        /*} catch (IOException ex) {
             badRequests++;
             if(badRequests == Constants.MAX_BAD_REQUESTS) {
                 throw new ConnectionError("Posledních "+ Constants.MAX_BAD_REQUESTS+" skončilo timeoutem");
             }
-        }
+        }*/
     }
 
     @Override
@@ -145,6 +147,20 @@ public class Model implements IModel{
     @Override
     public boolean isRunning() {
         return isRunning;
+    }
+
+    @Override
+    public void addRecipe(Recipe recipe) {
+        Recipe toDelete= null;
+        for (Recipe r : recipes) {
+            if(r.name.equals(recipe.name)){ 
+                toDelete = r;
+            }
+        }
+        if(toDelete!=null){            
+            recipes.remove(toDelete);         
+        }
+        recipes.add(recipe);
     }
     
     

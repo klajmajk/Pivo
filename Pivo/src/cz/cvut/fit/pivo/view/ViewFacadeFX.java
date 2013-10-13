@@ -5,20 +5,16 @@
 package cz.cvut.fit.pivo.view;
 import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.controller.IController;
+import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.model.IModel;
-import cz.cvut.fit.pivo.model.Model;
 import cz.cvut.fit.pivo.view.fxml.MainViewController;
-import java.io.IOException;
-import javafx.application.Application;
-import javafx.event.EventHandler;
+import cz.cvut.fit.pivo.view.fxml.RecipeSelectViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 /**
  *
@@ -51,30 +47,29 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     
     
     public void start(Stage stage) throws Exception {
+        
+        this.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane p = (Pane) fxmlLoader.load(getClass().getResource(".\\fxml\\mainView.fxml").openStream());
-        mainViewController = (MainViewController) fxmlLoader.getController();
-        //Parent root = FXMLLoader.load(getClass().getResource(".\\fxml\\mainView.fxml"));  
-        
+        mainViewController = (MainViewController) fxmlLoader.getController();        
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         Scene scene = new Scene(p, screenBounds.getWidth()-40, screenBounds.getHeight()-40);
-       
-        
+        stage.setMinHeight(Constants.MIN_WINDOW_SIZE_HEIGHT);
+        stage.setMinWidth(Constants.MIN_WINDOW_SIZE_WIDTH);       
    
         stage.setScene(scene);
         stage.show();
         //aby se to spravne vyplo
-        scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+        /*scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
         public void handle(WindowEvent ev) {
             controllerStop();
         }
-    });
+        });*/
     }
     
     
     public void show(Stage stage) throws Exception {      
         start(stage);
-        this.stage = stage;
     }
 
     @Override

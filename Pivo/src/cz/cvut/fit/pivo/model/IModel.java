@@ -8,6 +8,7 @@ import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -24,14 +25,15 @@ public interface IModel {
     
     void addTempTimeReading();
     void loadProcedure();
-    void refresh() throws ConnectionError;
+    void refresh();
     void start(); 
     void stop();     
     boolean isRunning(); 
     void reset();
     
-    public List<Recipe> getRecipes();
-    public void setRecipes(List<Recipe> recipes);
+    public Set<Recipe> getRecipes();
+    public void addRecipe(Recipe recipe);
+    public void setRecipes(Set<Recipe> recipes);
     
     public Time getStartTime() ;
 }

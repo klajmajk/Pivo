@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0000999999975" prefWidth="578.9998779296875" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="cz.cvut.fit.pivo.view.fxml.recipeEdit.RecipeEditViewController">
+  <children>
+    <VBox prefHeight="404.0000999999975" prefWidth="578.9998779296875" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <GridPane prefWidth="600.0">
+          <children>
+            <Label text="Název receptu" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <TextField id="recipaName" fx:id="recipeName" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <GridPane.margin>
+                <Insets left="20.0" right="20.0" />
+              </GridPane.margin>
+            </TextField>
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane prefWidth="600.0">
+          <children>
+            <Label text="Vystírka teplota:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <ChoiceBox fx:id="vystirChoice" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="1">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+            </ChoiceBox>
+            <Slider fx:id="vystirkaSlider" max="150.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <GridPane.margin>
+                <Insets right="10.0" fx:id="x2" />
+              </GridPane.margin>
+            </Slider>
+            <Label fx:id="vystirkaTimeLabel" text="Čas: 0 min" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane prefWidth="600.0">
+          <children>
+            <Label text="Peptonizační teplota:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <ChoiceBox fx:id="peptoChoice" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </ChoiceBox>
+            <Slider fx:id="peptoniSlider" max="150.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.margin="$x2" GridPane.rowIndex="1" />
+            <Label fx:id="peptoTimeLabel" text="Čas: 0 min " GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane prefWidth="600.0">
+          <children>
+            <Label text="Nižší cukrotvorná teplota:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <ChoiceBox fx:id="nizsiChoice" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </ChoiceBox>
+            <Slider fx:id="nizsiSlider" max="150.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.margin="$x2" GridPane.rowIndex="1" />
+            <Label fx:id="nizsiTimeLabel" text="Čas: 0 min " GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane prefWidth="600.0">
+          <children>
+            <Label text="Vyšší cukrotvorná teplota:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <ChoiceBox fx:id="vyssiChoice" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </ChoiceBox>
+            <Slider fx:id="vyssiSlider" max="150.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.margin="$x2" GridPane.rowIndex="1" />
+            <Label fx:id="vyssiTimeLabel" text="Čas: 0 min " GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <GridPane prefWidth="600.0">
+          <children>
+            <Label text="Odrmutovací teplota:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <ChoiceBox fx:id="odrmutovaciChoice" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="Item 1" />
+                  <String fx:value="Item 2" />
+                  <String fx:value="Item 3" />
+                </FXCollections>
+              </items>
+              <GridPane.margin>
+                <Insets left="20.0" fx:id="x1" />
+              </GridPane.margin>
+            </ChoiceBox>
+            <Slider fx:id="odrmutovaciSlider" max="150.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.margin="$x2" GridPane.rowIndex="1" />
+            <Label fx:id="odrmutTimeLabel" text="Čas: 0 min " GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+        <HBox alignment="TOP_RIGHT" prefHeight="41.0" prefWidth="579.0">
+          <children>
+            <Button id="addClicked" mnemonicParsing="false" onAction="#addClicked" text="Přidat">
+              <HBox.margin>
+                <Insets right="20.0" top="10.0" fx:id="x3" />
+              </HBox.margin>
+            </Button>
+            <Button id="cancellClicked" mnemonicParsing="false" onAction="#cancellClicked" text="Cancell" HBox.margin="$x3" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

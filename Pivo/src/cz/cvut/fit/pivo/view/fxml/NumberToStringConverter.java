@@ -12,7 +12,7 @@ import javafx.util.converter.TimeStringConverter;
  *
  * @author Adam
  */
-class NSC extends StringConverter<Number> {
+class NumberToStringConverter extends StringConverter<Number> {
 
     TimeStringConverter tsc = new TimeStringConverter("HH:mm:ss");
 

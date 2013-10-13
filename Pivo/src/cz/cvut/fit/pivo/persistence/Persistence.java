@@ -4,14 +4,13 @@
  */
 package cz.cvut.fit.pivo.persistence;
 
-import cz.cvut.fit.pivo.entities.Recipe;
+    import cz.cvut.fit.pivo.entities.Recipe;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
@@ -19,9 +18,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -34,7 +33,7 @@ import javax.swing.JOptionPane;
 public class Persistence implements IPersistence {
 
     @Override
-    public void saveRecipes(List<Recipe> recipes) {
+    public void saveRecipes(Collection<Recipe> recipes) {
 
         File outputfile = new File("recipes.txt");
         try {
@@ -48,37 +47,37 @@ public class Persistence implements IPersistence {
 
     @Override
     public void saveGraph(BufferedImage image, String path) {
-            File outputfile;
-            if(path.endsWith(".png")){
-                outputfile = new File(path);
-            }else{                
-                outputfile = new File(path+".png");
-            }
-            try {
-                if (!outputfile.exists()) {
-                    
-                    ImageIO.write(image, "png", outputfile);
-                    JOptionPane.showMessageDialog(null, "Warning file created succesfully in \n" + path);
-                } else {
-                    String message = "File already exist in \n" + path + ":\n" + "Do you want to overwrite?";
-                    String title = "Warning";
-                    int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
-                    if (reply == JOptionPane.YES_OPTION) {
-                        outputfile.delete();
-                        outputfile.createNewFile();                        
-                        ImageIO.write(image, "png", outputfile);
-                        JOptionPane.showMessageDialog(null, "File overwritten succesfully in \n" + path);
+        File outputfile;
+        if (path.endsWith(".png")) {
+            outputfile = new File(path);
+        } else {
+            outputfile = new File(path + ".png");
+        }
+        try {
+            if (!outputfile.exists()) {
 
-                    }
-                }
                 ImageIO.write(image, "png", outputfile);
-            } catch (IOException e) {
-                System.err.println("Exception writing file " + outputfile + ": " + e);
+                JOptionPane.showMessageDialog(null, "Warning file created succesfully in \n" + path);
+            } else {
+                String message = "File already exist in \n" + path + ":\n" + "Do you want to overwrite?";
+                String title = "Warning";
+                int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    outputfile.delete();
+                    outputfile.createNewFile();
+                    ImageIO.write(image, "png", outputfile);
+                    JOptionPane.showMessageDialog(null, "File overwritten succesfully in \n" + path);
+
+                }
             }
+            ImageIO.write(image, "png", outputfile);
+        } catch (IOException e) {
+            System.err.println("Exception writing file " + outputfile + ": " + e);
+        }
     }
 
     @Override
-    public List<Recipe> getRecipes() {
+    public Collection<Recipe> getRecipes() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -89,27 +88,25 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public List<Recipe> readRecipes() {
+    public Collection<Recipe> readRecipes() {
         try {
             //use buffering
             InputStream file = new FileInputStream("recipes.txt");
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream(buffer);
             try {
-                //deserialize the List
-                List<Recipe> redRecipes = (List<Recipe>) input.readObject();
+                //deserialize
+                Collection<Recipe> redRecipes = (Collection<Recipe>) input.readObject();
                 return redRecipes;
             } finally {
                 input.close();
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
+            saveRecipes(new HashSet<Recipe>());
+        } catch (ClassNotFoundException | IOException ex) {
             //System.out.println("Cannot perform input. Class not found.");
             Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-
-            Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
-
         }
-        return new ArrayList<Recipe>();
+        return new HashSet<Recipe>();    
     }
 }

@@ -15,6 +15,7 @@ import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public class Controller implements IController {
     public Controller(IModel model) {
         this.model = model;
         this.persistence = new Persistence();
-        model.setRecipes(persistence.readRecipes());
+        model.setRecipes((Set)persistence.readRecipes());
     }
 
     public void setView(IView view) {
@@ -56,7 +57,7 @@ public class Controller implements IController {
 
     @Override
     public void stopCooking() {
-        this.timer.cancel();
+        if(timer!= null) this.timer.cancel();
         model.stop();
     }
 
@@ -71,14 +72,11 @@ public class Controller implements IController {
 
     @Override
     public void tick() {
-        try {
             model.refresh();
             checkRecipe();
             view.notifyView();
             
-        } catch (ConnectionError ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }
 
     @Override
@@ -104,8 +102,8 @@ public class Controller implements IController {
 
     @Override
     public void saveRecipe(Recipe recipe) {
-        List<Recipe> recipes = model.getRecipes();
-        recipes.add(recipe);
+        Set<Recipe> recipes = model.getRecipes();
+        model.addRecipe(recipe);
         persistence.saveRecipes(recipes);
     }
     

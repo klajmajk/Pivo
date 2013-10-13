@@ -31,20 +31,21 @@ public class Arduino implements IArduino {
     }
 
     @Override
-    public List<TempTime> getTemp() throws IOException {
-        
-        String json = getHttpResponseBody(Constants.ADDRESS);
-        List<PinOneWire> pinList = getPinList(json);
-        TempTime tempTime = new TempTime(pinList.get(0).getValue());
-        TempTime tempTime1 = new TempTime(pinList.get(0).getValue1());
+    public List<TempTime> getTemp(){
         List<TempTime> list = new ArrayList<TempTime>();
-        list.add(tempTime);
-        list.add(tempTime1);
-        System.out.println("Teplota: " + tempTime.getTemp() + " °C");
-        
-        System.out.println("Teplota1: " + tempTime1.getTemp() + " °C");
-
-
+        try {
+            String json = getHttpResponseBody(Constants.ADDRESS);
+            List<PinOneWire> pinList = getPinList(json);
+            TempTime tempTime = new TempTime(pinList.get(0).getValue());
+            TempTime tempTime1 = new TempTime(pinList.get(0).getValue1());
+            list.add(tempTime);
+            list.add(tempTime1);
+            System.out.println("Teplota: " + tempTime.getTemp() + " °C");
+            
+            System.out.println("Teplota1: " + tempTime1.getTemp() + " °C");
+        } catch (IOException ex) {
+            Logger.getLogger(Arduino.class.getName()).log(Level.SEVERE, null, ex);
+        }        
         return list;
     }
 
