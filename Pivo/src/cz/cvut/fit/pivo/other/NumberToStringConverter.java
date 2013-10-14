@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.cvut.fit.pivo.view.fxml;
+package cz.cvut.fit.pivo.other;
 
 import java.util.Date;
 import javafx.util.StringConverter;
@@ -12,7 +12,7 @@ import javafx.util.converter.TimeStringConverter;
  *
  * @author Adam
  */
-class NumberToStringConverter extends StringConverter<Number> {
+public class NumberToStringConverter extends StringConverter<Number> {
 
     TimeStringConverter tsc = new TimeStringConverter("HH:mm:ss");
 

@@ -56,9 +56,10 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
         Scene scene = new Scene(p, screenBounds.getWidth()-40, screenBounds.getHeight()-40);
         stage.setMinHeight(Constants.MIN_WINDOW_SIZE_HEIGHT);
         stage.setMinWidth(Constants.MIN_WINDOW_SIZE_WIDTH);       
-   
+        mainViewController.setStage(stage);
         stage.setScene(scene);
         stage.show();
+        mainViewController.setWindowSizeAndPos();
         //aby se to spravne vyplo
         /*scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
         public void handle(WindowEvent ev) {
@@ -144,6 +145,8 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     public void controllerStop(){
         controller.stopCooking();
     }
+    
+    
     
     public void controllerReset(){
         controller.resetCooking();

@@ -22,9 +22,10 @@ public abstract class RecipeState{
     }
     
     /**
-     *
-     * @param recipe
-     * @param temp
+     * Tahle metoda obstarává funkci vzoru state
+     * 
+     * @param recipe toto je recept ktery se vaří
+     * @param temp toto je současná teplota
      */
     abstract public void handle(Recipe recipe, float temp);
 }

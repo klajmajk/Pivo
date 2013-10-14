@@ -4,6 +4,7 @@
  */
 package cz.cvut.fit.pivo.persistence;
 
+import cz.cvut.fit.pivo.entities.Settings;
     import cz.cvut.fit.pivo.entities.Recipe;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
@@ -25,6 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 /**
  *
@@ -109,4 +114,37 @@ public class Persistence implements IPersistence {
         }
         return new HashSet<Recipe>();    
     }
+
+    
+    public static void saveSettingsToXml(Settings o) {
+        try {
+            try {
+                FileOutputStream os = new FileOutputStream("settings.xml");
+                JAXBContext jc = JAXBContext.newInstance( Settings.class);
+                Marshaller m = jc.createMarshaller();
+                m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                m.marshal( o, os );
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (JAXBException ex) {
+            Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    
+    public static Settings loadSettingsFromXml() {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Settings.class);
+
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+            File xml = new File("settings.xml");
+            return (Settings) unmarshaller.unmarshal(xml);
+        } catch (JAXBException ex) {
+            Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
 }

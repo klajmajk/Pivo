@@ -5,8 +5,8 @@
 package cz.cvut.fit.pivo.controller;
 
 import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.entities.TempTime;
-import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.persistence.IPersistence;
 import cz.cvut.fit.pivo.persistence.Persistence;
@@ -14,10 +14,7 @@ import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
 import java.awt.image.BufferedImage;
-import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -34,6 +31,7 @@ public class Controller implements IController {
         this.model = model;
         this.persistence = new Persistence();
         model.setRecipes((Set)persistence.readRecipes());
+        model.setSettings(Settings.loadSettings());
     }
 
     public void setView(IView view) {
@@ -118,7 +116,7 @@ public class Controller implements IController {
     public void setRecipeState(RecipeState recipeState) {
         this.recipeState = recipeState;
     }
-
+   
     @Override
     public void deleteRecipe(Recipe recipe) {
         System.out.println("Mazu:"+ recipe);
@@ -127,6 +125,13 @@ public class Controller implements IController {
         persistence.saveRecipes(model.getRecipes());
         System.out.println("Recipe deleted");
         notifyView();
+    }
+    
+    @Override
+    public void applicationExit(){
+        this.stopCooking();
+        System.out.println(model.getSettings());
+        model.getSettings().saveSettings();
     }
     
     

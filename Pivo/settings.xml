@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Settings>
+    <arduinoAddress>192.168.2.22</arduinoAddress>
+    <maxBadRequests>20</maxBadRequests>
+    <tempPinPos>1</tempPinPos>
+    <tempTolerance>1.5</tempTolerance>
+    <timeout>5000</timeout>
+    <windowSizeWidth>1382</windowSizeWidth>
+    <windowsSizeHeigth>744</windowsSizeHeigth>
+    <windowsX>-8</windowsX>
+    <windowsY>-8</windowsY>
+</Settings>

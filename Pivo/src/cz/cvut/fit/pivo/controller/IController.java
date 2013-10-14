@@ -25,6 +25,7 @@ public interface IController {
     public void saveGraph(BufferedImage image, String path);
     public RecipeState getRecipeState();
     public void setRecipeState(RecipeState recipeState);
+    public void applicationExit();
     IView getView();
     TempTime readTempTime();
     

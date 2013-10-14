@@ -4,8 +4,10 @@
  */
 package cz.cvut.fit.pivo.view.fxml;
 
+import cz.cvut.fit.pivo.other.NumberToStringConverter;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.ViewFacadeFX;
 import java.awt.image.BufferedImage;
@@ -45,7 +47,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * @author Adam
  */
 public class MainViewController implements IInitializableView {
-
+    
     @FXML
     private Label temperatureLabel;
     @FXML
@@ -62,6 +64,7 @@ public class MainViewController implements IInitializableView {
     LineChart.Series<Number, Number> sensor2Series;
     LineChart.Series<Number, Number> recipeSeries;
     Recipe recipe;
+    private Stage stage;
 
     /**
      * Initializes the controller class.
@@ -69,11 +72,13 @@ public class MainViewController implements IInitializableView {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+         
         model = ViewFacadeFX.getInstanceOf().getModel();
         controller = ViewFacadeFX.getInstanceOf().getController();
         xAxis.setTickLabelFormatter(new NumberToStringConverter());
         xAxis.setForceZeroInRange(false);
         recipe = new Recipe();
+        
 
         //Chart init
         resetChart();
@@ -81,14 +86,27 @@ public class MainViewController implements IInitializableView {
         
         ViewFacadeFX.getInstanceOf().getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
-            public void handle(WindowEvent event) {                
-                ViewFacadeFX.getInstanceOf().controllerStop();   
-                //aby se to správně ukončovalo
+            public void handle(WindowEvent event) {
+                Settings settings = ViewFacadeFX.getInstanceOf().getModel().getSettings();
+                settings.setWindowSizeWidth(((Double)stage.getWidth()).intValue());
+                settings.setWindowsSizeHeigth(((Double)stage.getHeight()).intValue());
+                settings.setWindowsX(((Double)stage.getX()).intValue());
+                settings.setWindowsY(((Double)stage.getY()).intValue());
+                //aby se to správně ukončovalo                
+                ViewFacadeFX.getInstanceOf().getController().applicationExit();
                 Platform.exit();
             }
         });
 
-
+        
+    }
+    
+    public void setWindowSizeAndPos(){
+        
+        stage.setWidth(model.getSettings().getWindowSizeWidth());
+        stage.setHeight(model.getSettings().getWindowsSizeHeigth());
+        stage.setX(model.getSettings().getWindowsX());
+        stage.setY(model.getSettings().getWindowsY());
     }
     
     private void resetChart(){
@@ -98,10 +116,11 @@ public class MainViewController implements IInitializableView {
         sensor2Series = new LineChart.Series<>();
         sensor2Series.setName("Čidlo 2");
         recipeSeries = new LineChart.Series<Number, Number>();
-        recipeSeries.setName("Recept");
+        recipeSeries.setName("Recept");        
+        lineChartData.add(recipeSeries);
         lineChartData.add(sensor1Series);
         lineChartData.add(sensor2Series);
-        lineChartData.add(recipeSeries);
+        lineChart.setAnimated(false);
 
 
 
@@ -310,5 +329,9 @@ public class MainViewController implements IInitializableView {
                 statusLabel.setText(out);
             }
         });
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

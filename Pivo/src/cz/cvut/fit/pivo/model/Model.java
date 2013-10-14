@@ -9,6 +9,7 @@ import cz.cvut.fit.pivo.arduino.FakeArduino;
 import cz.cvut.fit.pivo.arduino.IArduino;
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.io.IOException;
@@ -30,15 +31,17 @@ public class Model implements IModel{
     Set<Recipe> recipes;
     boolean hasTwoSensors;
     boolean isRunning;
+    Settings settings;
 
     public Model() {
         reset();
+        settings = new Settings();
         //this.current = arduino.getTemp();
     }
 
     /**
      *
-     * @return
+     * @return recipes
      */
     @Override
     public Set<Recipe> getRecipes() {
@@ -53,6 +56,19 @@ public class Model implements IModel{
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
     }
+
+    @Override
+    public Settings getSettings() {
+        return settings;
+    }
+
+    @Override
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+        System.out.println(settings);
+    }
+    
+    
     
     
 
