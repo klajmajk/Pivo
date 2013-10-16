@@ -105,8 +105,8 @@ public class Controller implements IController {
         persistence.saveRecipes(recipes);
     }
     
-    public void saveGraph(BufferedImage image, String path) {
-        persistence.saveGraph(image, path);
+    public void saveGraph(BufferedImage image) {
+        persistence.saveGraph(image);
     }
 
     public RecipeState getRecipeState() {

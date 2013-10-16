@@ -22,7 +22,7 @@ public interface IController {
     void notifyView();
     void saveRecipe(Recipe recipe);
     void deleteRecipe(Recipe recipe);
-    public void saveGraph(BufferedImage image, String path);
+    public void saveGraph(BufferedImage image);
     public RecipeState getRecipeState();
     public void setRecipeState(RecipeState recipeState);
     public void applicationExit();

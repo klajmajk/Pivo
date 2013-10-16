@@ -6,6 +6,7 @@ package cz.cvut.fit.pivo.persistence;
 
 import cz.cvut.fit.pivo.entities.Settings;
     import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.view.ViewFacadeFX;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBContext;
@@ -51,30 +53,19 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public void saveGraph(BufferedImage image, String path) {
-        File outputfile;
-        if (path.endsWith(".png")) {
-            outputfile = new File(path);
-        } else {
-            outputfile = new File(path + ".png");
+    public void saveGraph(BufferedImage image) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PNG", "*.png"));
+
+        //System.out.println(pic.getId());
+        File outputfile = fileChooser.showSaveDialog(ViewFacadeFX.getInstanceOf().getStage());
+        if (!outputfile.getName().contains(".")) {
+            outputfile = new File(outputfile.getAbsolutePath() + ".png");
         }
-        try {
-            if (!outputfile.exists()) {
-
-                ImageIO.write(image, "png", outputfile);
-                JOptionPane.showMessageDialog(null, "Warning file created succesfully in \n" + path);
-            } else {
-                String message = "File already exist in \n" + path + ":\n" + "Do you want to overwrite?";
-                String title = "Warning";
-                int reply = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
-                    outputfile.delete();
-                    outputfile.createNewFile();
-                    ImageIO.write(image, "png", outputfile);
-                    JOptionPane.showMessageDialog(null, "File overwritten succesfully in \n" + path);
-
-                }
-            }
+        String path = outputfile.getAbsolutePath();
+        try {               
             ImageIO.write(image, "png", outputfile);
         } catch (IOException e) {
             System.err.println("Exception writing file " + outputfile + ": " + e);
