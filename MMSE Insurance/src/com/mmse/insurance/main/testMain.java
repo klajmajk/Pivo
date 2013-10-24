@@ -6,9 +6,11 @@ import org.junit.Test;
 
 public class testMain {
 
+	Main tester = new Main();
+	
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testAdd() {
+		assertEquals(4, tester.add(2, 2) );
 	}
 
 }
