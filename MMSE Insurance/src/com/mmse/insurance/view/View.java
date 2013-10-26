@@ -26,7 +26,7 @@ public class View {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null); // Center to the screen
         
-        JLabel label = new JLabel("Company X");
+        JLabel label = new JLabel("Company X management panel");
         frame.getContentPane().add(label);
         
         //Display the window
