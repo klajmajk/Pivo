@@ -1,8 +1,10 @@
-package com.mmse.insurance.main;
+package com.mmse.insurance.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.mmse.insurance.main.Main;
 
 public class testMain {
 
