@@ -4,8 +4,15 @@ package com.mmse.insurance.view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import com.mmse.insurance.control.Controller;
+
 public class View {
-	public View() {
+	
+	Controller controller;
+	
+	public View(Controller controller) {
+		this.controller = controller;
+		
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
