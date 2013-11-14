@@ -152,6 +152,11 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
         controller.resetCooking();
     }
 
+    @Override
+    public void setHeating(boolean heat) {
+        mainViewController.setHeating(heat);
+    }
+
    
     
 }

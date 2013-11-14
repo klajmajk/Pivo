@@ -3,8 +3,6 @@
  * and open the template in the editor.
  */
 package cz.cvut.fit.pivo.entities;
-
-import cz.cvut.fit.pivo.view.IView;
 import java.io.Serializable;
 import java.util.Objects;
 

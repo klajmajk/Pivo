@@ -21,6 +21,8 @@ public class RecipeStateOdrmutovaci extends RecipeStateHoldTemp {
 
     @Override
     public void handle(Recipe recipe, float currentTemp) {
+        myTemp = recipe.odrmutovaciTemp;
+        super.handle(recipe, currentTemp);
         if (isTimeToChange(recipe.odrmutovaciTime)) {
             ((ViewFacadeFX) view).textOutput("Je hotovo");
         }else{

@@ -31,6 +31,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -51,6 +54,8 @@ public class MainViewController implements IInitializableView {
     private NumberAxis xAxis;
     @FXML
     private LineChart<Number, Number> lineChart;
+    @FXML
+    private Circle heatingIndicator;
     IModel model;
     IController controller;
     Recipe recipe;
@@ -107,8 +112,7 @@ public class MainViewController implements IInitializableView {
 
     @FXML
     private void closeClicked(ActionEvent event) {
-        saveWindowParameters();
-        //aby se to správně ukončovalo                
+        saveWindowParameters();   
         ViewFacadeFX.getInstanceOf().getController().applicationExit();
         Platform.exit();
     }
@@ -119,9 +123,9 @@ public class MainViewController implements IInitializableView {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("\\cz\\cvut\\fit\\pivo\\view\\fxml\\recipeSelectView.fxml"));
             root = (Parent) loader.load();
-            RecipeSelectViewController controller = (RecipeSelectViewController) loader.getController();
+            RecipeSelectViewController selectRecipeController = (RecipeSelectViewController) loader.getController();
             Stage stage = new Stage();
-            controller.setStage(stage);
+            selectRecipeController.setStage(stage);
             stage.setTitle("Vyberte recept");
             stage.setScene(new Scene(root));
             stage.show();
@@ -154,11 +158,18 @@ public class MainViewController implements IInitializableView {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                handleNotifyLabels();
+                handleNotifyChart();
+            }
+
+            private void handleNotifyLabels() {
                 //labels change
                 temperatureLabel.setText((new DecimalFormat("#.##").format((Float) model.getCurrent().getTemp())) + "°C");
                 Time time = new Time(model.getCurrent().getTime().getTime() - model.getStartTime().getTime() - (60 * 60 * 1000));
                 timeLabel.setText(time.toString());
+            }
 
+            private void handleNotifyChart() {
                 //chart change
                 if (model.isRunning()) {
                     if (model.hasTwoSensors()) {
@@ -179,6 +190,11 @@ public class MainViewController implements IInitializableView {
             }
         });
 
+    }
+    
+    public void setHeating(boolean heat){
+        if(heat) heatingIndicator.setFill(Color.RED);
+        else heatingIndicator.setFill(Color.GRAY);
     }
 
     @Override

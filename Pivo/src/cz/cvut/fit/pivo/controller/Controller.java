@@ -13,6 +13,7 @@ import cz.cvut.fit.pivo.persistence.Persistence;
 import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.state.RecipeStateVystrika;
 import cz.cvut.fit.pivo.view.IView;
+import cz.cvut.fit.pivo.view.IViewFacade;
 import java.awt.image.BufferedImage;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ import java.util.Set;
 public class Controller implements IController {
     IPersistence persistence;
     IModel model;
-    IView view;
+    IViewFacade view;
     MyTimer timer;
     RecipeState recipeState;
 
@@ -35,7 +36,7 @@ public class Controller implements IController {
     }
 
     public void setView(IView view) {
-        this.view = view;       
+        this.view = (IViewFacade)view;       
     }
     
     
@@ -132,6 +133,11 @@ public class Controller implements IController {
         this.stopCooking();
         System.out.println(model.getSettings());
         model.getSettings().saveSettings();
+    }
+
+    @Override
+    public void setHeating(boolean heat) {
+        view.setHeating(heat);
     }
     
     

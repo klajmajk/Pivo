@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="cz.cvut.fit.pivo.view.fxml.MainViewController">
@@ -48,6 +49,7 @@
                       </textFill>
                     </Label>
                     <Label fx:id="timeLabel" font="$x1" layoutX="101.0" layoutY="31.0" text="00:00:00" textFill="$x2" />
+                    <Circle fx:id="heatingIndicator" fill="#9f9f9f" layoutX="176.0" layoutY="24.0" radius="10.125" stroke="BLACK" strokeType="INSIDE" />
                   </children>
                 </AnchorPane>
                 <Label fx:id="statusLabel" layoutX="14.0" layoutY="26.0" text="Pokyny se zobrazí zde">

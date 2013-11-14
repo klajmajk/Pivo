@@ -25,5 +25,5 @@ public interface IViewFacade extends IView {
     void increaseTemp(int tempTo);
 
     void textOutput(String output);
-    
+    void setHeating(boolean heat);
 }

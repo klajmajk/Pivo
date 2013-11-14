@@ -22,6 +22,8 @@ public class RecipeStateVyssiCukr extends RecipeStateHoldTemp {
 
     @Override
     public void handle(Recipe recipe, float currentTemp) {
+        myTemp = recipe.vyssiCukrTemp;
+        super.handle(recipe, currentTemp);
         if (isTimeToChange(recipe.vyssiCukrTime))  {
             ((ViewFacadeFX) view).increaseTemp(recipe.odrmutovaciTemp);
             setNewState(recipe);

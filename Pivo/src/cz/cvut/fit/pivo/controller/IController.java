@@ -28,5 +28,6 @@ public interface IController {
     public void applicationExit();
     IView getView();
     TempTime readTempTime();
+    public void setHeating(boolean heat);
     
 }

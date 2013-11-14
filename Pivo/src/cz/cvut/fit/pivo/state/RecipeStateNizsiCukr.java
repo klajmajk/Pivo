@@ -19,6 +19,8 @@ public class RecipeStateNizsiCukr extends RecipeStateHoldTemp {
 
     @Override
     public void handle(Recipe recipe, float currentTemp) {
+        myTemp = recipe.nizsiCukrTemp;
+        super.handle(recipe, currentTemp);
         if (isTimeToChange(recipe.nizsiCukrTime)){
             ((ViewFacadeFX) view).increaseTemp(recipe.vyssiCukrTemp);
             setNewState(recipe);

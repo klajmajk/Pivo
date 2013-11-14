@@ -18,6 +18,8 @@ public class RecipeStatePeptonizacni extends RecipeStateHoldTemp {
 
     @Override
     public void handle(Recipe recipe, float currentTemp) {
+        myTemp = recipe.peptonizacniTemp;
+        super.handle(recipe, currentTemp);
         if (isTimeToChange(recipe.peptonizacniTime)){
             ((ViewFacadeFX) view).increaseTemp(recipe.nizsiCukrTemp);
             setNewState(recipe);

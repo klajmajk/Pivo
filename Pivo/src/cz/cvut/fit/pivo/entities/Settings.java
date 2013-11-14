@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="Settings")
 public class Settings {
     
-    private float tempTolerance;    
+    private static float tempTolerance;    
     private int windowSizeWidth;
     private int windowsSizeHeigth;    
     private int tempPinPos;
@@ -44,7 +44,7 @@ public class Settings {
         arduinoAddress = "192.168.2.22";        
     }
 
-    public float getTempTolerance() {
+    public static float getTempTolerance() {
         return tempTolerance;
     }
 
