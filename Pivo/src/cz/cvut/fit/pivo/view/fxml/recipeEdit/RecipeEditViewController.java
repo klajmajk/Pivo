@@ -6,22 +6,12 @@ package cz.cvut.fit.pivo.view.fxml.recipeEdit;
 
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Recipe;
-import cz.cvut.fit.pivo.entities.Rest;
 import cz.cvut.fit.pivo.entities.RestType;
-import static cz.cvut.fit.pivo.entities.RestType.NIZSI_CUKROTVORNA;
-import static cz.cvut.fit.pivo.entities.RestType.ODRMUTOVACI;
-import static cz.cvut.fit.pivo.entities.RestType.PEPTONIZACE;
-import static cz.cvut.fit.pivo.entities.RestType.VAR_RMUT;
-import static cz.cvut.fit.pivo.entities.RestType.VYSSI_CUKROTVORNA;
-import static cz.cvut.fit.pivo.entities.RestType.VYSTIRKA;
-import cz.cvut.fit.pivo.other.NumberToStringConverter;
-import cz.cvut.fit.pivo.view.ViewFacadeFX;
+import static cz.cvut.fit.pivo.entities.RestType.*;
 import cz.cvut.fit.pivo.view.chart.IChart;
 import cz.cvut.fit.pivo.view.chart.MyChart;
 import cz.cvut.fit.pivo.view.fxml.RecipeSelectViewController;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -62,10 +52,9 @@ public class RecipeEditViewController implements Initializable {
     private LineChart<Number, Number> lineChart;
     @FXML
     TextField recipeName;
-    Recipe recipe;
     IChart myChart;
-    List<Rest> rests;
-    RestType activeRestType;
+    
+    RecipeEditController controller;
     private RecipeSelectViewController recipeSelectViewController;
 
     /**
@@ -73,15 +62,14 @@ public class RecipeEditViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        controller = new RecipeEditController(this);
         initChoice(Constants.VYSTIRKA_MIN_TEMP, Constants.VYSTIRKA_MAX_TEMP, choice);
         this.myChart = new MyChart(lineChart);
-        this.rests = new ArrayList<>();
         initSlider(slider, timeLabel);
-        activeRestType = RestType.VYSTIRKA;
-        initChoiceBasedOnRest(activeRestType);
+        initChoiceBasedOnRest(controller.getActiveRestType());
     }
 
-    private void initChoiceBasedOnRest(RestType rt) {
+    public void initChoiceBasedOnRest(RestType rt) {
         switch (rt) {
             case VYSTIRKA:
                 initChoice(Constants.VYSTIRKA_MIN_TEMP, Constants.VYSTIRKA_MAX_TEMP, choice);
@@ -129,42 +117,30 @@ public class RecipeEditViewController implements Initializable {
         this.recipeSelectViewController = recipeSelectViewController;
     }
 
+    
     public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+        controller.setRecipe(recipe);
         recipeName.setText(recipe.getName());
         throw new UnsupportedOperationException("TODO -- not yet implemented");
-        /*initRecipePart(vystirChoice, vystirkaSlider, recipe.vystiraciTemp, recipe.vystiraciTime);
-         initRecipePart(peptoChoice, peptoniSlider, recipe.peptonizacniTemp, recipe.peptonizacniTime);
-         initRecipePart(nizsiChoice, nizsiSlider, recipe.nizsiCukrTemp, recipe.nizsiCukrTime);
-         initRecipePart(vyssiChoice, vyssiSlider, recipe.vyssiCukrTemp, recipe.vyssiCukrTime);
-         initRecipePart(odrmutovaciChoice, odrmutovaciSlider, recipe.odrmutovaciTemp, recipe.odrmutovaciTime);*/
 
     }
 
     @FXML
     private void addRest(ActionEvent event) {
-        Rest rest = new Rest(((Double) slider.getValue()).intValue(),
+        controller.addRest(((Double) slider.getValue()).intValue(),
                 Integer.parseInt(choice.getSelectionModel().getSelectedItem().toString()),
-                decoctionRestCheckBox.isSelected(),
-                activeRestType);
-        this.rests.add(rest);
-        if(rest.isDecoction()) decoctionRestCheckBox.setDisable(true);
-        //tohle je jen pro zobrazení nikam se to neukládá
-        myChart.addRecipe(new Recipe(null, Constants.TEMP_TOLERANCE, rests));
-        if ((activeRestType == RestType.ODRMUTOVACI) && (!rest.isDecoction())) {
-            addRestButton.setDisable(true);
-        }
-        activeRestType = getNextRestType(activeRestType);  
-        initChoicesForNext(rests);
+                decoctionRestCheckBox.isSelected());        
 
+    }
+    
+    public void updateChart(Recipe recipe){        
+        myChart.addRecipe(recipe);
+        
     }
 
     @FXML
     private void addClicked(ActionEvent event) {
-        Recipe recipe = new Recipe(recipeName.getText(), Constants.TEMP_TOLERANCE, rests);
-
-        ViewFacadeFX.getInstanceOf().getController().saveRecipe(recipe);
-        ViewFacadeFX.getInstanceOf().getController().notifyView();
+        controller.addRecipe(recipeName.getText(), Constants.TEMP_TOLERANCE);
         recipeSelectViewController.notifyView();
         closeWindow();
 
@@ -181,40 +157,17 @@ public class RecipeEditViewController implements Initializable {
     private void cancellClicked(ActionEvent event) {
         closeWindow();
     }
-
-    private Rest getLastNonDecoctionRest() {
-        int i = rests.size() - 1;
-        Rest rest = rests.get(i);
-        while (rest.isDecoction()) {
-            i--;
-            rest = rests.get(i);
-        }
-        return rest;
+    
+    public void setAddRestDisable(boolean b) {        
+        addRestButton.setDisable(b);
     }
 
-    /**
-     * podle stavu posledni pridane prodlevy nastaví hodnoty do choiceboxu
-     *
-     * @param rests
-     */
-    private void initChoicesForNext(List<Rest> rests) {
-        Rest last = rests.get(rests.size() - 1);
-        RestType newRestType = getNextRestType(last.getRestsType());
-        initChoiceBasedOnRest(newRestType);
-        //tohle to uvede zpatky do stavu pred zacaktem dekokce
-        if (last.getRestsType() == VAR_RMUT) {
-            decoctionRestCheckBox.setSelected(false);            
-            decoctionRestCheckBox.setDisable(false);
-        }
-
+    void decoctionStart() {
+        decoctionRestCheckBox.setDisable(true);
     }
-
-    private RestType getNextRestType(RestType rt) {
-        switch (rt) {
-            case VAR_RMUT:
-                return getLastNonDecoctionRest().getRestsType().getNext();
-            default:
-                return rt.getNext();
-        }
+    
+    void decoctionStop() {
+        decoctionRestCheckBox.setSelected(false);            
+        decoctionRestCheckBox.setDisable(false);
     }
 }

@@ -45,6 +45,11 @@ public class Rest implements Serializable{
     public RestType getRestsType() {
         return restsType;
     }
+
+    @Override
+    public String toString() {
+        return "Rest{" + "length=" + length + ", temp=" + temp + ", decoction=" + decoction + ", restsType=" + restsType + '}';
+    }
     
     
     
