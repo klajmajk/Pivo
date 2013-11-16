@@ -6,9 +6,22 @@ package cz.cvut.fit.pivo.view.fxml.recipeEdit;
 
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.entities.Rest;
+import cz.cvut.fit.pivo.entities.RestType;
+import static cz.cvut.fit.pivo.entities.RestType.NIZSI_CUKROTVORNA;
+import static cz.cvut.fit.pivo.entities.RestType.ODRMUTOVACI;
+import static cz.cvut.fit.pivo.entities.RestType.PEPTONIZACE;
+import static cz.cvut.fit.pivo.entities.RestType.VAR_RMUT;
+import static cz.cvut.fit.pivo.entities.RestType.VYSSI_CUKROTVORNA;
+import static cz.cvut.fit.pivo.entities.RestType.VYSTIRKA;
+import cz.cvut.fit.pivo.other.NumberToStringConverter;
 import cz.cvut.fit.pivo.view.ViewFacadeFX;
+import cz.cvut.fit.pivo.view.chart.IChart;
+import cz.cvut.fit.pivo.view.chart.MyChart;
 import cz.cvut.fit.pivo.view.fxml.RecipeSelectViewController;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,11 +29,14 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
 import javafx.stage.Stage;
 
 /**
@@ -29,137 +45,176 @@ import javafx.stage.Stage;
  * @author Adam
  */
 public class RecipeEditViewController implements Initializable {
+
     @FXML
-    ChoiceBox<Object> vystirChoice;
+    ChoiceBox<Object> choice;
     @FXML
-    ChoiceBox<Object> peptoChoice;
+    Label timeLabel;
     @FXML
-    ChoiceBox<Object> nizsiChoice;
+    Slider slider;
     @FXML
-    ChoiceBox<Object> vyssiChoice;
+    Button addRestButton;
     @FXML
-    ChoiceBox<Object> odrmutovaciChoice;
-    
+    CheckBox decoctionRestCheckBox;
     @FXML
-    Label vystirkaTimeLabel;
+    private NumberAxis xAxis;
     @FXML
-    Label peptoTimeLabel;
-    @FXML
-    Label nizsiTimeLabel;
-    @FXML
-    Label vyssiTimeLabel;
-    @FXML
-    Label odrmutTimeLabel;
-    
-    @FXML
-    Slider vystirkaSlider;
-    @FXML
-    Slider peptoniSlider;
-    @FXML
-    Slider nizsiSlider;
-    @FXML
-    Slider vyssiSlider;
-    @FXML
-    Slider odrmutovaciSlider;
-    
-    
+    private LineChart<Number, Number> lineChart;
     @FXML
     TextField recipeName;
-    
     Recipe recipe;
-    
+    IChart myChart;
+    List<Rest> rests;
+    RestType activeRestType;
     private RecipeSelectViewController recipeSelectViewController;
 
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
-        initSlider(vystirkaSlider, vystirkaTimeLabel);
-        initSlider(peptoniSlider, peptoTimeLabel);
-        initSlider(nizsiSlider, nizsiTimeLabel);
-        initSlider(vyssiSlider, vyssiTimeLabel);
-        initSlider(odrmutovaciSlider, odrmutTimeLabel);
-        
-        initChoices();
-    }    
-    
-    private void initChoice (int min, int max, ChoiceBox cb){
-        
+    public void initialize(URL url, ResourceBundle rb) {
+        initChoice(Constants.VYSTIRKA_MIN_TEMP, Constants.VYSTIRKA_MAX_TEMP, choice);
+        this.myChart = new MyChart(lineChart);
+        this.rests = new ArrayList<>();
+        initSlider(slider, timeLabel);
+        activeRestType = RestType.VYSTIRKA;
+        initChoiceBasedOnRest(activeRestType);
+    }
+
+    private void initChoiceBasedOnRest(RestType rt) {
+        switch (rt) {
+            case VYSTIRKA:
+                initChoice(Constants.VYSTIRKA_MIN_TEMP, Constants.VYSTIRKA_MAX_TEMP, choice);
+                break;
+            case PEPTONIZACE:
+                initChoice(Constants.PEPTONIZACNI_MIN_TEMP, Constants.PEPTONIZACNI_MAX_TEMP, choice);
+                break;
+            case NIZSI_CUKROTVORNA:
+                initChoice(Constants.NIZSI_CUKROTVORNA_MIN_TEMP, Constants.NIZSI_CUKROTVORNA_MAX_TEMP, choice);
+                break;
+            case VYSSI_CUKROTVORNA:
+                initChoice(Constants.VYSSI_CUKROTVORNA_MIN_TEMP, Constants.VYSSI_CUKROTVORNA_MAX_TEMP, choice);
+                break;
+            case ODRMUTOVACI:
+                initChoice(Constants.ODRMUTOVACI_MIN_TEMP, Constants.ODRMUTOVACI_MAX_TEMP, choice);
+                break;
+            case VAR_RMUT:
+                initChoice(Constants.VAR, Constants.VAR, choice);
+                break;
+        }
+    }
+
+    private void initChoice(int min, int max, ChoiceBox cb) {
+
         cb.setItems(FXCollections.observableArrayList());
         for (int i = min; i <= max; i++) {
             cb.getItems().add(i);
             cb.getSelectionModel().select(i);
-        }        
-        cb.getSelectionModel().select((max-min)/2);
-        
+        }
+        cb.getSelectionModel().select((max - min) / 2);
+
     }
-    
-    private void initSlider(final Slider slider, final Label label){
+
+    private void initSlider(final Slider slider, final Label label) {
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
-                Number old_val, Number new_val) {
-                    label.setText("Čas: "+((Double)slider.getValue()).intValue()+" min");
+                    Number old_val, Number new_val) {
+                ((Double) slider.getValue()).intValue();
+                label.setText("Čas: " + ((Double) slider.getValue()).intValue() + " min");
             }
         });
     }
-    
-    public void setRecipeSelectViewController (RecipeSelectViewController recipeSelectViewController){
+
+    public void setRecipeSelectViewController(RecipeSelectViewController recipeSelectViewController) {
         this.recipeSelectViewController = recipeSelectViewController;
     }
-    
-    private void initChoices(){
-        initChoice(Constants.VYSTIRKA_MIN_TEMP, Constants.VYSTIRKA_MAX_TEMP, vystirChoice);
-        initChoice(Constants.PEPTONIZACNI_MIN_TEMP, Constants.PEPTONIZACNI_MAX_TEMP, peptoChoice);
-        initChoice(Constants.NIZSI_CUKROTVORNA_MIN_TEMP, Constants.NIZSI_CUKROTVORNA_MAX_TEMP, nizsiChoice);
-        initChoice(Constants.VYSSI_CUKROTVORNA_MIN_TEMP, Constants.VYSSI_CUKROTVORNA_MAX_TEMP, vyssiChoice);
-        initChoice(Constants.ODRMUTOVACI_MIN_TEMP, Constants.ODRMUTOVACI_MAX_TEMP, odrmutovaciChoice);
-    }
-    
-    public void setRecipe(Recipe recipe){
+
+    public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
-        recipeName.setText(recipe.name);
-        
-        initRecipePart(vystirChoice, vystirkaSlider, recipe.vystiraciTemp, recipe.vystiraciTime);
-        initRecipePart(peptoChoice, peptoniSlider, recipe.peptonizacniTemp, recipe.peptonizacniTime);
-        initRecipePart(nizsiChoice, nizsiSlider, recipe.nizsiCukrTemp, recipe.nizsiCukrTime);
-        initRecipePart(vyssiChoice, vyssiSlider, recipe.vyssiCukrTemp, recipe.vyssiCukrTime);
-        initRecipePart(odrmutovaciChoice, odrmutovaciSlider, recipe.odrmutovaciTemp, recipe.odrmutovaciTime);
-       
+        recipeName.setText(recipe.getName());
+        throw new UnsupportedOperationException("TODO -- not yet implemented");
+        /*initRecipePart(vystirChoice, vystirkaSlider, recipe.vystiraciTemp, recipe.vystiraciTime);
+         initRecipePart(peptoChoice, peptoniSlider, recipe.peptonizacniTemp, recipe.peptonizacniTime);
+         initRecipePart(nizsiChoice, nizsiSlider, recipe.nizsiCukrTemp, recipe.nizsiCukrTime);
+         initRecipePart(vyssiChoice, vyssiSlider, recipe.vyssiCukrTemp, recipe.vyssiCukrTime);
+         initRecipePart(odrmutovaciChoice, odrmutovaciSlider, recipe.odrmutovaciTemp, recipe.odrmutovaciTime);*/
+
     }
 
-    private void initRecipePart(ChoiceBox choice, Slider slider, int temp, int time){
-        choice.getSelectionModel().select((Integer)temp);
-        slider.setValue(time);
+    @FXML
+    private void addRest(ActionEvent event) {
+        Rest rest = new Rest(((Double) slider.getValue()).intValue(),
+                Integer.parseInt(choice.getSelectionModel().getSelectedItem().toString()),
+                decoctionRestCheckBox.isSelected(),
+                activeRestType);
+        this.rests.add(rest);
+        if(rest.isDecoction()) decoctionRestCheckBox.setDisable(true);
+        //tohle je jen pro zobrazení nikam se to neukládá
+        myChart.addRecipe(new Recipe(null, Constants.TEMP_TOLERANCE, rests));
+        if ((activeRestType == RestType.ODRMUTOVACI) && (!rest.isDecoction())) {
+            addRestButton.setDisable(true);
+        }
+        activeRestType = getNextRestType(activeRestType);  
+        initChoicesForNext(rests);
+
     }
-    
-    
+
     @FXML
     private void addClicked(ActionEvent event) {
-        Recipe recipeToAdd = new Recipe(recipeName.getText(), Constants.TEMP_TOLERANCE, 
-                Integer.parseInt(vystirChoice.getSelectionModel().getSelectedItem().toString()), ((Double) vystirkaSlider.getValue()).intValue(), 
-                Integer.parseInt(peptoChoice.getSelectionModel().getSelectedItem().toString()), ((Double) peptoniSlider.getValue()).intValue(), 
-                Integer.parseInt(nizsiChoice.getSelectionModel().getSelectedItem().toString()), ((Double) nizsiSlider.getValue()).intValue(), 
-                Integer.parseInt(vyssiChoice.getSelectionModel().getSelectedItem().toString()), ((Double) vyssiSlider.getValue()).intValue(), 
-                Integer.parseInt(odrmutovaciChoice.getSelectionModel().getSelectedItem().toString()), ((Double) odrmutovaciSlider.getValue()).intValue()
-                );
-        ViewFacadeFX.getInstanceOf().getController().saveRecipe(recipeToAdd);
+        Recipe recipe = new Recipe(recipeName.getText(), Constants.TEMP_TOLERANCE, rests);
+
+        ViewFacadeFX.getInstanceOf().getController().saveRecipe(recipe);
         ViewFacadeFX.getInstanceOf().getController().notifyView();
         recipeSelectViewController.notifyView();
         closeWindow();
-        
+
     }
-    private void closeWindow(){
-        Stage stage = (Stage) vystirChoice.getScene().getWindow();
+
+    private void closeWindow() {
+        Stage stage = (Stage) choice.getScene().getWindow();
         // do what you have to do
         stage.close();
         System.out.println("cancel");
     }
-    
-    
 
     @FXML
     private void cancellClicked(ActionEvent event) {
         closeWindow();
+    }
+
+    private Rest getLastNonDecoctionRest() {
+        int i = rests.size() - 1;
+        Rest rest = rests.get(i);
+        while (rest.isDecoction()) {
+            i--;
+            rest = rests.get(i);
+        }
+        return rest;
+    }
+
+    /**
+     * podle stavu posledni pridane prodlevy nastaví hodnoty do choiceboxu
+     *
+     * @param rests
+     */
+    private void initChoicesForNext(List<Rest> rests) {
+        Rest last = rests.get(rests.size() - 1);
+        RestType newRestType = getNextRestType(last.getRestsType());
+        initChoiceBasedOnRest(newRestType);
+        //tohle to uvede zpatky do stavu pred zacaktem dekokce
+        if (last.getRestsType() == VAR_RMUT) {
+            decoctionRestCheckBox.setSelected(false);            
+            decoctionRestCheckBox.setDisable(false);
+        }
+
+    }
+
+    private RestType getNextRestType(RestType rt) {
+        switch (rt) {
+            case VAR_RMUT:
+                return getLastNonDecoctionRest().getRestsType().getNext();
+            default:
+                return rt.getNext();
+        }
     }
 }

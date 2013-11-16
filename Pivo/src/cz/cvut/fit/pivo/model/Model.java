@@ -169,7 +169,7 @@ public class Model implements IModel{
     public void addRecipe(Recipe recipe) {
         Recipe toDelete= null;
         for (Recipe r : recipes) {
-            if(r.name.equals(recipe.name)){ 
+            if(r.getName().equals(recipe.getName())){ 
                 toDelete = r;
             }
         }

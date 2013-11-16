@@ -26,8 +26,7 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     private Stage stage;
 
     public ViewFacadeFX(Controller controller, IModel model) {    
-        super(controller,model);
-        
+        super(controller,model);        
         singleton = this;
     }
     
@@ -58,8 +57,11 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
         stage.setMinWidth(Constants.MIN_WINDOW_SIZE_WIDTH);       
         mainViewController.setStage(stage);
         stage.setScene(scene);
+        
         stage.show();
         mainViewController.setWindowSizeAndPos();
+        
+        System.out.println("pane");
         //aby se to spravne vyplo
         /*scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
         public void handle(WindowEvent ev) {
@@ -69,7 +71,7 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     }
     
     
-    public void show(Stage stage) throws Exception {      
+    public void show(Stage stage) throws Exception {  
         start(stage);
     }
 
@@ -94,7 +96,7 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     }
     
     @Override
-    public void increaseTemp(int tempTo){        
+    public void increaseTemp(double tempTo){        
         textOutput("Zvyšujte teplotu na  "+ tempTo+"°C");
     }
     
@@ -103,30 +105,7 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
         textOutput("Probíhá "+toHold+" prodleva při teplotě "+ tempToHold+"°C");
     }
     
-    @Override
-    public void addVystirka(){
-        mainViewController.addVystirka();        
-    }
-    
-    @Override
-    public void addPeptonizacni(){
-        mainViewController.addPeptonizacni();
-    }
-    @Override
-    public void addNizsiCukrotvorna(){
-        mainViewController.addNizsiCukrotvorna();
-    }
-    
-    @Override
-    public void addVyssiCukrotvorna(){
-        mainViewController.addVyssiCukrotvorna();
-    }
-    
-    @Override
-    public void addOdrmutovaci(){
-        mainViewController.addOdrmutovaci();
-                
-    }
+   
 
     @Override
     public void start() {
@@ -155,6 +134,11 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     @Override
     public void setHeating(boolean heat) {
         mainViewController.setHeating(heat);
+    }
+
+    @Override
+    public void drawNextPartOfRecipe() {
+        mainViewController.drawNextPartOfRecipe();
     }
 
    

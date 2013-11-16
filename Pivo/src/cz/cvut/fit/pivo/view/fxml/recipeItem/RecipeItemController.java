@@ -47,11 +47,11 @@ public class RecipeItemController implements Initializable {
     }
     
     void updateView(){
-        recipeNameLabel.setText(model.recipe.name);
-        vystiraciLabel.setText(model.recipe.vystiraciTemp+"°C / "+model.recipe.vystiraciTime+" min");
+        recipeNameLabel.setText(model.recipe.getName());
+        /*vystiraciLabel.setText(model.recipe.vystiraciTemp+"°C / "+model.recipe.vystiraciTime+" min");
         peptonizacniLabel.setText(model.recipe.peptonizacniTemp+"°C / "+model.recipe.peptonizacniTime+" min");
         nizsiCukrLabel.setText(model.recipe.nizsiCukrTemp+"°C / "+model.recipe.nizsiCukrTime+" min");
         vyssiCukrLabel.setText(model.recipe.vyssiCukrTemp+"°C / "+model.recipe.vyssiCukrTime+" min");
-        odrmutovaciLabel.setText(model.recipe.odrmutovaciTemp+"°C / "+model.recipe.odrmutovaciTime+" min");
+        odrmutovaciLabel.setText(model.recipe.odrmutovaciTemp+"°C / "+model.recipe.odrmutovaciTime+" min");*/
     }
 }

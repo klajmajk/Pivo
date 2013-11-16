@@ -51,8 +51,6 @@ public class MainViewController implements IInitializableView {
     @FXML
     private Label statusLabel;
     @FXML
-    private NumberAxis xAxis;
-    @FXML
     private LineChart<Number, Number> lineChart;
     @FXML
     private Circle heatingIndicator;
@@ -67,12 +65,11 @@ public class MainViewController implements IInitializableView {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        model = ViewFacadeFX.getInstanceOf().getModel();
-        controller = ViewFacadeFX.getInstanceOf().getController();
-        xAxis.setTickLabelFormatter(new NumberToStringConverter());
-        xAxis.setForceZeroInRange(false);
-        recipe = new Recipe();
         
+        model = ViewFacadeFX.getInstanceOf().getModel();  
+
+        controller = ViewFacadeFX.getInstanceOf().getController();
+        recipe = new Recipe();
         //Chart init
         chart = new MyChart(lineChart);
         System.out.println("controller init");
@@ -205,7 +202,7 @@ public class MainViewController implements IInitializableView {
     @Override
     public void start() {
         reset();
-        chart.addVystirka(recipe);
+        chart.addNext(recipe);
         //TODO zamknout volby receptu
     }
 
@@ -232,28 +229,11 @@ public class MainViewController implements IInitializableView {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
-    
-    public void addVystirka(){
-        chart.addVystirka(recipe);        
-    }
-    
-     
-    public void addPeptonizacni(){
-        chart.addPeptonizacni(recipe);
-    }
-    
-    public void addNizsiCukrotvorna(){
-        chart.addNizsiCukrotvorna(recipe);
+
+    public void drawNextPartOfRecipe() {
+        chart.addNext(recipe);
     }
     
     
-    public void addVyssiCukrotvorna(){
-        chart.addVyssiCukrotvorna(recipe);
-    }
     
-        public void addOdrmutovaci(){
-        chart.addOdrmutovaci(recipe);
-                
-    }
 }

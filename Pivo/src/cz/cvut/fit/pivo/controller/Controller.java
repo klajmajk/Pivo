@@ -11,7 +11,7 @@ import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.persistence.IPersistence;
 import cz.cvut.fit.pivo.persistence.Persistence;
 import cz.cvut.fit.pivo.state.RecipeState;
-import cz.cvut.fit.pivo.state.RecipeStateVystrika;
+import cz.cvut.fit.pivo.state.RecipeStateHoldTemp;
 import cz.cvut.fit.pivo.view.IView;
 import cz.cvut.fit.pivo.view.IViewFacade;
 import java.awt.image.BufferedImage;
@@ -43,7 +43,7 @@ public class Controller implements IController {
 
     @Override
     public void startCooking() {
-        this.recipeState = new RecipeStateVystrika(this, view); 
+        this.recipeState = new RecipeStateHoldTemp(this, view);
         model.start();
         view.start();
         this.timer = new MyTimer(1, this);
@@ -62,7 +62,7 @@ public class Controller implements IController {
 
     @Override
     public void resetCooking() {
-        this.recipeState = new RecipeStateVystrika(this, view);
+        this.recipeState = new RecipeStateHoldTemp(this, view);
         stopCooking();
         model.reset();
         model.start();

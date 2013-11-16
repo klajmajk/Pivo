@@ -5,42 +5,31 @@
 package cz.cvut.fit.pivo.state;
 
 import cz.cvut.fit.pivo.controller.IController;
+import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Recipe;
-import cz.cvut.fit.pivo.view.IView;
-import cz.cvut.fit.pivo.view.ViewFacadeFX;
-import sun.jdbc.odbc.OdbcDef;
+import cz.cvut.fit.pivo.view.IViewFacade;
 
 
 public class RecipeStateMove extends RecipeState {
-    int tempToMove;
+    double tempToMove;
 
-    public RecipeStateMove(int tempToMove, IController controller, IView view) {
+    public RecipeStateMove(double tempToMove, IController controller, IViewFacade view) {
         super(controller, view);
         this.tempToMove = tempToMove;
-    }
-    
+    }  
     
 
     @Override
     public void handle(Recipe recipe, float temp) {
-        if (temp>= (((float) tempToMove) - recipe.tolerance)){
-            if(recipe.peptonizacniTemp == tempToMove){
-                System.out.println("Menime stav na peptonizacni");
-                controller.setRecipeState(new RecipeStatePeptonizacni(controller, view));
-                ((ViewFacadeFX) view).addPeptonizacni();
-            }else if(recipe.nizsiCukrTemp == tempToMove){     
-                System.out.println("menime stav na nizsi cukr");
-                controller.setRecipeState(new RecipeStateNizsiCukr(controller, view));
-                ((ViewFacadeFX) view).addNizsiCukrotvorna();
-            }else if(recipe.vyssiCukrTemp == tempToMove){     
-                System.out.println("menime stav na vyssi cukr");
-                controller.setRecipeState(new RecipeStateVyssiCukr(controller, view));
-                ((ViewFacadeFX) view).addVyssiCukrotvorna();
-            }else if(recipe.odrmutovaciTemp == tempToMove){   
-                System.out.println("menime stav na odrmutovaci");
+        if (temp>= (((float) tempToMove) - Constants.TOLERANCE)){
+            //jsme v toleranci a meni se stav na hold  
+            System.out.println("Menime stav na hold: "+tempToMove);
+            controller.setRecipeState(new RecipeStateHoldTemp(controller, view));
+            view.drawNextPartOfRecipe();
+                /*System.out.println("menime stav na odrmutovaci");
                 controller.setRecipeState(new RecipeStateOdrmutovaci(controller, view));
-                ((ViewFacadeFX) view).addOdrmutovaci();
-            }
+                ((ViewFacadeFX) view).addOdrmutovaci();*/
+            
         }
     }
     

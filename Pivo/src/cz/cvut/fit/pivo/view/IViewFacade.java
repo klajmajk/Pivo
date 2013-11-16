@@ -10,20 +10,11 @@ package cz.cvut.fit.pivo.view;
  */
 public interface IViewFacade extends IView {
 
-    void addNizsiCukrotvorna();
-
-    void addOdrmutovaci();
-
-    void addPeptonizacni();
-
-    void addVyssiCukrotvorna();
-
-    void addVystirka();
-
     void holdTemp(String toHold, int tempToHold);
 
-    void increaseTemp(int tempTo);
+    void increaseTemp(double tempTo);
 
     void textOutput(String output);
     void setHeating(boolean heat);
+    void drawNextPartOfRecipe();
 }

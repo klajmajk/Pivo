@@ -7,14 +7,15 @@ package cz.cvut.fit.pivo.state;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
-import cz.cvut.fit.pivo.view.IView;
+import cz.cvut.fit.pivo.view.IViewFacade;
+import cz.cvut.fit.pivo.view.ViewFacadeFX;
 
-public abstract class RecipeStateHoldTemp extends RecipeState {
+public class RecipeStateHoldTemp extends RecipeState {
 
     long start;
     float myTemp;
 
-    public RecipeStateHoldTemp(IController controller, IView view) {
+    public RecipeStateHoldTemp(IController controller, IViewFacade view) {
         super(controller, view);
         start = System.currentTimeMillis();
     }
@@ -37,11 +38,36 @@ public abstract class RecipeStateHoldTemp extends RecipeState {
     @Override
     public void handle(Recipe recipe, float temp) {
         handleTemp(myTemp, temp);
+         if (isTimeToChange(recipe.getActiveRest().getLength())) {      
+             if(recipe.hasNextRest()){
+                recipe.moveToNextRest();
+                ((ViewFacadeFX) view).increaseTemp(recipe.getActiveRest().getTemp());
+                setNewState(recipe);
+             }else{
+                 //je konec receptu
+                 controller.stopCooking();
+             }
+            
+        }else{
+            ((ViewFacadeFX) view).holdTemp(getName(),recipe.getActiveRest().getLength());        
+        }
+         /*
+        System.out.println("REcipe cooking: " + recipe);
+        if (isTimeToChange(recipe.vystiraciTime)) {            
+            ((ViewFacadeFX) view).increaseTemp(recipe.peptonizacniTemp);
+            setNewState(recipe);
+        }else{
+            ((ViewFacadeFX) view).holdTemp(getName(),recipe.vystiraciTemp );        
+        }*/
     }
    
    
    
-   abstract String getName();
+   public String getName(){
+       return "to return name";
+   }
    
-   abstract void setNewState(Recipe recipe);
+   public void setNewState(Recipe recipe){
+       controller.setRecipeState((RecipeState)new RecipeStateMove(recipe.getActiveRest().getTemp(), controller,  view));
+   }
 }

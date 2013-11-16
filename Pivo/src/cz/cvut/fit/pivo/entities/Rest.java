@@ -1,0 +1,54 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cz.cvut.fit.pivo.entities;
+
+import java.io.Serializable;
+
+/**
+ *
+ * Prodleva
+ * @author Adam
+ */
+public class Rest implements Serializable{
+    /**
+     * doba prodlevy
+     */
+    private int length;
+    /**
+     * teplota prodlevy
+     */
+    private double temp;
+    private boolean decoction;
+    private RestType restsType;
+
+    public Rest(int length, double temp, boolean decoction, RestType restsType) {
+        this.length = length;
+        this.temp = temp;
+        this.decoction = decoction;
+        this.restsType = restsType;
+    }    
+
+    public int getLength() {
+        return length;
+    }
+
+    public double getTemp() {
+        return temp;
+    }
+
+    public boolean isDecoction() {
+        return decoction;
+    }
+
+    public RestType getRestsType() {
+        return restsType;
+    }
+    
+    
+    
+    
+    
+    
+}
