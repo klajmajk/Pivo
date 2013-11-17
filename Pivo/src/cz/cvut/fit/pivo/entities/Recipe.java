@@ -68,5 +68,12 @@ public class Recipe implements Serializable{
         if(rests.size()==1 + rests.indexOf(activeRest)) return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Recipe{" + "name=" + name + ", speed=" + speed + ", rests=" + rests + ", activeRest=" + activeRest + '}';
+    }
+    
+    
     
 }

@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package cz.cvut.fit.pivo.model;
+import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.entities.TempTime;
@@ -16,8 +17,7 @@ import java.util.Set;
  * @author Adam
  */
 public interface IModel {
-    public TempTime getCurrent();    
-    public TempTime getCurrent1();
+    public TempTime getKettleTempTime(boolean infusion);  
     
     public boolean hasTwoSensors();    
     
@@ -39,4 +39,6 @@ public interface IModel {
     public void setSettings(Settings settings) ;
     
     public Time getStartTime() ;
+
+    public Set<Kettle> getKettles();
 }

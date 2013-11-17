@@ -6,6 +6,7 @@ package cz.cvut.fit.pivo.state;
 
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Constants;
+import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IViewFacade;
 
@@ -13,8 +14,8 @@ import cz.cvut.fit.pivo.view.IViewFacade;
 public class RecipeStateMove extends RecipeState {
     double tempToMove;
 
-    public RecipeStateMove(double tempToMove, IController controller, IViewFacade view) {
-        super(controller, view);
+    public RecipeStateMove(double tempToMove, IController controller, IViewFacade view, Kettle kettle) {
+        super(controller, view, kettle);
         this.tempToMove = tempToMove;
     }  
     
@@ -24,7 +25,7 @@ public class RecipeStateMove extends RecipeState {
         if (temp>= (((float) tempToMove) - Constants.TOLERANCE)){
             //jsme v toleranci a meni se stav na hold  
             System.out.println("Menime stav na hold: "+tempToMove);
-            controller.setRecipeState(new RecipeStateHoldTemp(controller, view));
+            kettle.setRecipeState(new RecipeStateHoldTemp(controller, view, kettle));
             view.drawNextPartOfRecipe();
                 /*System.out.println("menime stav na odrmutovaci");
                 controller.setRecipeState(new RecipeStateOdrmutovaci(controller, view));

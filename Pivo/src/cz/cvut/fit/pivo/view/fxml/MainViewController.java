@@ -45,7 +45,9 @@ import javafx.stage.WindowEvent;
 public class MainViewController implements IInitializableView {
 
     @FXML
-    private Label temperatureLabel;
+    private Label temperatureInfusionLabel;
+    @FXML
+    private Label temperatureDecoctionLabel;
     @FXML
     private Label timeLabel;
     @FXML
@@ -53,7 +55,9 @@ public class MainViewController implements IInitializableView {
     @FXML
     private LineChart<Number, Number> lineChart;
     @FXML
-    private Circle heatingIndicator;
+    private Circle heatingInfusionIndicator;
+    @FXML
+    private Circle heatingDecoctionIndicator;
     IModel model;
     IController controller;
     Recipe recipe;
@@ -161,8 +165,9 @@ public class MainViewController implements IInitializableView {
 
             private void handleNotifyLabels() {
                 //labels change
-                temperatureLabel.setText((new DecimalFormat("#.##").format((Float) model.getCurrent().getTemp())) + "°C");
-                Time time = new Time(model.getCurrent().getTime().getTime() - model.getStartTime().getTime() - (60 * 60 * 1000));
+                temperatureInfusionLabel.setText((new DecimalFormat("#.##").format((Float) model.getKettleTempTime(true).getTemp())) + "°C");
+                temperatureDecoctionLabel.setText((new DecimalFormat("#.##").format((Float) model.getKettleTempTime(false).getTemp())) + "°C");
+                Time time = new Time(model.getKettleTempTime(true).getTime().getTime() - model.getStartTime().getTime() - (60 * 60 * 1000));
                 timeLabel.setText(time.toString());
             }
 
@@ -170,10 +175,10 @@ public class MainViewController implements IInitializableView {
                 //chart change
                 if (model.isRunning()) {
                     if (model.hasTwoSensors()) {
-                        chart.series2Add(model.getCurrent1().getTemp());
+                        chart.series2Add(model.getKettleTempTime(false).getTemp());
                     }
                     //musi tu neco byt
-                    chart.series1Add(model.getCurrent().getTemp());
+                    chart.series1Add(model.getKettleTempTime(true).getTemp());
                 }
                 if (!recipe.equals(model.getCurrentRecipe())) {
                     reset();
@@ -189,9 +194,14 @@ public class MainViewController implements IInitializableView {
 
     }
     
-    public void setHeating(boolean heat){
-        if(heat) heatingIndicator.setFill(Color.RED);
-        else heatingIndicator.setFill(Color.GRAY);
+    public void setHeatingInfusion(boolean heat){
+        if(heat) heatingInfusionIndicator.setFill(Color.RED);
+        else heatingInfusionIndicator.setFill(Color.GRAY);
+    }
+    
+    public void setHeatingDecoction(boolean heat){
+        if(heat) heatingDecoctionIndicator.setFill(Color.RED);
+        else heatingDecoctionIndicator.setFill(Color.GRAY);
     }
 
     @Override

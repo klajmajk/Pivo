@@ -5,6 +5,7 @@
 package cz.cvut.fit.pivo.state;
 
 import cz.cvut.fit.pivo.controller.IController;
+import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.IViewFacade;
 
@@ -15,10 +16,12 @@ import cz.cvut.fit.pivo.view.IViewFacade;
 public abstract class RecipeState{
     IViewFacade view;
     IController controller;
+    Kettle kettle;
 
-    public RecipeState(IController controller, IViewFacade view) {
+    public RecipeState(IController controller, IViewFacade view, Kettle kettle) {
         this.view = view;
         this.controller = controller;
+        this.kettle = kettle;
     }
     
     /**

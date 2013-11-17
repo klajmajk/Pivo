@@ -4,14 +4,14 @@
  */
 package cz.cvut.fit.pivo.controller;
 
+import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
-import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.persistence.IPersistence;
 import cz.cvut.fit.pivo.persistence.Persistence;
-import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.state.RecipeStateHoldTemp;
+import cz.cvut.fit.pivo.state.RecipeStateNull;
 import cz.cvut.fit.pivo.view.IView;
 import cz.cvut.fit.pivo.view.IViewFacade;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,6 @@ public class Controller implements IController {
     IModel model;
     IViewFacade view;
     MyTimer timer;
-    RecipeState recipeState;
 
     public Controller(IModel model) {
         this.model = model;
@@ -39,20 +38,23 @@ public class Controller implements IController {
         this.view = (IViewFacade)view;       
     }
     
-    
+    private void resetKettles(){
+        for (Kettle kettle : model.getKettles()) {            
+            if (kettle.isInfusion()) kettle.setRecipeState(new RecipeStateHoldTemp(this, view, kettle)); 
+            if (!kettle.isInfusion()) kettle.setRecipeState(new RecipeStateNull(this, view, kettle)); 
+            
+        }
+    }
 
     @Override
     public void startCooking() {
-        this.recipeState = new RecipeStateHoldTemp(this, view);
+        resetKettles();
         model.start();
         view.start();
         this.timer = new MyTimer(1, this);
     }
 
-    @Override
-    public TempTime readTempTime() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
 
     @Override
     public void stopCooking() {
@@ -61,8 +63,8 @@ public class Controller implements IController {
     }
 
     @Override
-    public void resetCooking() {
-        this.recipeState = new RecipeStateHoldTemp(this, view);
+    public void resetCooking() {        
+        resetKettles();
         stopCooking();
         model.reset();
         model.start();
@@ -71,17 +73,14 @@ public class Controller implements IController {
 
     @Override
     public void tick() {
-            model.refresh();
-            checkRecipe();
-            view.notifyView();
-            
-       
+        model.refresh();
+        checkRecipe();
+        view.notifyView();
     }
 
     @Override
     public void notifyView() {
         view.notifyView();
-
     }
     
     @Override
@@ -90,12 +89,15 @@ public class Controller implements IController {
     }
     
     
-    
+    /**
+     * obstarává business logiku vareni pomoci recipe statu jednotlivých kettlů
+     */
     void checkRecipe(){
         Recipe recipe = model.getCurrentRecipe();
-        float temp = model.getCurrent().getTemp();
         if (!recipe.equals(new Recipe())) {
-            recipeState.handle(recipe, temp);
+            for (Kettle kettle : model.getKettles()) {
+                kettle.recipeStateHandle(recipe);
+            }
         }
     }
 
@@ -106,17 +108,12 @@ public class Controller implements IController {
         persistence.saveRecipes(recipes);
     }
     
+    @Override
     public void saveGraph(BufferedImage image) {
         persistence.saveGraph(image);
     }
 
-    public RecipeState getRecipeState() {
-        return recipeState;
-    }
-
-    public void setRecipeState(RecipeState recipeState) {
-        this.recipeState = recipeState;
-    }
+    
    
     @Override
     public void deleteRecipe(Recipe recipe) {
@@ -136,8 +133,8 @@ public class Controller implements IController {
     }
 
     @Override
-    public void setHeating(boolean heat) {
-        view.setHeating(heat);
+    public void setHeating(boolean heat, boolean infusion) {
+        view.setHeatingInfusion(heat);
     }
     
     

@@ -19,11 +19,11 @@ public class Rest implements Serializable{
     /**
      * teplota prodlevy
      */
-    private double temp;
+    private float temp;
     private boolean decoction;
     private RestType restsType;
 
-    public Rest(int length, double temp, boolean decoction, RestType restsType) {
+    public Rest(int length, float temp, boolean decoction, RestType restsType) {
         this.length = length;
         this.temp = temp;
         this.decoction = decoction;
@@ -34,7 +34,7 @@ public class Rest implements Serializable{
         return length;
     }
 
-    public double getTemp() {
+    public float getTemp() {
         return temp;
     }
 

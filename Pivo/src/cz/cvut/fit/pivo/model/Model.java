@@ -4,16 +4,14 @@
  */
 package cz.cvut.fit.pivo.model;
 
-import cz.cvut.fit.pivo.arduino.Arduino;
 import cz.cvut.fit.pivo.arduino.FakeArduino;
 import cz.cvut.fit.pivo.arduino.IArduino;
-import cz.cvut.fit.pivo.entities.Constants;
+import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.entities.TempTime;
-import cz.cvut.fit.pivo.exceptions.ConnectionError;
-import java.io.IOException;
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,20 +20,22 @@ import java.util.Set;
  * @author Adam
  */
 public class Model implements IModel{
-    TempTime current;
-    TempTime current1;
     IArduino arduino;
     Time startTime;
     int badRequests;
     Recipe currentRecipe;
     Set<Recipe> recipes;
+    Set<Kettle> kettles;
     boolean hasTwoSensors;
     boolean isRunning;
     Settings settings;
 
     public Model() {
-        reset();
         settings = new Settings();
+        this.kettles = new HashSet<>();
+        kettles.add(new Kettle(true));
+        kettles.add(new Kettle(false));
+        reset();
         //this.current = arduino.getTemp();
     }
 
@@ -91,8 +91,12 @@ public class Model implements IModel{
     
 
     @Override
-    public TempTime getCurrent() {
-        return current;
+    public TempTime getKettleTempTime(boolean infusion) {
+        for (Kettle kettle  : kettles) {
+            if((kettle.isInfusion())&&(infusion)) return kettle.getTempTime();
+            if((!kettle.isInfusion())&&(!infusion)) return kettle.getTempTime();
+        }
+        return null;
     }
 
     
@@ -110,9 +114,11 @@ public class Model implements IModel{
     public void refresh(){
         //try {
             List<TempTime> tempTimeList = arduino.getTemp();
-            this.current = tempTimeList.get(0);
-            this.current1 = tempTimeList.get(1);
-            if(current1.getTemp()!=-1){
+            for (Kettle kettle : kettles) {
+                if(kettle.isInfusion())kettle.setTempTime(tempTimeList.get(0));
+                else kettle.setTempTime(tempTimeList.get(1));
+            }
+            if(tempTimeList.get(1).getTemp()!=-1){
                 hasTwoSensors = true;
                 System.out.println("has two sensors");
             }else{
@@ -133,10 +139,6 @@ public class Model implements IModel{
         isRunning = true;
     }
 
-    @Override
-    public TempTime getCurrent1() {
-        return current1;
-    }
 
     @Override
     public boolean hasTwoSensors() {
@@ -148,7 +150,9 @@ public class Model implements IModel{
         //TODO musi se zmenit zpet
         arduino = new FakeArduino();
         badRequests = 0;
-        this.current = new TempTime(0);
+        for (Kettle kettle : kettles) {
+            kettle.setTempTime(new TempTime(0));
+        }
         this.startTime = new Time(0);
         currentRecipe = new Recipe();
         hasTwoSensors = false;
@@ -178,6 +182,12 @@ public class Model implements IModel{
         }
         recipes.add(recipe);
     }
+
+    @Override
+    public Set<Kettle> getKettles() {
+        return kettles;
+    }
+
     
     
 }

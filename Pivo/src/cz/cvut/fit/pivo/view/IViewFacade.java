@@ -10,11 +10,11 @@ package cz.cvut.fit.pivo.view;
  */
 public interface IViewFacade extends IView {
 
-    void holdTemp(String toHold, int tempToHold);
+    void holdTemp(String toHold, float tempToHold);
 
     void increaseTemp(double tempTo);
 
     void textOutput(String output);
-    void setHeating(boolean heat);
+    void setHeatingInfusion(boolean heat);
     void drawNextPartOfRecipe();
 }

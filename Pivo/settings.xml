@@ -4,8 +4,8 @@
     <maxBadRequests>20</maxBadRequests>
     <tempPinPos>1</tempPinPos>
     <timeout>5000</timeout>
-    <windowSizeWidth>1382</windowSizeWidth>
-    <windowsSizeHeigth>744</windowsSizeHeigth>
-    <windowsX>0</windowsX>
+    <windowSizeWidth>683</windowSizeWidth>
+    <windowsSizeHeigth>728</windowsSizeHeigth>
+    <windowsX>683</windowsX>
     <windowsY>0</windowsY>
 </Settings>

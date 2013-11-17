@@ -39,24 +39,45 @@
                         <Font size="16.0" fx:id="x1" />
                       </font>
                     </Label>
-                    <Label font="$x1" layoutX="14.0" layoutY="53.0" text="Teplota:" />
                     <Button layoutX="14.0" layoutY="82.0" mnemonicParsing="false" onAction="#startClicked" text="Start" />
                     <Button layoutX="71.0" layoutY="82.0" mnemonicParsing="false" onAction="#stopClicked" text="Stop" />
                     <Button layoutX="129.0" layoutY="82.0" mnemonicParsing="false" onAction="#resetClicked" text="Reset" />
-                    <Label fx:id="temperatureLabel" font="$x1" layoutX="101.0" layoutY="53.0" prefWidth="49.0" text="0 °C">
+                    <Label fx:id="timeLabel" font="$x1" layoutX="101.0" layoutY="31.0" text="00:00:00">
                       <textFill>
                         <Color blue="0.000" green="1.000" red="0.078" fx:id="x2" />
                       </textFill>
                     </Label>
-                    <Label fx:id="timeLabel" font="$x1" layoutX="101.0" layoutY="31.0" text="00:00:00" textFill="$x2" />
-                    <Circle fx:id="heatingIndicator" fill="#9f9f9f" layoutX="176.0" layoutY="24.0" radius="10.125" stroke="BLACK" strokeType="INSIDE" />
                   </children>
                 </AnchorPane>
-                <Label fx:id="statusLabel" layoutX="14.0" layoutY="26.0" text="Pokyny se zobrazí zde">
+                <Label fx:id="statusLabel" layoutX="7.0" layoutY="1.0" text="Pokyny se zobrazí zde">
                   <font>
                     <Font size="20.0" />
                   </font>
                 </Label>
+                <HBox layoutX="7.0" layoutY="31.0" prefHeight="72.0" prefWidth="393.0">
+                  <children>
+                    <Pane prefHeight="72.0" prefWidth="194.0">
+                      <children>
+                        <Label font="$x1" layoutX="14.0" layoutY="39.0" text="Teplota:" />
+                        <Label fx:id="temperatureInfusionLabel" font="$x1" layoutX="101.0" layoutY="39.0" prefWidth="49.0" text="0 °C" textFill="$x2" />
+                        <Circle fx:id="heatingInfusionIndicator" layoutX="170.0" layoutY="21.0" radius="10.125" stroke="BLACK" strokeType="INSIDE">
+                          <fill>
+                            <Color blue="0.624" green="0.624" red="0.624" fx:id="x3" />
+                          </fill>
+                        </Circle>
+                        <Label font="$x1" layoutX="14.0" layoutY="7.0" text="Vystírací pánev" />
+                      </children>
+                    </Pane>
+                    <Pane prefHeight="72.0" prefWidth="194.0">
+                      <children>
+                        <Label font="$x1" layoutX="14.0" layoutY="39.0" text="Teplota:" />
+                        <Label fx:id="temperatureDecoctionLabel" font="$x1" layoutX="101.0" layoutY="39.0" prefWidth="49.0" text="0 °C" textFill="#14ff00" />
+                        <Circle fx:id="heatingDecoctionIndicator" fill="$x3" layoutX="170.0" layoutY="21.0" radius="10.125" stroke="BLACK" strokeType="INSIDE" />
+                        <Label font="$x1" layoutX="14.0" layoutY="7.0" text="Rmutovací pánev" />
+                      </children>
+                    </Pane>
+                  </children>
+                </HBox>
               </children>
             </AnchorPane>
           </children>

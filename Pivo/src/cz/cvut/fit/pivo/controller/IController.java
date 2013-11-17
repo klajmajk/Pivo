@@ -23,11 +23,8 @@ public interface IController {
     void saveRecipe(Recipe recipe);
     void deleteRecipe(Recipe recipe);
     public void saveGraph(BufferedImage image);
-    public RecipeState getRecipeState();
-    public void setRecipeState(RecipeState recipeState);
     public void applicationExit();
     IView getView();
-    TempTime readTempTime();
-    public void setHeating(boolean heat);
+    public void setHeating(boolean heat, boolean infusion);
     
 }

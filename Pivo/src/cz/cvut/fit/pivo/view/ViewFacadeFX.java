@@ -101,7 +101,7 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     }
     
     @Override
-    public void holdTemp(String toHold, int tempToHold){        
+    public void holdTemp(String toHold, float tempToHold){        
         textOutput("Probíhá "+toHold+" prodleva při teplotě "+ tempToHold+"°C");
     }
     
@@ -132,14 +132,21 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     }
 
     @Override
-    public void setHeating(boolean heat) {
-        mainViewController.setHeating(heat);
+    public void setHeatingInfusion(boolean heat) {
+        mainViewController.setHeatingInfusion(heat);
     }
 
     @Override
     public void drawNextPartOfRecipe() {
         mainViewController.drawNextPartOfRecipe();
     }
+
+    public void brewingEnd() {
+        
+        textOutput("Recept byl úspěšně dokončen.");
+    }
+
+    
 
    
     
