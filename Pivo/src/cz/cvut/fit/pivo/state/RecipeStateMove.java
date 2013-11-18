@@ -17,6 +17,8 @@ public class RecipeStateMove extends RecipeState {
     public RecipeStateMove(double tempToMove, IController controller, IViewFacade view, Kettle kettle) {
         super(controller, view, kettle);
         this.tempToMove = tempToMove;
+        controller.setHeating(true, kettle.isInfusion());
+        System.out.println("heating "+ kettle.isInfusion());
     }  
     
 

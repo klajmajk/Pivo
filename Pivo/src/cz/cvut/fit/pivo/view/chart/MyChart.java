@@ -4,19 +4,15 @@
  */
 package cz.cvut.fit.pivo.view.chart;
 
-import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Rest;
-import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.other.NumberToStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import org.jfree.data.time.Millisecond;
 
 /**
  *
@@ -38,8 +34,8 @@ public class MyChart implements IChart {
     @Override
     public void resetChart() {
         ObservableList<XYChart.Series<Number, Number>> lineChartData = FXCollections.observableArrayList();
-        ((NumberAxis)lineChart.getXAxis()).setTickLabelFormatter(new NumberToStringConverter());                
-        ((NumberAxis)lineChart.getXAxis()).setForceZeroInRange(false);
+        ((NumberAxis) lineChart.getXAxis()).setTickLabelFormatter(new NumberToStringConverter());
+        ((NumberAxis) lineChart.getXAxis()).setForceZeroInRange(false);
         sensor1Series = new LineChart.Series<>();
         sensor1Series.setName("Čidlo 1");
         sensor2Series = new LineChart.Series<>();
@@ -47,9 +43,9 @@ public class MyChart implements IChart {
         recipeSeries = new LineChart.Series<>();
         recipeSeries.setName("Recept");
         recipeDecoctionSeries = new LineChart.Series<>();
-        recipeDecoctionSeries.setName("Rmuty");   
-        
-        
+        recipeDecoctionSeries.setName("Rmuty");
+
+
         lineChartData.add(recipeDecoctionSeries);
         lineChartData.add(recipeSeries);
         lineChartData.add(sensor1Series);
@@ -63,9 +59,16 @@ public class MyChart implements IChart {
     @Override
     public void addNext(Recipe recipe) {
         long millis = System.currentTimeMillis();
-        recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
-        millis += recipe.getActiveRest().getLength() * 60 * 1000;
-        recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+        if (!recipe.getActiveRest().isDecoction()) {
+            recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+            millis += recipe.getActiveRest().getLength() * 60 * 1000;
+            recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+        }
+        else{
+            recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+            millis += recipe.getActiveRest().getLength() * 60 * 1000;
+            recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+        }
     }
 
     @Override
@@ -90,8 +93,8 @@ public class MyChart implements IChart {
         recipeDecoctionSeries.getData().add(getDataToAdd(millis, rest.getTemp()));
         return millis;
     }
-    
-    private XYChart.Data<Number, Number> getDataToAdd(long millis, double temp){
+
+    private XYChart.Data<Number, Number> getDataToAdd(long millis, double temp) {
         XYChart.Data<Number, Number> data = new XYChart.Data<Number, Number>(millis, temp);
         data.setNode(new HoveredThresholdNode(millis, temp));
         return data;
@@ -139,5 +142,4 @@ public class MyChart implements IChart {
     private void decoctionStart(Rest prev, long millis) {
         recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis - 1, prev.getTemp()));
     }
-
 }

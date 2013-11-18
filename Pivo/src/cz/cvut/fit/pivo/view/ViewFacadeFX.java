@@ -3,15 +3,22 @@
  * and open the template in the editor.
  */
 package cz.cvut.fit.pivo.view;
+
 import cz.cvut.fit.pivo.controller.Controller;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.fxml.MainViewController;
-import cz.cvut.fit.pivo.view.fxml.RecipeSelectViewController;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialogs;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -21,65 +28,104 @@ import javafx.stage.Stage;
  * @author honza
  */
 public class ViewFacadeFX extends AbstractView implements IViewFacade {
+
     private static ViewFacadeFX singleton;
     private MainViewController mainViewController;
     private Stage stage;
+    private boolean waiting;
 
-    public ViewFacadeFX(Controller controller, IModel model) {    
-        super(controller,model);        
+    public ViewFacadeFX(Controller controller, IModel model) {
+        super(controller, model);
         singleton = this;
     }
-    
-    public IModel getModel(){
+
+    public IModel getModel() {
         return this.model;
     }
-    public IController getController(){
+
+    public IController getController() {
         return this.controller;
     }
-    public Stage getStage(){
+
+    public Stage getStage() {
         return stage;
     }
-    
-    public static ViewFacadeFX getInstanceOf(){
+
+    public boolean isWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(boolean waiting) {
+        this.waiting = waiting;
+    }
+
+    public static ViewFacadeFX getInstanceOf() {
         return singleton;
     }
-    
-    
+
     public void start(Stage stage) throws Exception {
-        
+
         this.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane p = (Pane) fxmlLoader.load(getClass().getResource(".\\fxml\\mainView.fxml").openStream());
-        mainViewController = (MainViewController) fxmlLoader.getController();        
+        mainViewController = (MainViewController) fxmlLoader.getController();
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        Scene scene = new Scene(p, screenBounds.getWidth()-40, screenBounds.getHeight()-40);
+        Scene scene = new Scene(p, screenBounds.getWidth() - 40, screenBounds.getHeight() - 40);
         stage.setMinHeight(Constants.MIN_WINDOW_SIZE_HEIGHT);
-        stage.setMinWidth(Constants.MIN_WINDOW_SIZE_WIDTH);       
+        stage.setMinWidth(Constants.MIN_WINDOW_SIZE_WIDTH);
         mainViewController.setStage(stage);
         stage.setScene(scene);
-        
+
         stage.show();
         mainViewController.setWindowSizeAndPos();
-        
+
         System.out.println("pane");
+        
         //aby se to spravne vyplo
         /*scene.getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
-        public void handle(WindowEvent ev) {
-            controllerStop();
-        }
-        });*/
+         public void handle(WindowEvent ev) {
+         controllerStop();
+         }
+         });*/
     }
-    
-    
-    public void show(Stage stage) throws Exception {  
+
+    @Override
+    public void showInformationDialog(final String text) {
+        waiting = true;
+        FutureTask dialogThread;       
+        dialogThread = new FutureTask(new Callable<Object>() {
+
+            @Override
+            public Object call() throws Exception {
+                Dialogs.showInformationDialog(stage, text);
+                return "";//To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        Platform.runLater(dialogThread);
+        try {
+            System.out.println("cekam");
+            dialogThread.get();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ViewFacadeFX.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(ViewFacadeFX.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        System.out.println("docekano");
+        
+        
+       
+    }
+
+    public void show(Stage stage) throws Exception {
         start(stage);
     }
 
     @Override
     public void notifyView() {
         /*currentView.notifyView();
-        graphView.notifyView();
-        recipeSelectView.notifyView();*/
+         graphView.notifyView();
+         recipeSelectView.notifyView();*/
         mainViewController.notifyView();
     }
 
@@ -88,24 +134,24 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
         //recipeSelectView.reset();
         mainViewController.reset();
     }
-    
-    
+
     @Override
-    public void textOutput(String output){
+    public void textOutput(String output) {
         mainViewController.textOutput(output);
     }
-    
+
     @Override
-    public void increaseTemp(double tempTo){        
-        textOutput("Zvyšujte teplotu na  "+ tempTo+"°C");
+    public void increaseTemp(double tempTo, boolean infusion) {
+        if(infusion)
+            textOutput("Zvyšujte teplotu na vystírací pánvi na   " + tempTo + "°C");
+        else             
+            textOutput("Zvyšujte teplotu na rmutovací pánvi na   " + tempTo + "°C");
     }
-    
+
     @Override
-    public void holdTemp(String toHold, float tempToHold){        
-        textOutput("Probíhá "+toHold+" prodleva při teplotě "+ tempToHold+"°C");
+    public void holdTemp(String toHold, float tempToHold) {
+        textOutput("Probíhá " + toHold + " při teplotě " + tempToHold + "°C");
     }
-    
-   
 
     @Override
     public void start() {
@@ -116,24 +162,25 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     public void show() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void controllerStart(){
+
+    public void controllerStart() {
         controller.startCooking();
     }
-    
-    public void controllerStop(){
+
+    public void controllerStop() {
         controller.stopCooking();
     }
-    
-    
-    
-    public void controllerReset(){
+
+    public void controllerReset() {
         controller.resetCooking();
     }
 
     @Override
-    public void setHeatingInfusion(boolean heat) {
-        mainViewController.setHeatingInfusion(heat);
+    public void setHeating(boolean heat, boolean infusion) {
+        if(infusion)
+            mainViewController.setHeatingInfusion(heat);
+        else 
+            mainViewController.setHeatingDecoction(heat);
     }
 
     @Override
@@ -142,12 +189,8 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     }
 
     public void brewingEnd() {
-        
         textOutput("Recept byl úspěšně dokončen.");
     }
 
-    
-
-   
     
 }

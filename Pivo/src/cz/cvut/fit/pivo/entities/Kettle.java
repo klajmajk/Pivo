@@ -56,6 +56,12 @@ public class Kettle {
     public void recipeStateHandle(Recipe recipe){
         recipeState.handle(recipe, tempTime.getTemp());
     }
+
+    @Override
+    public String toString() {
+        return "Kettle{" + "infusion=" + infusion + ", heating=" + heating + ", tempTime=" + tempTime + ", recipeState=" + recipeState + '}';
+    }
+    
     
     
     

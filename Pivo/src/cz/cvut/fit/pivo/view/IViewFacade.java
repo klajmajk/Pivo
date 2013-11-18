@@ -12,9 +12,11 @@ public interface IViewFacade extends IView {
 
     void holdTemp(String toHold, float tempToHold);
 
-    void increaseTemp(double tempTo);
+    public void increaseTemp(double tempTo, boolean infusion);
+    public void showInformationDialog(String text);
 
     void textOutput(String output);
-    void setHeatingInfusion(boolean heat);
     void drawNextPartOfRecipe();
+
+    public void setHeating(boolean heat, boolean infusion);
 }

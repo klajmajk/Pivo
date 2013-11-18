@@ -92,6 +92,7 @@ public class Model implements IModel{
 
     @Override
     public TempTime getKettleTempTime(boolean infusion) {
+        //TODO tady musí být přidáno že když zrovna neni rmut tak to vraci hodnoty co se zakryjou s grafem receptu
         for (Kettle kettle  : kettles) {
             if((kettle.isInfusion())&&(infusion)) return kettle.getTempTime();
             if((!kettle.isInfusion())&&(!infusion)) return kettle.getTempTime();
@@ -184,8 +185,12 @@ public class Model implements IModel{
     }
 
     @Override
-    public Set<Kettle> getKettles() {
-        return kettles;
+    public Kettle getKettle(boolean infusion) {
+        for (Kettle kettle  : kettles) {
+            if((kettle.isInfusion())&&(infusion)) return kettle;
+            if((!kettle.isInfusion())&&(!infusion)) return kettle;
+        }
+        return null;
     }
 
     

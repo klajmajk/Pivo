@@ -4,9 +4,8 @@
  */
 package cz.cvut.fit.pivo.controller;
 
+import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
-import cz.cvut.fit.pivo.entities.TempTime;
-import cz.cvut.fit.pivo.state.RecipeState;
 import cz.cvut.fit.pivo.view.IView;
 import java.awt.image.BufferedImage;
 
@@ -26,5 +25,6 @@ public interface IController {
     public void applicationExit();
     IView getView();
     public void setHeating(boolean heat, boolean infusion);
+    public Kettle getKettle(boolean infusion);
     
 }

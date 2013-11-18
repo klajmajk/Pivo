@@ -40,5 +40,5 @@ public interface IModel {
     
     public Time getStartTime() ;
 
-    public Set<Kettle> getKettles();
+    public Kettle getKettle(boolean infusion);
 }

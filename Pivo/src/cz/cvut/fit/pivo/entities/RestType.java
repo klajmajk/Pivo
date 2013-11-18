@@ -21,5 +21,19 @@ public enum RestType {
          ? RestType.values()[this.ordinal() + 1]
          : null;
    }
+
+    @Override
+    public String toString() {
+        switch(this){
+            case VYSTIRKA: return "Vystírka";
+            case PEPTONIZACE: return "Peptonizace";
+            case NIZSI_CUKROTVORNA: return "Nižší cukrotvorná prodleva";
+            case VYSSI_CUKROTVORNA: return "Vyšší cukrotvorná prodleva";
+            case ODRMUTOVACI: return "Odrmutování";
+        }
+        return "";
+    }
+    
+    
     
 }
