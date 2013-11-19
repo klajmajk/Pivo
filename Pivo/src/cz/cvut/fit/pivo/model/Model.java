@@ -19,7 +19,8 @@ import java.util.Set;
  *
  * @author Adam
  */
-public class Model implements IModel{
+public class Model implements IModel {
+
     IArduino arduino;
     Time startTime;
     int badRequests;
@@ -67,10 +68,6 @@ public class Model implements IModel{
         this.settings = settings;
         System.out.println(settings);
     }
-    
-    
-    
-    
 
     @Override
     public Time getStartTime() {
@@ -87,20 +84,28 @@ public class Model implements IModel{
         this.currentRecipe = currentRecipe;
         System.out.println(currentRecipe);
     }
-    
-    
 
     @Override
     public TempTime getKettleTempTime(boolean infusion) {
-        //TODO tady musí být přidáno že když zrovna neni rmut tak to vraci hodnoty co se zakryjou s grafem receptu
-        for (Kettle kettle  : kettles) {
-            if((kettle.isInfusion())&&(infusion)) return kettle.getTempTime();
-            if((!kettle.isInfusion())&&(!infusion)) return kettle.getTempTime();
+        System.out.println("getTimeTemp " + infusion);
+        for (Kettle kettle : kettles) {
+            System.out.println(("kettle infusion" + kettle.isInfusion()) + " infusion:" + (infusion));
+            if ((kettle.isInfusion()) && (infusion)) {
+                System.out.println("in in " + kettle.getTempTime());
+                return kettle.getTempTime();
+            } else if ((!kettle.isInfusion()) && (!infusion)) {
+                if (currentRecipe.getActiveRest().isDecoction()) {
+                    System.out.println("dec dec" + kettle.getTempTime());
+                    return kettle.getTempTime();
+                } else {
+                    System.out.println(getKettle(false).getTempTime());
+                    return getKettle(true).getTempTime();
+                }
+            }
         }
         return null;
     }
 
-    
     @Override
     public void addTempTimeReading() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -112,26 +117,29 @@ public class Model implements IModel{
     }
 
     @Override
-    public void refresh(){
+    public void refresh() {
         //try {
-            List<TempTime> tempTimeList = arduino.getTemp();
-            for (Kettle kettle : kettles) {
-                if(kettle.isInfusion())kettle.setTempTime(tempTimeList.get(0));
-                else kettle.setTempTime(tempTimeList.get(1));
+        List<TempTime> tempTimeList = arduino.getTemp();
+        for (Kettle kettle : kettles) {
+            if (kettle.isInfusion()) {
+                kettle.setTempTime(tempTimeList.get(0));
+            } else {
+                kettle.setTempTime(tempTimeList.get(1));
             }
-            if(tempTimeList.get(1).getTemp()!=-1){
-                hasTwoSensors = true;
-                System.out.println("has two sensors");
-            }else{
-                hasTwoSensors = false;
-            }
-            badRequests = 0;
+        }
+        if (tempTimeList.get(1).getTemp() != -1) {
+            hasTwoSensors = true;
+            System.out.println("has two sensors");
+        } else {
+            hasTwoSensors = false;
+        }
+        badRequests = 0;
         /*} catch (IOException ex) {
-            badRequests++;
-            if(badRequests == Constants.MAX_BAD_REQUESTS) {
-                throw new ConnectionError("Posledních "+ Constants.MAX_BAD_REQUESTS+" skončilo timeoutem");
-            }
-        }*/
+         badRequests++;
+         if(badRequests == Constants.MAX_BAD_REQUESTS) {
+         throw new ConnectionError("Posledních "+ Constants.MAX_BAD_REQUESTS+" skončilo timeoutem");
+         }
+         }*/
     }
 
     @Override
@@ -139,7 +147,6 @@ public class Model implements IModel{
         startTime = new Time(System.currentTimeMillis());
         isRunning = true;
     }
-
 
     @Override
     public boolean hasTwoSensors() {
@@ -171,28 +178,32 @@ public class Model implements IModel{
     }
 
     @Override
-    public void addRecipe(Recipe recipe) {
-        Recipe toDelete= null;
+    public void addRecipe(Recipe recipe
+    ) {
+        Recipe toDelete = null;
         for (Recipe r : recipes) {
-            if(r.getName().equals(recipe.getName())){ 
+            if (r.getName().equals(recipe.getName())) {
                 toDelete = r;
             }
         }
-        if(toDelete!=null){            
-            recipes.remove(toDelete);         
+        if (toDelete != null) {
+            recipes.remove(toDelete);
         }
         recipes.add(recipe);
     }
 
     @Override
-    public Kettle getKettle(boolean infusion) {
-        for (Kettle kettle  : kettles) {
-            if((kettle.isInfusion())&&(infusion)) return kettle;
-            if((!kettle.isInfusion())&&(!infusion)) return kettle;
+    public Kettle getKettle(boolean infusion
+    ) {
+        for (Kettle kettle : kettles) {
+            if ((kettle.isInfusion()) && (infusion)) {
+                return kettle;
+            }
+            if ((!kettle.isInfusion()) && (!infusion)) {
+                return kettle;
+            }
         }
         return null;
     }
 
-    
-    
 }

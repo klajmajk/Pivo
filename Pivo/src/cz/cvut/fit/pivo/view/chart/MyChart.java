@@ -7,9 +7,11 @@ package cz.cvut.fit.pivo.view.chart;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Rest;
 import cz.cvut.fit.pivo.other.NumberToStringConverter;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -45,15 +47,28 @@ public class MyChart implements IChart {
         recipeDecoctionSeries = new LineChart.Series<>();
         recipeDecoctionSeries.setName("Rmuty");
 
-
+        lineChartData.add(sensor2Series);
+        lineChartData.add(sensor1Series);
         lineChartData.add(recipeDecoctionSeries);
         lineChartData.add(recipeSeries);
-        lineChartData.add(sensor1Series);
-        lineChartData.add(sensor2Series);
+
+        
         lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.setAnimated(false);
         lineChart.setData(lineChartData);
-        lineChart.createSymbolsProperty();
+        //lineChart.createSymbolsProperty();
+        //lineChart.setCreateSymbols(false);
+        setStrokesWidth();
+
+    }
+    
+    private void setStrokesWidth(){
+        for (int i = 0; i <= 3; i++) {
+            Set<Node> lookupAll = lineChart.lookupAll(".series" + i);
+            for (Node n : lookupAll) {
+                n.setStyle("-fx-stroke-width: 2px;");
+            }
+        }
     }
 
     @Override
@@ -63,8 +78,7 @@ public class MyChart implements IChart {
             recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
             millis += recipe.getActiveRest().getLength() * 60 * 1000;
             recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
-        }
-        else{
+        } else {
             recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
             millis += recipe.getActiveRest().getLength() * 60 * 1000;
             recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));

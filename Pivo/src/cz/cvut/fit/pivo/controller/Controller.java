@@ -135,7 +135,7 @@ public class Controller implements IController {
 
     @Override
     public void setHeating(boolean heat, boolean infusion) {
-        System.out.println("heat "+ heat+" inf "+infusion);
+        model.getKettle(infusion).setHeating(heat);
         view.setHeating(heat, infusion);
     }
 }

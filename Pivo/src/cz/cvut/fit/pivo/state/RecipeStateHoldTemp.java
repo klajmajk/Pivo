@@ -37,9 +37,9 @@ public class RecipeStateHoldTemp extends RecipeState {
             //System.out.println("heating OFF to hold:"+ tempToHold+ " temp current: "+tempCurrent+" is infusion"+ kettle.isInfusion());
             controller.setHeating(false, kettle.isInfusion());
         }
-        if (tempCurrent < tempToHold - Settings.getTempTolerance()) {      
-            
-        //System.out.println("heating ON to hold:"+ tempToHold+ " temp current: "+tempCurrent+" is infusion"+ kettle.isInfusion());
+        if (tempCurrent < tempToHold - Settings.getTempTolerance()) {
+
+            //System.out.println("heating ON to hold:"+ tempToHold+ " temp current: "+tempCurrent+" is infusion"+ kettle.isInfusion());
             controller.setHeating(true, kettle.isInfusion());
         }
     }
@@ -62,29 +62,24 @@ public class RecipeStateHoldTemp extends RecipeState {
     }
 
     public void setNewState(Recipe recipe) {
-        Rest prev = recipe.getActiveRest();        
+        Rest prev = recipe.getActiveRest();
         recipe.moveToNextRest();
         //přechod z infuze do dekokce
-        if((!prev.isDecoction())&&(recipe.getActiveRest().isDecoction())){
-            //TODO tady musi byt blokujici dialog potvrzujici precerpani
-            view.showInformationDialog("tady musi byt blokujici dialog potvrzujici precerpani");
+        if ((!prev.isDecoction()) && (recipe.getActiveRest().isDecoction())) {
+            view.showInformationDialog("Potvrď, že proběhlo přečerpání.");
             kettle.setRecipeState(new RecipeStateHoldForever(controller, view, kettle));
             controller.getKettle(false).setRecipeState(new RecipeStateMove(
                     recipe.getActiveRest().getTemp(), controller, view, controller.getKettle(false)));
-            ((ViewFacadeFX) view).increaseTemp(recipe.getActiveRest().getTemp(),false);
-        //obraceny prechod
-        }else if ((prev.isDecoction())&&(!recipe.getActiveRest().isDecoction())){
-            //TODO tady musi byt blokujici dialog potvrzujici precerpani
-            view.showInformationDialog("tady musi byt blokujici dialog potvrzujici precerpani");
-            kettle.setRecipeState(new RecipeStateNull(controller, view, kettle));            
+            //obraceny prechod
+        } else if ((prev.isDecoction()) && (!recipe.getActiveRest().isDecoction())) {
+            view.showInformationDialog("Potvrď, že proběhlo přečerpání.");
+            kettle.setRecipeState(new RecipeStateNull(controller, view, kettle));
             controller.getKettle(true).setRecipeState(new RecipeStateMove(
                     recipe.getActiveRest().getTemp(), controller, view, controller.getKettle(true)));
-            
-            ((ViewFacadeFX) view).increaseTemp(recipe.getActiveRest().getTemp(),true);
-        //zbytek
-        }else{
+            //zbytek
+        } else {
             kettle.setRecipeState((RecipeState) new RecipeStateMove(recipe.getActiveRest().getTemp(), controller, view, kettle));
-            ((ViewFacadeFX) view).increaseTemp(recipe.getActiveRest().getTemp(),kettle.isInfusion());
         }
+        ((ViewFacadeFX) view).increaseTemp(recipe.getActiveRest().getTemp(), kettle.isInfusion());
     }
 }
