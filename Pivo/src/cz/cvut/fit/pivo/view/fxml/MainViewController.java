@@ -4,7 +4,6 @@
  */
 package cz.cvut.fit.pivo.view.fxml;
 
-import cz.cvut.fit.pivo.other.NumberToStringConverter;
 import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
@@ -18,6 +17,11 @@ import java.net.URL;
 import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -28,11 +32,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -69,8 +71,8 @@ public class MainViewController implements IInitializableView {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        model = ViewFacadeFX.getInstanceOf().getModel();  
+
+        model = ViewFacadeFX.getInstanceOf().getModel();
 
         controller = ViewFacadeFX.getInstanceOf().getController();
         recipe = new Recipe();
@@ -84,7 +86,6 @@ public class MainViewController implements IInitializableView {
                 closeClicked(new ActionEvent());
             }
         });
-
 
     }
 
@@ -104,16 +105,15 @@ public class MainViewController implements IInitializableView {
         stage.setY(model.getSettings().getWindowsY());
     }
 
-    
-
     @FXML
     private void saveImageClicked(ActionEvent event) {
-        controller.saveGraph(getChartBufferedImage());
+        System.out.println("save image clicked");
+        controller.saveGraph(getChartBufferedImageBlocking());
     }
 
     @FXML
     private void closeClicked(ActionEvent event) {
-        saveWindowParameters();   
+        saveWindowParameters();
         ViewFacadeFX.getInstanceOf().getController().applicationExit();
         Platform.exit();
     }
@@ -130,7 +130,6 @@ public class MainViewController implements IInitializableView {
             stage.setTitle("Vyberte recept");
             stage.setScene(new Scene(root));
             stage.show();
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,7 +173,7 @@ public class MainViewController implements IInitializableView {
             private void handleNotifyChart() {
                 //chart change
                 if (model.isRunning()) {
-                    if (model.hasTwoSensors()) {
+                    if (model.isRunningDecoction()) {
                         chart.series2Add(model.getKettleTempTime(false).getTemp());
                     }
                     //musi tu neco byt
@@ -184,7 +183,7 @@ public class MainViewController implements IInitializableView {
                     reset();
                     recipe = model.getCurrentRecipe();
                     if (recipe != null) {
-                        
+
                         chart.addRecipe(recipe);
                         controller.notifyView();
                     }
@@ -193,15 +192,21 @@ public class MainViewController implements IInitializableView {
         });
 
     }
-    
-    public void setHeatingInfusion(boolean heat){
-        if(heat) heatingInfusionIndicator.setFill(Color.RED);
-        else heatingInfusionIndicator.setFill(Color.GRAY);
+
+    public void setHeatingInfusion(boolean heat) {
+        if (heat) {
+            heatingInfusionIndicator.setFill(Color.RED);
+        } else {
+            heatingInfusionIndicator.setFill(Color.GRAY);
+        }
     }
-    
-    public void setHeatingDecoction(boolean heat){
-        if(heat) heatingDecoctionIndicator.setFill(Color.RED);
-        else heatingDecoctionIndicator.setFill(Color.GRAY);
+
+    public void setHeatingDecoction(boolean heat) {
+        if (heat) {
+            heatingDecoctionIndicator.setFill(Color.RED);
+        } else {
+            heatingDecoctionIndicator.setFill(Color.GRAY);
+        }
     }
 
     @Override
@@ -221,10 +226,30 @@ public class MainViewController implements IInitializableView {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public BufferedImage getChartBufferedImage() {
-        WritableImage image = lineChart.snapshot(new SnapshotParameters(), null);
-        return SwingFXUtils.fromFXImage(image, null);
-    }    
+        public BufferedImage getChartBufferedImageNonblocking() {
+        FutureTask fxThread;
+        fxThread = new FutureTask(new Callable<BufferedImage>() {
+
+            @Override
+            public BufferedImage call() throws Exception {
+                System.out.println("called");
+                return getChartBufferedImageBlocking();
+            }
+        });
+        Platform.runLater(fxThread);
+        System.out.println("waiting");
+        try {
+            return (BufferedImage) fxThread.get();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ViewFacadeFX.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(ViewFacadeFX.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            System.out.println("finished waitng fail");
+        return null;
+        
+
+    }
 
     public void textOutput(String output) {
         final String out = output;
@@ -243,7 +268,9 @@ public class MainViewController implements IInitializableView {
     public void drawNextPartOfRecipe() {
         chart.addNext(recipe);
     }
-    
-    
-    
+
+    private BufferedImage getChartBufferedImageBlocking() {
+        return SwingFXUtils.fromFXImage(lineChart.snapshot(new SnapshotParameters(), null), null);
+    }
+
 }

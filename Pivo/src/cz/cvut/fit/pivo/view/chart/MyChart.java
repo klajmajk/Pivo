@@ -27,6 +27,7 @@ public class MyChart implements IChart {
     LineChart.Series<Number, Number> sensor2Series;
     LineChart.Series<Number, Number> recipeSeries;
     LineChart.Series<Number, Number> recipeDecoctionSeries;
+    private Recipe recipe;
 
     public MyChart(LineChart<Number, Number> lineChart) {
         this.lineChart = lineChart;
@@ -52,7 +53,6 @@ public class MyChart implements IChart {
         lineChartData.add(recipeDecoctionSeries);
         lineChartData.add(recipeSeries);
 
-        
         lineChart.setCursor(Cursor.CROSSHAIR);
         lineChart.setAnimated(false);
         lineChart.setData(lineChartData);
@@ -61,8 +61,8 @@ public class MyChart implements IChart {
         setStrokesWidth();
 
     }
-    
-    private void setStrokesWidth(){
+
+    private void setStrokesWidth() {
         for (int i = 0; i <= 3; i++) {
             Set<Node> lookupAll = lineChart.lookupAll(".series" + i);
             for (Node n : lookupAll) {
@@ -75,47 +75,52 @@ public class MyChart implements IChart {
     public void addNext(Recipe recipe) {
         long millis = System.currentTimeMillis();
         if (!recipe.getActiveRest().isDecoction()) {
-            recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
-            millis += recipe.getActiveRest().getLength() * 60 * 1000;
-            recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+            addToInfusionSeries(recipe.getActiveRest(), millis, false);
         } else {
-            recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
-            millis += recipe.getActiveRest().getLength() * 60 * 1000;
-            recipeDecoctionSeries.getData().add(new XYChart.Data<Number, Number>(millis, recipe.getActiveRest().getTemp()));
+            addToDecoctionSeries(recipe.getActiveRest(), millis, false);
         }
+    }
+    
+    private long  test(Rest rest, long millis){        
+            recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, rest.getTemp()));
+            millis += recipe.getActiveRest().getLength() * 60 * 1000;
+            recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, rest.getTemp()));
+            return millis;
     }
 
     @Override
     public long addRest(Rest rest, long millis) {
         if (rest.isDecoction()) {
-            return addToDecoctionSeries(rest, millis);
+            return addToDecoctionSeries(rest, millis, true);
         } else {
-            return addToInfusionSeries(rest, millis);
+            return addToInfusionSeries(rest, millis, true);
         }
     }
 
-    private long addToInfusionSeries(Rest rest, long millis) {
-        recipeSeries.getData().add(getDataToAdd(millis, rest.getTemp()));
+    private long addToInfusionSeries(Rest rest, long millis, boolean hoverTreshold) {
+        if(!rest.isDecoction()) addToDecoctionSeries(rest, millis, hoverTreshold);
+        recipeSeries.getData().add(getDataToAdd(millis, rest.getTemp(), hoverTreshold));
         millis += rest.getLength() * 60 * 1000;
-        recipeSeries.getData().add(getDataToAdd(millis, rest.getTemp()));
+        recipeSeries.getData().add(getDataToAdd(millis, rest.getTemp(),hoverTreshold));
         return millis;
     }
 
-    private long addToDecoctionSeries(Rest rest, long millis) {
-        recipeDecoctionSeries.getData().add(getDataToAdd(millis, rest.getTemp()));
+    private long addToDecoctionSeries(Rest rest, long millis, boolean hoverTreshold) {
+        recipeDecoctionSeries.getData().add(getDataToAdd(millis, rest.getTemp(),hoverTreshold));
         millis += rest.getLength() * 60 * 1000;
-        recipeDecoctionSeries.getData().add(getDataToAdd(millis, rest.getTemp()));
+        recipeDecoctionSeries.getData().add(getDataToAdd(millis, rest.getTemp(), hoverTreshold));
         return millis;
     }
 
-    private XYChart.Data<Number, Number> getDataToAdd(long millis, double temp) {
+    private XYChart.Data<Number, Number> getDataToAdd(long millis, double temp, boolean hoverTreshold) {
         XYChart.Data<Number, Number> data = new XYChart.Data<Number, Number>(millis, temp);
-        data.setNode(new HoveredThresholdNode(millis, temp));
+        if (hoverTreshold) data.setNode(new HoveredThresholdNode(millis, temp));
         return data;
     }
 
     @Override
     public void addRecipe(Recipe recipe) {
+        this.recipe = recipe;
         resetChart();
         long millis = System.currentTimeMillis();
         Rest prev = null;
@@ -145,6 +150,13 @@ public class MyChart implements IChart {
     @Override
     public void series1Add(float temp) {
         sensor1Series.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), temp));
+        if (recipe.getActiveRest().isDecoction()) {
+            recipeSeries.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), 
+                    recipe.getPrecidingNonDecoction(recipe.getActiveRest()).getTemp()));
+        }else{
+            sensor2Series.getData().add(new XYChart.Data<Number, Number>(System.currentTimeMillis(), temp));
+        }
+        
     }
 
     private void decoctionEnd(Rest rest, Rest prev, long millis, Recipe recipe) {

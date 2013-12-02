@@ -9,6 +9,7 @@ import cz.cvut.fit.pivo.controller.IController;
 import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.fxml.MainViewController;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -32,7 +33,6 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     private static ViewFacadeFX singleton;
     private MainViewController mainViewController;
     private Stage stage;
-    private boolean waiting;
 
     public ViewFacadeFX(Controller controller, IModel model) {
         super(controller, model);
@@ -50,14 +50,9 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
     public Stage getStage() {
         return stage;
     }
+  
 
-    public boolean isWaiting() {
-        return waiting;
-    }
-
-    public void setWaiting(boolean waiting) {
-        this.waiting = waiting;
-    }
+    
 
     public static ViewFacadeFX getInstanceOf() {
         return singleton;
@@ -91,7 +86,6 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
 
     @Override
     public void showInformationDialog(final String text) {
-        waiting = true;
         FutureTask dialogThread;       
         dialogThread = new FutureTask(new Callable<Object>() {
 
@@ -192,5 +186,8 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
         textOutput("Recept byl úspěšně dokončen.");
     }
 
+    public BufferedImage getChartImage(){
+        return mainViewController.getChartBufferedImageNonblocking();
+    }
     
 }

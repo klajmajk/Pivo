@@ -4,6 +4,8 @@
  */
 package cz.cvut.fit.pivo.view.fxml.recipeItem;
 
+import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.entities.Rest;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -17,15 +19,7 @@ import javafx.scene.control.Label;
  */
 public class RecipeItemController implements Initializable {
     @FXML
-    Label vystiraciLabel;
-    @FXML
-    Label peptonizacniLabel;
-    @FXML
-    Label nizsiCukrLabel;
-    @FXML
-    Label vyssiCukrLabel;
-    @FXML
-    Label odrmutovaciLabel;
+    Label postupLabel;
     @FXML
     Label recipeNameLabel;
     
@@ -48,10 +42,22 @@ public class RecipeItemController implements Initializable {
     
     void updateView(){
         recipeNameLabel.setText(model.recipe.getName());
-        /*vystiraciLabel.setText(model.recipe.vystiraciTemp+"°C / "+model.recipe.vystiraciTime+" min");
+        postupLabel.setText(getPostupString(model.recipe));
+        /*
         peptonizacniLabel.setText(model.recipe.peptonizacniTemp+"°C / "+model.recipe.peptonizacniTime+" min");
         nizsiCukrLabel.setText(model.recipe.nizsiCukrTemp+"°C / "+model.recipe.nizsiCukrTime+" min");
         vyssiCukrLabel.setText(model.recipe.vyssiCukrTemp+"°C / "+model.recipe.vyssiCukrTime+" min");
         odrmutovaciLabel.setText(model.recipe.odrmutovaciTemp+"°C / "+model.recipe.odrmutovaciTime+" min");*/
+    }
+
+    private String getPostupString(Recipe recipe) {
+        String postup="";
+        System.out.println("");
+        for (Rest rest : recipe.getRests()) {
+            if(rest.isDecoction()) postup += "      ";
+            postup += rest.getRestsType().toString()+" "+rest.getTemp()+"°C po "+rest.getLength()+" min\n";
+        }
+        
+        return postup;
     }
 }

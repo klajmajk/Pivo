@@ -24,6 +24,7 @@ public class Settings {
     private int maxBadRequests;    
     private String arduinoAddress;
     private int windowsY;
+    private String graphDefaultSavePath;
 
     public void setWindowsY(int windowsY) {
         this.windowsY = windowsY;
@@ -41,7 +42,8 @@ public class Settings {
         tempPinPos = 1;
         timeout = 5000;
         maxBadRequests = 20;
-        arduinoAddress = "192.168.2.22";        
+        arduinoAddress = "192.168.2.22";  
+        graphDefaultSavePath = "c:/grafyReceptu/";
     }
 
     public static float getTempTolerance() {
@@ -118,10 +120,22 @@ public class Settings {
         return Persistence.loadSettingsFromXml();
     }
 
+    public String getGraphDefaultSavePath() {
+        return graphDefaultSavePath;
+    }
+
+    public void setGraphDefaultSavePath(String graphDefaultSavePath) {
+        this.graphDefaultSavePath = graphDefaultSavePath;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Settings{" + "tempTolerance=" + tempTolerance + ", windowSizeWidth=" + windowSizeWidth + ", windowsSizeHeigth=" + windowsSizeHeigth + ", tempPinPos=" + tempPinPos + ", timeout=" + timeout + ", maxBadRequests=" + maxBadRequests + ", arduinoAddress=" + arduinoAddress + '}';
+        return "Settings{" + "windowSizeWidth=" + windowSizeWidth + ", windowsSizeHeigth=" + windowsSizeHeigth + ", tempPinPos=" + tempPinPos + ", timeout=" + timeout + ", maxBadRequests=" + maxBadRequests + ", arduinoAddress=" + arduinoAddress + ", windowsY=" + windowsY + ", graphDefaultSavePath=" + graphDefaultSavePath + ", windowsX=" + windowsX + '}';
     }
+
+    
     
     
     

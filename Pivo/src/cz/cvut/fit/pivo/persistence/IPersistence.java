@@ -20,8 +20,9 @@ public interface IPersistence {
      * @return recipes collection
      */
     Collection<Recipe> readRecipes();
-    void saveGraph(BufferedImage image);
+    void saveGraphWithDialog(BufferedImage image);
     Collection<Recipe> getRecipes();
+    public void saveGraphWithoutDialog(BufferedImage image, String path, String recipeName) ;
     //void saveSettingsToXml (Object o);
     //Object loadSettingsFromSml ();
 }

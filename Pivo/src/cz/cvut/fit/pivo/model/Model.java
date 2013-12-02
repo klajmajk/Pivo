@@ -21,24 +21,44 @@ import java.util.Set;
  */
 public class Model implements IModel {
 
-    IArduino arduino;
-    Time startTime;
-    int badRequests;
-    Recipe currentRecipe;
-    Set<Recipe> recipes;
-    Set<Kettle> kettles;
-    boolean hasTwoSensors;
-    boolean isRunning;
-    Settings settings;
+    private IArduino arduino;
+    private Time startTime;
+    private int badRequests;
+    private Recipe currentRecipe;
+    private Set<Recipe> recipes;
+    private Set<Kettle> kettles;
+    private boolean hasTwoSensors;
+    private boolean isRunning;
+    private Settings settings;
+    //jestli běží rmut
+    private boolean runningDecoction;
+    
 
     public Model() {
         settings = new Settings();
         this.kettles = new HashSet<>();
         kettles.add(new Kettle(true));
         kettles.add(new Kettle(false));
+        this.runningDecoction = false;
         reset();
         //this.current = arduino.getTemp();
     }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public boolean isRunningDecoction() {
+        return runningDecoction;
+    }
+
+    @Override
+    public void setRunningDecoction(boolean runningDecoction) {
+        this.runningDecoction = runningDecoction;
+    }
+    
+    
 
     /**
      *
@@ -87,21 +107,23 @@ public class Model implements IModel {
 
     @Override
     public TempTime getKettleTempTime(boolean infusion) {
-        System.out.println("getTimeTemp " + infusion);
+        //System.out.println("getTimeTemp " + infusion);
         for (Kettle kettle : kettles) {
-            System.out.println(("kettle infusion" + kettle.isInfusion()) + " infusion:" + (infusion));
-            if ((kettle.isInfusion()) && (infusion)) {
-                System.out.println("in in " + kettle.getTempTime());
-                return kettle.getTempTime();
-            } else if ((!kettle.isInfusion()) && (!infusion)) {
-                if (currentRecipe.getActiveRest().isDecoction()) {
-                    System.out.println("dec dec" + kettle.getTempTime());
-                    return kettle.getTempTime();
-                } else {
-                    System.out.println(getKettle(false).getTempTime());
-                    return getKettle(true).getTempTime();
-                }
-            }
+            //System.out.println(("kettle infusion" + kettle.isInfusion()) + " infusion:" + (infusion));
+            if(kettle.isInfusion()&&(infusion)) return kettle.getTempTime();
+            else if ((!kettle.isInfusion()) && (!infusion))  return kettle.getTempTime();
+//            if ((kettle.isInfusion()) && (infusion)) {
+//                System.out.println("in in " + kettle.getTempTime());
+//                return kettle.getTempTime();
+//            } else if ((!kettle.isInfusion()) && (!infusion)) {
+//                if (currentRecipe.getActiveRest().isDecoction()) {
+//                    System.out.println("dec dec" + kettle.getTempTime());
+//                    return kettle.getTempTime();
+//                } else {
+//                    System.out.println(getKettle(false).getTempTime());
+//                    return getKettle(true).getTempTime();
+//                }
+//            }
         }
         return null;
     }

@@ -35,7 +35,7 @@ public class Recipe implements Serializable{
     }    
     
     public Rest getPrecidingNonDecoction(Rest rest){
-        int i = rests.indexOf(rest);
+        int i = rests.indexOf(rest)-1;
         Rest result = rests.get(i);
         while (result.isDecoction()) {
             i--;

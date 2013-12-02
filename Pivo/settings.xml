@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Settings>
     <arduinoAddress>192.168.2.22</arduinoAddress>
+    <graphDefaultSavePath>c:/grafyReceptu/</graphDefaultSavePath>
     <maxBadRequests>20</maxBadRequests>
     <tempPinPos>1</tempPinPos>
     <timeout>5000</timeout>
-    <windowSizeWidth>683</windowSizeWidth>
-    <windowsSizeHeigth>728</windowsSizeHeigth>
-    <windowsX>485</windowsX>
-    <windowsY>0</windowsY>
+    <windowSizeWidth>1378</windowSizeWidth>
+    <windowsSizeHeigth>744</windowsSizeHeigth>
+    <windowsX>-8</windowsX>
+    <windowsY>-8</windowsY>
 </Settings>

@@ -14,6 +14,7 @@ import cz.cvut.fit.pivo.state.RecipeStateHoldTemp;
 import cz.cvut.fit.pivo.state.RecipeStateNull;
 import cz.cvut.fit.pivo.view.IView;
 import cz.cvut.fit.pivo.view.IViewFacade;
+import cz.cvut.fit.pivo.view.ViewFacadeFX;
 import java.awt.image.BufferedImage;
 import java.util.Set;
 
@@ -113,7 +114,7 @@ public class Controller implements IController {
 
     @Override
     public void saveGraph(BufferedImage image) {
-        persistence.saveGraph(image);
+        persistence.saveGraphWithDialog(image);
     }
 
     @Override
@@ -137,5 +138,17 @@ public class Controller implements IController {
     public void setHeating(boolean heat, boolean infusion) {
         model.getKettle(infusion).setHeating(heat);
         view.setHeating(heat, infusion);
+    }
+
+    @Override
+    public void setRunningDecoction(boolean b) {
+        model.setRunningDecoction(b);
+    }
+
+    @Override
+    public void brewingFinished() {
+        persistence.saveGraphWithoutDialog(((ViewFacadeFX) view).getChartImage(), 
+                model.getSettings().getGraphDefaultSavePath(), model.getCurrentRecipe().getName());
+        ((ViewFacadeFX) view).brewingEnd();
     }
 }

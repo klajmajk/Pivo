@@ -7,9 +7,7 @@ import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.entities.TempTime;
-import cz.cvut.fit.pivo.exceptions.ConnectionError;
 import java.sql.Time;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,4 +39,8 @@ public interface IModel {
     public Time getStartTime() ;
 
     public Kettle getKettle(boolean infusion);
+
+    boolean isRunningDecoction();
+
+    void setRunningDecoction(boolean runningDecoction);
 }

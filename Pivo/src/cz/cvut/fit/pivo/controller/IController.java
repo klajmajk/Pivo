@@ -26,5 +26,9 @@ public interface IController {
     IView getView();
     public void setHeating(boolean heat, boolean infusion);
     public Kettle getKettle(boolean infusion);
+
+    public void setRunningDecoction(boolean b);
+
+    public void brewingFinished();
     
 }

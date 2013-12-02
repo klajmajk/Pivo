@@ -4,6 +4,8 @@
  */
 package cz.cvut.fit.pivo.view;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author Adam
@@ -14,4 +16,5 @@ public interface IView {
         public void notifyView();
         public void reset();
         public void start(); 
+
 }

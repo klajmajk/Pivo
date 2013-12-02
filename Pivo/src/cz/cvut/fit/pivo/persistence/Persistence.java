@@ -5,7 +5,7 @@
 package cz.cvut.fit.pivo.persistence;
 
 import cz.cvut.fit.pivo.entities.Settings;
-    import cz.cvut.fit.pivo.entities.Recipe;
+import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.view.ViewFacadeFX;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
@@ -53,7 +53,7 @@ public class Persistence implements IPersistence {
     }
 
     @Override
-    public void saveGraph(BufferedImage image) {
+    public void saveGraphWithDialog(BufferedImage image) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Image");
         fileChooser.getExtensionFilters().addAll(
@@ -65,7 +65,27 @@ public class Persistence implements IPersistence {
             outputfile = new File(outputfile.getAbsolutePath() + ".png");
         }
         String path = outputfile.getAbsolutePath();
-        try {               
+        writeFile(image, outputfile);
+    }
+
+    @Override
+    public void saveGraphWithoutDialog(BufferedImage image, String path, String recipeName) {
+        
+        File file = new File(path);
+        file.mkdir();
+        path+= getDateString() +"_"+recipeNameForFile(recipeName)+".png";
+        file = new File(path);
+        file.mkdir();
+        writeFile(image, file);
+    }
+    
+    private String recipeNameForFile(String name){
+        return name.replace(" ", " ");
+    }
+
+    private void writeFile(BufferedImage image, File outputfile) {
+        try {
+            outputfile.createNewFile();
             ImageIO.write(image, "png", outputfile);
         } catch (IOException e) {
             System.err.println("Exception writing file " + outputfile + ": " + e);
@@ -78,7 +98,7 @@ public class Persistence implements IPersistence {
     }
 
     String getDateString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         Date date = new Date();
         return dateFormat.format(date);
     }
@@ -103,18 +123,17 @@ public class Persistence implements IPersistence {
             //System.out.println("Cannot perform input. Class not found.");
             Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new HashSet<Recipe>();    
+        return new HashSet<Recipe>();
     }
 
-    
     public static void saveSettingsToXml(Settings o) {
         try {
             try {
                 FileOutputStream os = new FileOutputStream("settings.xml");
-                JAXBContext jc = JAXBContext.newInstance( Settings.class);
+                JAXBContext jc = JAXBContext.newInstance(Settings.class);
                 Marshaller m = jc.createMarshaller();
                 m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                m.marshal( o, os );
+                m.marshal(o, os);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Persistence.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -123,7 +142,6 @@ public class Persistence implements IPersistence {
         }
     }
 
-    
     public static Settings loadSettingsFromXml() {
         try {
             JAXBContext jc = JAXBContext.newInstance(Settings.class);
@@ -136,6 +154,7 @@ public class Persistence implements IPersistence {
         }
         return null;
     }
-    
-    
+
+
+
 }

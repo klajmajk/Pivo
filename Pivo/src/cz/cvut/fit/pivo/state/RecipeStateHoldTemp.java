@@ -23,7 +23,7 @@ public class RecipeStateHoldTemp extends RecipeState {
     }
 
     boolean isTimeToChange(int length) {
-        System.out.println("Cas:" + (int) ((System.currentTimeMillis() - start) / 60000));
+        //System.out.println("Cas:" + (int) ((System.currentTimeMillis() - start) / 60000));
         if ((int) ((System.currentTimeMillis() - start) / 60000) >= length) {
             return true;
         } else {
@@ -53,7 +53,8 @@ public class RecipeStateHoldTemp extends RecipeState {
             } else {
                 //je konec receptu
                 controller.stopCooking();
-                ((ViewFacadeFX) view).brewingEnd();
+                controller.brewingFinished();
+                
             }
 
         } else {
@@ -66,20 +67,31 @@ public class RecipeStateHoldTemp extends RecipeState {
         recipe.moveToNextRest();
         //přechod z infuze do dekokce
         if ((!prev.isDecoction()) && (recipe.getActiveRest().isDecoction())) {
+            //pro jistotu vypni topeni 
+            turnOffKettlesHeating();
             view.showInformationDialog("Potvrď, že proběhlo přečerpání.");
             kettle.setRecipeState(new RecipeStateHoldForever(controller, view, kettle));
             controller.getKettle(false).setRecipeState(new RecipeStateMove(
                     recipe.getActiveRest().getTemp(), controller, view, controller.getKettle(false)));
+            controller.setRunningDecoction(true);
             //obraceny prechod
         } else if ((prev.isDecoction()) && (!recipe.getActiveRest().isDecoction())) {
+            //pro jistotu vypni topeni 
+            turnOffKettlesHeating();
             view.showInformationDialog("Potvrď, že proběhlo přečerpání.");
             kettle.setRecipeState(new RecipeStateNull(controller, view, kettle));
             controller.getKettle(true).setRecipeState(new RecipeStateMove(
                     recipe.getActiveRest().getTemp(), controller, view, controller.getKettle(true)));
+            controller.setRunningDecoction(false);
             //zbytek
         } else {
             kettle.setRecipeState((RecipeState) new RecipeStateMove(recipe.getActiveRest().getTemp(), controller, view, kettle));
         }
         ((ViewFacadeFX) view).increaseTemp(recipe.getActiveRest().getTemp(), kettle.isInfusion());
+    }
+
+    private void turnOffKettlesHeating() {
+        controller.getKettle(true).setHeating(false);
+        controller.getKettle(false).setHeating(false);
     }
 }
