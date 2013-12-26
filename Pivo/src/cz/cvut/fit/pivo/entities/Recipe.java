@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package cz.cvut.fit.pivo.entities;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,31 +12,29 @@ import java.util.List;
  *
  * @author Adam
  */
-public class Recipe implements Serializable{
+public class Recipe implements Serializable {
+
     //rychlost kterou se teploty zvyšují
     private String name;
-    private float speed; 
+    private float speed;
     private List<Rest> rests;
     private Rest activeRest;
-    
 
     private static final long serialVersionUID = 7526471155622776148L;
 
     public Recipe() {
         this.rests = new ArrayList<>();
-    }    
-    
-    
-    
+    }
+
     public Recipe(String name, float speed, List<Rest> rests) {
         this.name = name;
         this.speed = speed;
         this.rests = rests;
         activeRest = rests.get(0);
-    }    
-    
-    public Rest getPrecidingNonDecoction(Rest rest){
-        int i = rests.indexOf(rest)-1;
+    }
+
+    public Rest getPrecidingNonDecoction(Rest rest) {
+        int i = rests.indexOf(rest) - 1;
         Rest result = rests.get(i);
         while (result.isDecoction()) {
             i--;
@@ -59,13 +58,15 @@ public class Recipe implements Serializable{
     public Rest getActiveRest() {
         return activeRest;
     }
-    
-    public void moveToNextRest(){
+
+    public void moveToNextRest() {
         activeRest = rests.get(1 + rests.indexOf(activeRest));
     }
-    
-    public boolean hasNextRest(){
-        if(rests.size()==1 + rests.indexOf(activeRest)) return false;
+
+    public boolean hasNextRest() {
+        if (rests.size() == 1 + rests.indexOf(activeRest)) {
+            return false;
+        }
         return true;
     }
 
@@ -73,7 +74,11 @@ public class Recipe implements Serializable{
     public String toString() {
         return "Recipe{" + "name=" + name + ", speed=" + speed + ", rests=" + rests + ", activeRest=" + activeRest + '}';
     }
-    
-    
-    
+
+    public void reset() {
+        if ((rests != null) && (rests.size() > 0)) {
+            activeRest = rests.get(0);
+        }
+    }
+
 }

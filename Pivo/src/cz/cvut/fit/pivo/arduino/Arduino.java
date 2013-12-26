@@ -32,7 +32,7 @@ public class Arduino implements IArduino {
 
     @Override
     public List<TempTime> getTemp(){
-        List<TempTime> list = new ArrayList<TempTime>();
+        List<TempTime> list = new ArrayList<>();
         try {
             String json = getHttpResponseBody(Constants.ADDRESS);
             List<PinOneWire> pinList = getPinList(json);

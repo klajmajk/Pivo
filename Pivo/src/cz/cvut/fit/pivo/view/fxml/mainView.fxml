@@ -59,7 +59,7 @@
                     <Pane prefHeight="72.0" prefWidth="194.0">
                       <children>
                         <Label font="$x1" layoutX="14.0" layoutY="39.0" text="Teplota:" />
-                        <Label fx:id="temperatureInfusionLabel" font="$x1" layoutX="101.0" layoutY="39.0" prefWidth="49.0" text="0 °C" textFill="$x2" />
+                        <Label fx:id="temperatureInfusionLabel" font="$x1" layoutX="101.0" layoutY="39.0" prefWidth="67.0" text="0 °C" textFill="$x2" />
                         <Circle fx:id="heatingInfusionIndicator" layoutX="170.0" layoutY="21.0" radius="10.125" stroke="BLACK" strokeType="INSIDE">
                           <fill>
                             <Color blue="0.624" green="0.624" red="0.624" fx:id="x3" />
@@ -71,7 +71,7 @@
                     <Pane prefHeight="72.0" prefWidth="194.0">
                       <children>
                         <Label font="$x1" layoutX="14.0" layoutY="39.0" text="Teplota:" />
-                        <Label fx:id="temperatureDecoctionLabel" font="$x1" layoutX="101.0" layoutY="39.0" prefWidth="49.0" text="0 °C" textFill="#14ff00" />
+                        <Label fx:id="temperatureDecoctionLabel" font="$x1" layoutX="101.0" layoutY="39.0" prefWidth="68.0" text="0 °C" textFill="#14ff00" />
                         <Circle fx:id="heatingDecoctionIndicator" fill="$x3" layoutX="170.0" layoutY="21.0" radius="10.125" stroke="BLACK" strokeType="INSIDE" />
                         <Label font="$x1" layoutX="14.0" layoutY="7.0" text="Rmutovací pánev" />
                       </children>

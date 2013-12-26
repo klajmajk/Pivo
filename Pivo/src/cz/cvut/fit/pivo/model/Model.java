@@ -4,6 +4,7 @@
  */
 package cz.cvut.fit.pivo.model;
 
+import cz.cvut.fit.pivo.arduino.Arduino;
 import cz.cvut.fit.pivo.arduino.FakeArduino;
 import cz.cvut.fit.pivo.arduino.IArduino;
 import cz.cvut.fit.pivo.entities.Kettle;
@@ -151,7 +152,6 @@ public class Model implements IModel {
         }
         if (tempTimeList.get(1).getTemp() != -1) {
             hasTwoSensors = true;
-            System.out.println("has two sensors");
         } else {
             hasTwoSensors = false;
         }
@@ -177,7 +177,6 @@ public class Model implements IModel {
 
     @Override
     public final void reset() {
-        //TODO musi se zmenit zpet
         arduino = new FakeArduino();
         badRequests = 0;
         for (Kettle kettle : kettles) {
@@ -187,6 +186,7 @@ public class Model implements IModel {
         currentRecipe = new Recipe();
         hasTwoSensors = false;
         isRunning = false;
+        currentRecipe.reset();
     }
 
     @Override

@@ -217,7 +217,8 @@ public class MainViewController implements IInitializableView {
     @Override
     public void start() {
         reset();
-        chart.addNext(recipe);
+        if(recipe!=null)
+            chart.addNext(recipe);
         //TODO zamknout volby receptu
     }
 

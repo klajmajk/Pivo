@@ -30,7 +30,7 @@ public class Constants {
     public static final int PEPTONIZACNI_MIN_TEMP = 51;
     public static final int PEPTONIZACNI_MAX_TEMP = 53;    
     public static final int NIZSI_CUKROTVORNA_MIN_TEMP = 61;
-    public static final int NIZSI_CUKROTVORNA_MAX_TEMP = 65;    
+    public static final int NIZSI_CUKROTVORNA_MAX_TEMP = 67;    
     public static final int VYSSI_CUKROTVORNA_MIN_TEMP = 72;
     public static final int VYSSI_CUKROTVORNA_MAX_TEMP = 75;    
     public static final int ODRMUTOVACI_MIN_TEMP = 75;
