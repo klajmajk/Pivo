@@ -44,19 +44,10 @@ public class FakeArduino implements IArduino {
             infusionTemp -= 0.1;
             decoctionTemp -= 0.1;
         } else {
-            infusionTemp = handleTempChange(infusionTemp, heatingInfusion);
-            /*if (model.getKettle(true).isHeating()) {
-                infusionTemp += ((float) heatingInfusion)/100 ;
-            } else {
-                infusionTemp--;
-            }*/
+            infusionTemp = handleTempChange(infusionTemp, heatingInfusion);           
             if (model.getCurrentRecipe().getActiveRest().isDecoction()) {
                 decoctionTemp = handleTempChange(decoctionTemp, heatingDecoction);
-                /* if (model.getKettle(false).isHeating()) {
-                    decoctionTemp += ((float) heatingDecoction)/100 ;
-                } else {
-                    decoctionTemp--;
-                }*/
+               
             }
         }
         List<TempTime> list = new ArrayList<>();
@@ -76,6 +67,6 @@ public class FakeArduino implements IArduino {
 
     private float handleTempChange(float temp, int heating) {
         float difference = heating - temp;
-        return temp += (difference/30);
+        return temp += (difference/60) - 0.1;
     }
 }
