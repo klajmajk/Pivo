@@ -4,9 +4,13 @@
  */
 package cz.cvut.fit.pivo.controller;
 
+import cz.cvut.fit.pivo.arduino.FakeArduino;
+import cz.cvut.fit.pivo.arduino.IArduino;
+import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
+import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.persistence.IPersistence;
 import cz.cvut.fit.pivo.persistence.Persistence;
@@ -16,6 +20,8 @@ import cz.cvut.fit.pivo.view.IView;
 import cz.cvut.fit.pivo.view.IViewFacade;
 import cz.cvut.fit.pivo.view.ViewFacadeFX;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,17 +33,45 @@ public class Controller implements IController {
     IPersistence persistence;
     IModel model;
     IViewFacade view;
-    MyTimer timer;
+    MyTimer timer;    
+    private IArduino arduino;
+    private int badRequests;
 
     public Controller(IModel model) {
         this.model = model;
-        this.persistence = new Persistence();
+        this.persistence = new Persistence();        
+        this.arduino = new FakeArduino();
         model.setRecipes((Set) persistence.readRecipes());
         model.setSettings(Settings.loadSettings());
+    }
+    
+    public void refresh(){
+         try {
+            List<TempTime> tempTimeList = arduino.getTemp();
+            for (Kettle kettle : model.getKettles()) {
+                if (kettle.isInfusion()) {
+                    kettle.setTempTime(tempTimeList.get(0));
+                } else {
+                    kettle.setTempTime(tempTimeList.get(1));
+                }
+            }
+            if (tempTimeList.get(1).getTemp() != -1) {
+                model.setHasTwoSensors(true);
+            } else {
+                model.setHasTwoSensors(false);
+            }
+            badRequests = 0;
+        } catch (IOException ex) {
+            badRequests++;
+            if (badRequests == Constants.MAX_BAD_REQUESTS) {
+                System.out.println("Posledních " + Constants.MAX_BAD_REQUESTS + " skončilo timeoutem");
+            }
+        }
     }
 
     public void setView(IView view) {
         this.view = (IViewFacade) view;
+        this.timer = new MyTimer(1, this);
     }
 
     private void resetKettles() {
@@ -46,38 +80,40 @@ public class Controller implements IController {
     }
 
     @Override
-    public Kettle getKettle(boolean infusion){
+    public Kettle getKettle(boolean infusion) {
         return model.getKettle(infusion);
     }
+
     @Override
     public void startCooking() {
         resetKettles();
         model.start();
         view.start();
-        this.timer = new MyTimer(1, this);
     }
 
     @Override
     public void stopCooking() {
-        if (timer != null) {
-            this.timer.cancel();
-        }
         model.stop();
     }
+    
+    
 
     @Override
     public void resetCooking() {
-        resetKettles();
+        
         stopCooking();
+        resetKettles();
         model.reset();
-        model.start();
         view.reset();
+        System.out.println("Resetovano");
     }
 
     @Override
     public void tick() {
-        model.refresh();
-        checkRecipe();
+        refresh();
+        if (model.isRunning()) {
+            checkRecipe();
+        }
         view.notifyView();
     }
 
@@ -99,9 +135,6 @@ public class Controller implements IController {
         if (!recipe.equals(new Recipe())) {
             model.getKettle(true).recipeStateHandle(recipe);
             model.getKettle(false).recipeStateHandle(recipe);
-            //System.out.println(model.getKettle(true));
-            //System.out.println(model.getKettle(false));
-            
         }
     }
 
@@ -132,6 +165,7 @@ public class Controller implements IController {
         this.stopCooking();
         System.out.println(model.getSettings());
         model.getSettings().saveSettings();
+        timer.cancel();
     }
 
     @Override
@@ -147,8 +181,20 @@ public class Controller implements IController {
 
     @Override
     public void brewingFinished() {
-        persistence.saveGraphWithoutDialog(((ViewFacadeFX) view).getChartImage(), 
+        persistence.saveGraphWithoutDialog(((ViewFacadeFX) view).getChartImage(),
                 model.getSettings().getGraphDefaultSavePath(), model.getCurrentRecipe().getName());
         ((ViewFacadeFX) view).brewingEnd();
+    }
+
+    @Override
+    public void recipeSelected(Recipe recipe) {
+        model.setCurrentRecipe(recipe);
+        view.notifyRecipeChanged();
+        view.notifyView();
+    }
+
+    @Override
+    public void setHeatingOutput(int heating, boolean infusion) {
+        arduino.setHeatingOutput(heating, infusion);
     }
 }

@@ -54,7 +54,7 @@ public class RecipeEditController {
             view.decoctionStart();
         }
         //tohle je jen pro zobrazení nikam se to neukládá
-        view.updateChart(new Recipe(null, Constants.TEMP_TOLERANCE, rests));
+        view.updateChart(new Recipe(null, (float) Constants.TOLERANCE, rests));
 
         if ((activeRestType == RestType.ODRMUTOVACI) && (!rest.isDecoction())) {
             view.setAddRestDisable(true);

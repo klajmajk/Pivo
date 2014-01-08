@@ -31,4 +31,10 @@ public abstract class RecipeState{
      * @param temp toto je současná teplota
      */
     abstract public void handle(Recipe recipe, float temp);
+    
+    public void heatTo(float currentTemp, float desiredTemp){
+        int heating = kettle.getHeater().getHeaterOutput(currentTemp, desiredTemp);
+        controller.setHeatingOutput(heating, kettle.isInfusion());
+        
+    }
 }

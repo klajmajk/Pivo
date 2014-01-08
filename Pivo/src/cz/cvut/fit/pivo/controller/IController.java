@@ -30,5 +30,9 @@ public interface IController {
     public void setRunningDecoction(boolean b);
 
     public void brewingFinished();
+
+    public void recipeSelected(Recipe recipe);
+
+    public void setHeatingOutput(int heating, boolean infusion);
     
 }

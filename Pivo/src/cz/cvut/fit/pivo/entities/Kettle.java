@@ -13,14 +13,13 @@ import cz.cvut.fit.pivo.state.RecipeState;
  */
 public class Kettle {
     boolean infusion;
-    boolean heating;
+    private Heater heater;
     TempTime tempTime;    
     RecipeState recipeState;
 
     public Kettle(boolean infusion) {
+        this.heater = new Heater();
         this.infusion = infusion;
-        this.heating = false;
-        
     }    
 
     public TempTime getTempTime() {
@@ -38,11 +37,11 @@ public class Kettle {
     
 
     public boolean isHeating() {
-        return heating;
+        return heater.isHeating();
     }
 
     public void setHeating(boolean heating) {
-        this.heating = heating;
+        heater.setHeating(heating);
     }
 
     public RecipeState getRecipeState() {
@@ -57,10 +56,19 @@ public class Kettle {
         recipeState.handle(recipe, tempTime.getTemp());
     }
 
+    public Heater getHeater() {
+        return heater;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Kettle{" + "infusion=" + infusion + ", heating=" + heating + ", tempTime=" + tempTime + ", recipeState=" + recipeState + '}';
+        return "Kettle{" + "infusion=" + infusion + ", heater=" + heater + ", tempTime=" + tempTime + ", recipeState=" + recipeState + '}';
     }
+
+    
+    
     
     
     

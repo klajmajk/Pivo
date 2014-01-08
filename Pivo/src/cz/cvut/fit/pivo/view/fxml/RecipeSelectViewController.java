@@ -116,12 +116,9 @@ public class RecipeSelectViewController implements IInitializableView {
     private void useClicked(ActionEvent event) {
         try {
             Recipe recipe = recipeList.getSelectionModel().getSelectedItem().getRecipe();
-            ViewFacadeFX.getInstanceOf().getModel().setCurrentRecipe(recipe);
-            ViewFacadeFX.getInstanceOf().getController().notifyView();
+            ViewFacadeFX.getInstanceOf().getController().recipeSelected(recipe);
             //zavrit
             Stage stage = (Stage) closeButton.getScene().getWindow();
-
-            // do what you have to do
             stage.close();
         } catch (NullPointerException e) {
             Stage dialog = new Stage();

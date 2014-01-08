@@ -85,13 +85,7 @@ public class MyChart implements IChart {
         }
     }
 
-    private long test(Rest rest, long millis) {
-        recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, rest.getTemp()));
-        millis += recipe.getActiveRest().getLength() * 60 * 1000;
-        recipeSeries.getData().add(new XYChart.Data<Number, Number>(millis, rest.getTemp()));
-        return millis;
-    }
-
+   
     @Override
     public long addRest(Rest rest, long millis) {
         if (rest.isDecoction()) {

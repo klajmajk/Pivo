@@ -76,9 +76,12 @@ public class Recipe implements Serializable {
     }
 
     public void reset() {
+        System.out.println("Reset"+this);
         if ((rests != null) && (rests.size() > 0)) {
             activeRest = rests.get(0);
         }
+        
+        System.out.println("Reset"+this);
     }
 
 }

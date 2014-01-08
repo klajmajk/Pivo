@@ -31,9 +31,8 @@ public class Arduino implements IArduino {
     }
 
     @Override
-    public List<TempTime> getTemp(){
+    public List<TempTime> getTemp()throws IOException{
         List<TempTime> list = new ArrayList<>();
-        try {
             String json = getHttpResponseBody(Constants.ADDRESS);
             List<PinOneWire> pinList = getPinList(json);
             TempTime tempTime = new TempTime(pinList.get(0).getValue());
@@ -42,10 +41,7 @@ public class Arduino implements IArduino {
             list.add(tempTime1);
             System.out.println("Teplota: " + tempTime.getTemp() + " °C");
             
-            System.out.println("Teplota1: " + tempTime1.getTemp() + " °C");
-        } catch (IOException ex) {
-            Logger.getLogger(Arduino.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+            System.out.println("Teplota1: " + tempTime1.getTemp() + " °C");     
         return list;
     }
 
@@ -84,5 +80,10 @@ public class Arduino implements IArduino {
         body = IOUtils.toString(input, "UTF-8");
         //System.out.println(body);
         return body;
+    }
+
+    @Override
+    public void setHeatingOutput(int heating, boolean infusion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

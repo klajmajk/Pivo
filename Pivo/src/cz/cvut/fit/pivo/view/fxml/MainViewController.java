@@ -62,7 +62,6 @@ public class MainViewController implements IInitializableView {
     private Circle heatingDecoctionIndicator;
     IModel model;
     IController controller;
-    Recipe recipe;
     private Stage stage;
     IChart chart;
 
@@ -75,7 +74,6 @@ public class MainViewController implements IInitializableView {
         model = ViewFacadeFX.getInstanceOf().getModel();
 
         controller = ViewFacadeFX.getInstanceOf().getController();
-        recipe = new Recipe();
         //Chart init
         chart = new MyChart(lineChart);
         System.out.println("controller init");
@@ -159,7 +157,9 @@ public class MainViewController implements IInitializableView {
             @Override
             public void run() {
                 handleNotifyLabels();
-                handleNotifyChart();
+                if (model.isRunning()) {
+                    handleNotifyChart();
+                }
             }
 
             private void handleNotifyLabels() {
@@ -179,18 +179,20 @@ public class MainViewController implements IInitializableView {
                     //musi tu neco byt
                     chart.series1Add(model.getKettleTempTime(true).getTemp());
                 }
-                if (!recipe.equals(model.getCurrentRecipe())) {
-                    reset();
-                    recipe = model.getCurrentRecipe();
-                    if (recipe != null) {
-
-                        chart.addRecipe(recipe);
-                        controller.notifyView();
-                    }
-                }
             }
-        });
 
+        }
+        );
+
+    }
+
+    public void handleNotifyChangedRecipe() {
+        reset();
+        Recipe recipe = model.getCurrentRecipe();
+        if (recipe != null) {
+            chart.addRecipe(recipe);
+            controller.notifyView();
+        }
     }
 
     public void setHeatingInfusion(boolean heat) {
@@ -217,8 +219,10 @@ public class MainViewController implements IInitializableView {
     @Override
     public void start() {
         reset();
-        if(recipe!=null)
+        Recipe recipe = model.getCurrentRecipe();
+        if (recipe != null) {
             chart.addNext(recipe);
+        }
         //TODO zamknout volby receptu
     }
 
@@ -227,7 +231,7 @@ public class MainViewController implements IInitializableView {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-        public BufferedImage getChartBufferedImageNonblocking() {
+    public BufferedImage getChartBufferedImageNonblocking() {
         FutureTask fxThread;
         fxThread = new FutureTask(new Callable<BufferedImage>() {
 
@@ -241,14 +245,16 @@ public class MainViewController implements IInitializableView {
         System.out.println("waiting");
         try {
             return (BufferedImage) fxThread.get();
+
         } catch (InterruptedException ex) {
-            Logger.getLogger(ViewFacadeFX.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewFacadeFX.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(ViewFacadeFX.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewFacadeFX.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println("finished waitng fail");
+        System.out.println("finished waitng fail");
         return null;
-        
 
     }
 
@@ -267,7 +273,7 @@ public class MainViewController implements IInitializableView {
     }
 
     public void drawNextPartOfRecipe() {
-        chart.addNext(recipe);
+        chart.addNext(model.getCurrentRecipe());
     }
 
     private BufferedImage getChartBufferedImageBlocking() {

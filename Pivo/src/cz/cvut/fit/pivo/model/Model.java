@@ -4,13 +4,14 @@
  */
 package cz.cvut.fit.pivo.model;
 
-import cz.cvut.fit.pivo.arduino.Arduino;
 import cz.cvut.fit.pivo.arduino.FakeArduino;
 import cz.cvut.fit.pivo.arduino.IArduino;
+import cz.cvut.fit.pivo.entities.Constants;
 import cz.cvut.fit.pivo.entities.Kettle;
 import cz.cvut.fit.pivo.entities.Recipe;
 import cz.cvut.fit.pivo.entities.Settings;
 import cz.cvut.fit.pivo.entities.TempTime;
+import java.io.IOException;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,6 @@ import java.util.Set;
  */
 public class Model implements IModel {
 
-    private IArduino arduino;
     private Time startTime;
     private int badRequests;
     private Recipe currentRecipe;
@@ -33,7 +33,6 @@ public class Model implements IModel {
     private Settings settings;
     //jestli běží rmut
     private boolean runningDecoction;
-    
 
     public Model() {
         settings = new Settings();
@@ -41,6 +40,7 @@ public class Model implements IModel {
         kettles.add(new Kettle(true));
         kettles.add(new Kettle(false));
         this.runningDecoction = false;
+        this.currentRecipe = new Recipe();
         reset();
         //this.current = arduino.getTemp();
     }
@@ -58,8 +58,6 @@ public class Model implements IModel {
     public void setRunningDecoction(boolean runningDecoction) {
         this.runningDecoction = runningDecoction;
     }
-    
-    
 
     /**
      *
@@ -111,20 +109,11 @@ public class Model implements IModel {
         //System.out.println("getTimeTemp " + infusion);
         for (Kettle kettle : kettles) {
             //System.out.println(("kettle infusion" + kettle.isInfusion()) + " infusion:" + (infusion));
-            if(kettle.isInfusion()&&(infusion)) return kettle.getTempTime();
-            else if ((!kettle.isInfusion()) && (!infusion))  return kettle.getTempTime();
-//            if ((kettle.isInfusion()) && (infusion)) {
-//                System.out.println("in in " + kettle.getTempTime());
-//                return kettle.getTempTime();
-//            } else if ((!kettle.isInfusion()) && (!infusion)) {
-//                if (currentRecipe.getActiveRest().isDecoction()) {
-//                    System.out.println("dec dec" + kettle.getTempTime());
-//                    return kettle.getTempTime();
-//                } else {
-//                    System.out.println(getKettle(false).getTempTime());
-//                    return getKettle(true).getTempTime();
-//                }
-//            }
+            if (kettle.isInfusion() && (infusion)) {
+                return kettle.getTempTime();
+            } else if ((!kettle.isInfusion()) && (!infusion)) {
+                return kettle.getTempTime();
+            }
         }
         return null;
     }
@@ -139,30 +128,7 @@ public class Model implements IModel {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public void refresh() {
-        //try {
-        List<TempTime> tempTimeList = arduino.getTemp();
-        for (Kettle kettle : kettles) {
-            if (kettle.isInfusion()) {
-                kettle.setTempTime(tempTimeList.get(0));
-            } else {
-                kettle.setTempTime(tempTimeList.get(1));
-            }
-        }
-        if (tempTimeList.get(1).getTemp() != -1) {
-            hasTwoSensors = true;
-        } else {
-            hasTwoSensors = false;
-        }
-        badRequests = 0;
-        /*} catch (IOException ex) {
-         badRequests++;
-         if(badRequests == Constants.MAX_BAD_REQUESTS) {
-         throw new ConnectionError("Posledních "+ Constants.MAX_BAD_REQUESTS+" skončilo timeoutem");
-         }
-         }*/
-    }
+   
 
     @Override
     public void start() {
@@ -177,13 +143,11 @@ public class Model implements IModel {
 
     @Override
     public final void reset() {
-        arduino = new FakeArduino();
         badRequests = 0;
         for (Kettle kettle : kettles) {
             kettle.setTempTime(new TempTime(0));
         }
         this.startTime = new Time(0);
-        currentRecipe = new Recipe();
         hasTwoSensors = false;
         isRunning = false;
         currentRecipe.reset();
@@ -227,5 +191,17 @@ public class Model implements IModel {
         }
         return null;
     }
+
+    @Override
+    public Set<Kettle> getKettles() {
+        return kettles;
+    }
+
+    @Override
+    public void setHasTwoSensors(boolean hasTwoSensors) {
+        this.hasTwoSensors = hasTwoSensors;
+    }
+    
+    
 
 }

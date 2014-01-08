@@ -4,11 +4,10 @@
  */
 package cz.cvut.fit.pivo.arduino;
 
+import cz.cvut.fit.pivo.entities.Rest;
 import cz.cvut.fit.pivo.entities.TempTime;
 import cz.cvut.fit.pivo.model.IModel;
 import cz.cvut.fit.pivo.view.ViewFacadeFX;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,8 @@ public class FakeArduino implements IArduino {
 
     float infusionTemp;
     float decoctionTemp;
+    private int heatingInfusion;
+    private int heatingDecoction;
 
     public FakeArduino() {
         this.decoctionTemp = 40;
@@ -37,16 +38,25 @@ public class FakeArduino implements IArduino {
          list.add(tempTime1);
          return list;*/
         IModel model = ViewFacadeFX.getInstanceOf().getModel();
-        if (model.getKettle(true).isHeating()) {
-            infusionTemp++;
+
+        Rest rest = model.getCurrentRecipe().getActiveRest();
+        if ((rest == null)||(!model.isRunning())) {
+            infusionTemp -= 0.1;
+            decoctionTemp -= 0.1;
         } else {
-            infusionTemp--;
-        }
-        if(model.getCurrentRecipe().getActiveRest().isDecoction()){
-            if (model.getKettle(false).isHeating()) {
-                decoctionTemp++;
+            infusionTemp = handleTempChange(infusionTemp, heatingInfusion);
+            /*if (model.getKettle(true).isHeating()) {
+                infusionTemp += ((float) heatingInfusion)/100 ;
             } else {
-                decoctionTemp--;
+                infusionTemp--;
+            }*/
+            if (model.getCurrentRecipe().getActiveRest().isDecoction()) {
+                decoctionTemp = handleTempChange(decoctionTemp, heatingDecoction);
+                /* if (model.getKettle(false).isHeating()) {
+                    decoctionTemp += ((float) heatingDecoction)/100 ;
+                } else {
+                    decoctionTemp--;
+                }*/
             }
         }
         List<TempTime> list = new ArrayList<>();
@@ -55,5 +65,17 @@ public class FakeArduino implements IArduino {
         list.add(tempTimeInfusion);
         list.add(tempTimeDecoction);
         return list;
+    }
+
+    @Override
+    public void setHeatingOutput(int heating, boolean infusion) {
+        if (infusion) this.heatingInfusion = heating;
+        else this.heatingDecoction = heating;
+        System.out.println("Ohřev nastaven na: "+heating+"% na vystírací pánvi: "+infusion);
+    }
+
+    private float handleTempChange(float temp, int heating) {
+        float difference = heating - temp;
+        return temp += (difference/30);
     }
 }

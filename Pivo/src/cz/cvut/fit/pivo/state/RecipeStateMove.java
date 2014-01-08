@@ -24,6 +24,7 @@ public class RecipeStateMove extends RecipeState {
 
     @Override
     public void handle(Recipe recipe, float temp) {
+        heatTo(temp, (float)tempToMove);
         if (temp>= (((float) tempToMove) - Constants.TOLERANCE)){
             //jsme v toleranci a meni se stav na hold  
             System.out.println("Menime stav na hold: "+tempToMove);

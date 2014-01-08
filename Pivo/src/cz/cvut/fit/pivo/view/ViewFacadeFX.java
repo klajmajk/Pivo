@@ -117,16 +117,14 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
 
     @Override
     public void notifyView() {
-        /*currentView.notifyView();
-         graphView.notifyView();
-         recipeSelectView.notifyView();*/
-        mainViewController.notifyView();
+        //Jen pro zacatek kdy jeste neprobjehla dep injection
+        if(mainViewController!=null) mainViewController.notifyView();
     }
 
     @Override
     public void reset() {
-        //recipeSelectView.reset();
         mainViewController.reset();
+        notifyRecipeChanged();
     }
 
     @Override
@@ -188,6 +186,16 @@ public class ViewFacadeFX extends AbstractView implements IViewFacade {
 
     public BufferedImage getChartImage(){
         return mainViewController.getChartBufferedImageNonblocking();
+    }
+
+    @Override
+    public void notifyTempsChanged(double temp1, double temp2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyRecipeChanged() {
+        mainViewController.handleNotifyChangedRecipe();
     }
     
 }

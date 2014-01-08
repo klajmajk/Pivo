@@ -24,7 +24,6 @@ public interface IModel {
     
     void addTempTimeReading();
     void loadProcedure();
-    void refresh();
     void start(); 
     void stop();     
     boolean isRunning(); 
@@ -43,4 +42,8 @@ public interface IModel {
     boolean isRunningDecoction();
 
     void setRunningDecoction(boolean runningDecoction);
+    
+    public Set<Kettle> getKettles();
+
+    public void setHasTwoSensors(boolean hasTwoSensors) ;
 }

@@ -36,7 +36,7 @@ public class Settings {
     private int windowsX;
 
     public  Settings() {
-        tempTolerance = (float) 1.5;
+        tempTolerance = (float) Constants.TOLERANCE;
         windowSizeWidth = 600;
         windowsSizeHeigth = 480;
         tempPinPos = 1;

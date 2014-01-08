@@ -19,4 +19,6 @@ public interface IViewFacade extends IView {
     void drawNextPartOfRecipe();
 
     public void setHeating(boolean heat, boolean infusion);
+    public void notifyTempsChanged(double temp1, double temp2);
+    public void notifyRecipeChanged();
 }

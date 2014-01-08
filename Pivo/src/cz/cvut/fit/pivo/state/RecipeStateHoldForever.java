@@ -21,7 +21,7 @@ public class RecipeStateHoldForever extends RecipeStateHoldTemp{
 
     @Override
     public void handle(Recipe recipe, float temp) {        
-        handleTemp(recipe.getPrecidingNonDecoction(recipe.getActiveRest()).getTemp(), temp);
+        heatTo(temp, recipe.getPrecidingNonDecoction(recipe.getActiveRest()).getTemp());
     }
     
     

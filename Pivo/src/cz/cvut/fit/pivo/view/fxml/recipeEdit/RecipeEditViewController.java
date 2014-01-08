@@ -140,7 +140,7 @@ public class RecipeEditViewController implements Initializable {
 
     @FXML
     private void addClicked(ActionEvent event) {
-        controller.addRecipe(recipeName.getText(), Constants.TEMP_TOLERANCE);
+        controller.addRecipe(recipeName.getText(), (float) Constants.TOLERANCE);
         recipeSelectViewController.notifyView();
         closeWindow();
 

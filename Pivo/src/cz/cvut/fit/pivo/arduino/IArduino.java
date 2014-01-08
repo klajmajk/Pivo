@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface IArduino {
 
-    List<TempTime> getTemp();
+    List<TempTime> getTemp() throws IOException;
+
+    public void setHeatingOutput(int heating, boolean infusion);
     
 }

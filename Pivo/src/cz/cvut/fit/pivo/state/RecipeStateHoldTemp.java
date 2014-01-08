@@ -31,22 +31,11 @@ public class RecipeStateHoldTemp extends RecipeState {
         }
     }
 
-    public void handleTemp(float tempToHold, float tempCurrent) {
-        //System.out.println("heating check to hold:"+ tempToHold+ " temp current: "+tempCurrent+" is infusion"+ kettle.isInfusion());
-        if (tempCurrent > Settings.getTempTolerance() + tempToHold) {
-            //System.out.println("heating OFF to hold:"+ tempToHold+ " temp current: "+tempCurrent+" is infusion"+ kettle.isInfusion());
-            controller.setHeating(false, kettle.isInfusion());
-        }
-        if (tempCurrent < tempToHold - Settings.getTempTolerance()) {
-
-            //System.out.println("heating ON to hold:"+ tempToHold+ " temp current: "+tempCurrent+" is infusion"+ kettle.isInfusion());
-            controller.setHeating(true, kettle.isInfusion());
-        }
-    }
+    
 
     @Override
     public void handle(Recipe recipe, float temp) {
-        handleTemp(recipe.getActiveRest().getTemp(), temp);
+        heatTo(temp, recipe.getActiveRest().getTemp());
         if (isTimeToChange(recipe.getActiveRest().getLength())) {
             if (recipe.hasNextRest()) {
                 setNewState(recipe);
@@ -54,7 +43,7 @@ public class RecipeStateHoldTemp extends RecipeState {
                 //je konec receptu
                 controller.stopCooking();
                 controller.brewingFinished();
-                
+
             }
 
         } else {
